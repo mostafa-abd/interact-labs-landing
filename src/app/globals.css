@@ -1,0 +1,35 @@
+:root {
+  --background: #fafaff;
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+img{
+  width:100%;
+  height: 100px;
+  object-fit:contain;
+}
+body {
+  background: var(--background);
+  font-family: var(--font-Inter);
+}
+header {
+  width: 100%;
+  height: 95px;
+  background-color: red;
+  padding:0 2%;
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header .logo{
+  width: 100px;
+  height: 80%;
+}
+header .header-icons{
+    background-color: yellow;
+    width: 150px;
+    height: 50%;
+  }
