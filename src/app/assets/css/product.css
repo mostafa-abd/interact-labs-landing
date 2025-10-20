@@ -1,0 +1,360 @@
+.main-section {
+  width: 100%;
+  min-height: 700px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.main-section .product-images {
+  width: 48%;
+  height: 700px;
+  min-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.main-product-image {
+  width: 100%;
+  height: 480px;
+  background: gray;
+}
+.sub-product-images {
+  width: 100%;
+  height: 190px;
+  display: flex;
+  justify-content: space-between;
+}
+.sub-image {
+  width: 180px;
+  height: 100%;
+  background: gray;
+}
+.main-section .product-info {
+  width: 48%;
+  height: 700px;
+  min-width: 450px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  padding: 0 1%;
+}
+.main-section .product-info h1 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #28283e;
+}
+.product-info-review {
+  width: 100%;
+  max-width: 230px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 500;
+}
+.product-info-review svg {
+  color: gold;
+  fill: gold;
+}
+.product-info-review span:first-child {
+  color: #28283e;
+}
+.product-info-review span:nth-child(2) {
+  height: 16px;
+}
+.product-info-review span:last-child {
+  color: #8d8da5;
+}
+.product-info-description {
+  font-size: 18px;
+  font-weight: 400;
+  color: #69698c;
+}
+.product-info-warranty {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product-info-warranty div {
+  height: 65px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+.product-info-warranty div span:first-child {
+  width: 32px;
+  height: 32px;
+}
+.product-info-warranty div span:last-child {
+  font-size: 12px;
+  font-weight: 400;
+  color: #4f4f72;
+  text-align: center;
+}
+.product-info-price {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 280px;
+  font-size: 36px;
+  font-weight: 500;
+  color: #28283e;
+}
+.product-info-price span:first-child {
+  font-size: 22px;
+  transform: translateY(-20px);
+  font-weight: 600;
+}
+.product-info-price span:last-child {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ff5d59;
+}
+
+.product-info-vat {
+  width: 100%;
+  height: 65px;
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: 400;
+  color: #8d8da5;
+  justify-content: space-evenly;
+}
+.product-info-vat span:first-child {
+  font-size: 14px;
+  font-weight: 600;
+}
+.product-info-Quantity {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+.product-info-Quantity > div {
+  width: 205px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #28283e;
+}
+.product-info-Quantity > div > div {
+  border: 2px solid #6064bf;
+  width: 120px;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.product-info-Quantity button {
+  color: #6064bf;
+  border: none;
+  height: fit-content;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  background-color: transparent;
+}
+.product-info-btns {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product-info-btns svg {
+  margin: -6px 8px 0 0;
+}
+.product-info-btns button {
+  width: 160px;
+  height: 50px;
+  border: 2px solid #d4d4de;
+  color: #363654;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-info-btns button:last-child {
+  width: 70%;
+  height: 50px;
+  background: #6064bf;
+  color: #fff;
+  border: none;
+}
+.how-to-use {
+  width: 100%;
+  min-height: 160px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.how-to-use > div {
+  width: 48%;
+  min-width: 450px;
+  display: flex;
+  flex-direction: column;
+}
+.how-to-use h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #363654;
+  margin-bottom: 8px;
+}
+
+.how-to-use p {
+  font-size: 16px;
+  font-weight: 500;
+  color: #8d8da5;
+}
+.how-to-use ol {
+  padding-left: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #8d8da5;
+  line-height: 30px;
+}
+.feedback {
+  width: 100%;
+  height: 425px;
+}
+
+.swiper {
+  overflow: visible !important;
+  overflow-x: clip !important;
+}
+.swiper-slide {
+  width: 330px !important;
+  height: 425px !important;
+  background-color: #fff;
+  z-index: 1;
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  justify-content:space-evenly;
+  padding:0 30px;
+}
+
+.swiper-slide::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  width: 50px;
+  height: 50px;
+  background: url("../images/feed.svg") no-repeat;
+  z-index: 9;
+  left: 25px;
+}
+
+.swiper-slide > * {
+  position: relative;
+  z-index: 1;
+}
+.swiper-slide h1{
+    font-size:20px;
+    font-weight:600;
+    color:#363654;
+    margin-top: 20px;
+
+}
+.swiper-slide p{
+    font-size:14px;
+    font-weight:400;
+    color:#4F4F72;
+    
+}
+.swiper-slide .Stars svg{
+fill: #FF5D59;
+    color: #FF5D59;
+}
+.feed-profile{
+    width: 200px;
+    height:65px;
+    background:blue;
+}
+@media (max-width: 1000px) {
+  .main-section .product-info,
+  .main-section .product-images {
+    width: 100%;
+    min-width: 100%;
+  }
+  .how-to-use > div {
+    min-width: 100%;
+    width: 100%;
+    margin: 15px;
+    padding-right: 10px;
+  }
+}
+.benefits {
+  width: 100%;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.benefits h1 {
+  font-size: 40px;
+  font-weight: 600;
+  color: #28283e;
+}
+.benefits-boxes {
+  width: 100%;
+  min-height: 215px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.benefits-boxes > div {
+  width: 100%;
+  max-width: 200px;
+  min-height: 190px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  margin: 10px;
+}
+.benefits-boxes span {
+  width: 40px;
+  min-height: 40px;
+}
+.benefits-boxes h4 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #363654;
+}
+.benefits-boxes p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #69698c;
+}
+
+@media (max-width: 500px) {
+  .product-info-warranty div {
+    max-width: 60px;
+  }
+  .product-info-btns button {
+    width: 48%;
+  }
+  .product-info-btns button:last-child {
+    width: 48%;
+  }
+  .benefits-boxes > div {
+    max-width: 100%;
+  }
+}

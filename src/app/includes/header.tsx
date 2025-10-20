@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Logo from '../assets/images/Logo.svg'
-import {} from "lucide-react"
+import {ShoppingCart} from "lucide-react"
 export default function Header() {
   return (
    <header>
@@ -13,6 +13,9 @@ export default function Header() {
         </div>
     <div className="header-icons">
         <ShoppingCart />
+        <div>
+            <span>En</span>
+        </div>
     </div>
    </header>
   );

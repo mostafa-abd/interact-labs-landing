@@ -1,0 +1,17 @@
+{
+  "product-1": {
+    "title": "Product 1",
+    "desc": "Description for product 1",
+    "price": "$100"
+  },
+  "product-2": {
+    "title": "Product 2",
+    "desc": "Description for product 2",
+    "price": "$150"
+  },
+  "product-3": {
+    "title": "Product 3",
+    "desc": "Description for product 3",
+    "price": "$200"
+  }
+}
