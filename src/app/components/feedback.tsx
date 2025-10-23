@@ -28,9 +28,80 @@ export default function Feedback(){
             <Star size={17} />
             </div>
             <p>Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world.</p>
-            <div className="feed-profile"></div>
+            <div className="feed-profile">
+              <h4>Ibrahim Ezz</h4>
+            </div>
         </SwiperSlide>
-
+        <SwiperSlide>
+             <h1>TACT changed the way I interact</h1>
+            <div className="Stars">
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            </div>
+            <p>Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world.</p>
+            <div className="feed-profile">
+              <h4>Ibrahim Ezz</h4>
+            </div>
+        </SwiperSlide>
+                <SwiperSlide>
+             <h1>TACT changed the way I interact</h1>
+            <div className="Stars">
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            </div>
+            <p>Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world.</p>
+            <div className="feed-profile">
+              <h4>Ibrahim Ezz</h4>
+            </div>
+        </SwiperSlide>
+                <SwiperSlide>
+             <h1>TACT changed the way I interact</h1>
+            <div className="Stars">
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            </div>
+            <p>Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world.</p>
+            <div className="feed-profile">
+              <h4>Ibrahim Ezz</h4>
+            </div>
+        </SwiperSlide>
+                <SwiperSlide>
+             <h1>TACT changed the way I interact</h1>
+            <div className="Stars">
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            </div>
+            <p>Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world.</p>
+            <div className="feed-profile">
+              <h4>Ibrahim Ezz</h4>
+            </div>
+        </SwiperSlide>
+                <SwiperSlide>
+             <h1>TACT changed the way I interact</h1>
+            <div className="Stars">
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            <Star size={17} />
+            </div>
+            <p>Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world. We are giving the best to our clients Read some awesome feedback from our clients all over the world.</p>
+            <div className="feed-profile">
+              <h4>Ibrahim Ezz</h4>
+            </div>
+        </SwiperSlide>
       </Swiper>
         </section>
     );

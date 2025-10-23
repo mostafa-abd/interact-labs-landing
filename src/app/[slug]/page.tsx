@@ -3,7 +3,7 @@ import MainSection from '../components/main-section';
 import HowToUse from '../components/how-to-use';
 import Benefits from "../components/benefits";
 import Feedback from "../components/feedback";
-
+import ProductDetails from '../components/product-details'
 import '../assets/css/product.css';
 
 interface ProductPageProps {
@@ -24,6 +24,7 @@ export default async function Product({ params }: { params: Promise<{ slug: stri
       <HowToUse/>
       <Benefits/>
       <Feedback/>
+      <ProductDetails/>
 
     </main>
   );

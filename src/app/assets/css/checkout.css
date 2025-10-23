@@ -1,0 +1,53 @@
+.checkout {
+  width: 100%;
+  min-height: 725px;
+  display: flex;
+}
+.checkout form {
+  width: 58%;
+  min-height: 725px;
+  background-color: #fafaff;
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+  flex-wrap:wrap;
+}
+.checkout form h2 {
+  width: 100%;
+  font-size: 24px;
+  font-weight: 700;
+  color: #363654;
+  margin: 50px 0;
+}
+.checkout form>div,textarea{
+    width:48%;
+    height: 75px;
+  background-color: red;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.checkout form>.phone , textarea{
+        width:100%;
+
+}
+.checkout label{
+    font-size: 14px;
+    font-weight: 500;
+    color: #344054;
+}
+.checkout input{
+    width:100%;
+    height:50px;
+        font-size: 16px;
+    font-weight: 400;
+    color: #667085;
+    border-radius: 8px;
+    border: 2px solid #D4D4DE;
+    padding: 0 15px;
+}
+.order-summary {
+  width: 42%;
+  min-height: 725px;
+  background-color: #f6f6f8;
+}
