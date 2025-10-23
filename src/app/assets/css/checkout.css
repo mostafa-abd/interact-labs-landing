@@ -2,6 +2,7 @@
   width: 100%;
   min-height: 725px;
   display: flex;
+  flex-wrap: wrap;
 }
 .checkout form {
   width: 58%;
@@ -10,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   padding: 50px;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
 }
 .checkout form h2 {
   width: 100%;
@@ -19,57 +20,122 @@
   color: #363654;
   margin: 50px 0;
 }
-.checkout form>div{
-    width:48%;
-    height: 75px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+.checkout form > div {
+  width: 48%;
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.checkout form>.phone{
-    width:100%;
-    display:flex;
-    flex-wrap:wrap;
-        flex-direction: row;
-        justify-content: flex-start;
+.checkout form > .phone {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.checkout form>.phone input{
-    width:85%;
-  
+.checkout form > .phone input {
+  width: calc(100% - 70px);
 }
 
-.checkout form>.phone span{
+.checkout form > .phone span {
   background: #fff;
-    border-radius: 8px;
-    text-align: center;
-    line-height: 49px;
-    height: 63%;
-    font-size: 14px;
-    border: 2px solid #D4D4DE;
-    min-width: 6%;
-    margin:0 10px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 49px;
+  height: 63%;
+  font-size: 14px;
+  border: 2px solid #d4d4de;
+  min-width: 50px;
 }
-.checkout label{
-    font-size: 14px;
-    font-weight: 500;
-    color: #344054;
-    width:100%;
-margin:5px 0;
+.checkout label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #344054;
+  width: 100%;
+  margin: 5px 0;
 }
-.checkout input{
-    width:100%;
-    height:50px;
-        font-size: 16px;
-    font-weight: 400;
-    color: #667085;
-    border-radius: 8px;
-    border: 2px solid #D4D4DE;
-    padding: 0 15px;
+.checkout input {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #667085;
+  border-radius: 8px;
+  border: 2px solid #d4d4de;
+  padding: 0 15px;
 }
 .order-summary {
   width: 42%;
   min-height: 725px;
   background-color: #f6f6f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 60px;
+}
+.order-summary h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #363654;
+  margin: 20px 0;
+}
+.order-summary > div:first-of-type {
+  height: 120px;
+}
+
+.order-summary > div:last-of-type {
+  width: 100%;
+  height: 90px;
+  align-items: center;
+}
+.order-summary > div:last-of-type > span:last-child {
+  font-weight: 800;
+  font-size: 20px;
+}
+.order-summary > div {
+  width: 100%;
+  height: 22px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+.order-summary > div > span:first-child {
+  color: #69698c;
+}
+.order-summary > div > span:last-child {
+  color: #363654;
+}
+.product-Image {
+  width: 120px;
+  height: 100%;
+}
+.product-info {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 50px;
+}
+.product-info h4 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #363654;
+}
+.product-info span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #69698c;
+}
+.product-info b {
+  color: #363654;
+}
+.product-info p {
+  font-size: 16px;
+  font-weight: 700;
+  color: #363654;
 }
 .select__control {
   min-height: 45px !important;
@@ -77,24 +143,35 @@ margin:5px 0;
 }
 
 .select__input-container {
-    height: 35px !important;
-
+  height: 35px !important;
 }
-#Address{
-    height:88px;
+#Address {
+  height: 88px;
 }
-.checkout form>div:last-of-type{
-    width:100%;
-height:115px;
+.checkout form > div:last-of-type {
+  width: 100%;
+  height: 115px;
 }
-.checkout button{
+.checkout button {
+  width: 100%;
+  height: 60px;
+  background: #6064bf;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 8px;
+}
+@media (max-width: 1000px) {
+  .checkout form,
+  .order-summary {
     width: 100%;
-    height: 60px;
-    background: #6064BF;
-    color: #fff;
-    border: none;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 8px;
+  }
+}
+@media (max-width: 500px) {
+  .checkout form > div {
+    width: 100%;
+    margin: 10px 0;
+  }
 }
