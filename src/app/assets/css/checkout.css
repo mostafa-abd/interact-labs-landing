@@ -27,14 +27,35 @@
   flex-direction:column;
   justify-content:space-between;
 }
-.checkout form>.phone , textarea{
-        width:100%;
+.checkout form>.phone{
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+        flex-direction: row;
+        justify-content: flex-start;
+}
+.checkout form>.phone input{
+    width:85%;
+  
+}
 
+.checkout form>.phone span{
+  background: #fff;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 49px;
+    height: 63%;
+    font-size: 14px;
+    border: 2px solid #D4D4DE;
+    min-width: 6%;
+    margin:0 10px;
 }
 .checkout label{
     font-size: 14px;
     font-weight: 500;
     color: #344054;
+    width:100%;
+
 }
 .checkout input{
     width:100%;
@@ -50,4 +71,13 @@
   width: 42%;
   min-height: 725px;
   background-color: #f6f6f8;
+}
+.select__control {
+  min-height: 45px !important;
+  height: 45px !important;
+}
+
+.select__input-container {
+    height: 35px !important;
+
 }
