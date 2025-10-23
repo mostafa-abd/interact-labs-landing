@@ -88,7 +88,7 @@ export default function Checkout() {
             selectedCountry ?(
           <span>+{countryPhone}</span>
 
-            ):<div></div>
+            ):<span></span>
           }
           <input type="text" placeholder="Your phone" id="Phone"   pattern="^[0-9]{0,10}$"
   title="Phone number must be up to 10 digits"
@@ -101,6 +101,7 @@ export default function Checkout() {
           <input type="text" placeholder="Delivery Address" id="Address" />
           
         </div>
+        <button type="submit">Continue to payment</button>
       </form>
       <div className="order-summary"></div>
     </section>
