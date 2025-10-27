@@ -181,29 +181,20 @@
   justify-content: space-evenly;
   align-items: center;
 }
-.product-info-btns svg {
-  margin: -6px 8px 0 0;
-}
+
 .product-info-btns button {
-  width: 160px;
+  width: 70%;
   height: 50px;
-  border: 2px solid #d4d4de;
-  color: #363654;
+  border: none;
+  color: #fff;
   font-size: 16px;
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.product-info-btns button:last-child {
-  width: 70%;
-  height: 50px;
   background: #6064bf;
-  color: #fff;
-  border: none;
+
 }
+
 .how-to-use {
   width: 100%;
   min-height: 160px;
@@ -392,12 +383,7 @@ font-size: clamp(16px, 2vw, 24px);
   .product-info-warranty div {
     max-width: 60px;
   }
-  .product-info-btns button {
-    width: 48%;
-  }
-  .product-info-btns button:last-child {
-    width: 48%;
-  }
+
   .benefits-boxes > div {
     max-width: 100%;
   }
