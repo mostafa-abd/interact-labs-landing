@@ -1,3 +1,5 @@
+'use client'
+
 import { Star, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Warranty from "../assets/images/Warranty.svg";
@@ -5,9 +7,16 @@ import Sale from "../assets/images/After sale support.svg";
 import Installment from "../assets/images/Installment.svg";
 import Shipping from "../assets/images/Free Shipping.svg";
 import Cash from "../assets/images/Cash On Delivery.svg";
-export default function MainSection({ params }: any) {
+import { useLanguage } from "../context/LanguageContext";
+
+export default function MainSection({ product }: { product: any }) {
+  const { language, toggleLanguage } = useLanguage()
+  const suffix = language === "ar" ? "_ar" : "_en";
+  const dir = language === "ar" ? "rtl" : "ltr";
+
+  
   return (
-    <section className="main-section">
+    <section className="main-section"  dir={dir}>
       <div className="product-images">
         <div className="main-product-image"></div>
         <div className="sub-product-images">
@@ -19,7 +28,7 @@ export default function MainSection({ params }: any) {
 
       </div>
       <div className="product-info">
-        <h1>TACT ProLine</h1>
+<h1>{product.product_name}</h1>
         <div className="product-info-review">
           <span>4.5</span>
           <span>
@@ -32,8 +41,8 @@ export default function MainSection({ params }: any) {
           <span>(100 reviews)</span>
         </div>
         <p className="product-info-description">
-          Transforms any screen or projected area into an interactive surface
-          with rechargeable pen.
+        {product[`description${suffix}`]}
+
         </p>
         <div className="product-info-warranty">
           <div>

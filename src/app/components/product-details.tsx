@@ -1,56 +1,56 @@
-export default function ProductDetails() {
+'use client'
+
+import { useLanguage } from "../context/LanguageContext";
+
+export default function ProductDetails({ product}: { product: any; }) {
+  const { language, toggleLanguage } = useLanguage()
+  const suffix = language === "ar" ? "_ar" : "_en";
+    const dir = language === "ar" ? "rtl" : "ltr";
+
   return (
-    <section className="product-details">
-      <h1>Product Details</h1>
+    <section className="product-details"  dir={dir}>
+      <h1>{language === "ar" ? "تفاصيل المنتج" : "Product Details"}</h1>
 
       <div>
-        <h3>Brand Name</h3>
-        <p>TACT</p>
+        <h3>{language === "ar" ? "العلامة التجارية" : "Brand Name"}</h3>
+        <p>{product[`brand${suffix}`]}</p>
       </div>
       <div>
-        <h3>Color</h3>
-        <p>Black</p>
+        <h3>{language === "ar" ? "اللون" : "Color"}</h3>
+        <p>{product[`color${suffix}`]}</p>
       </div>
       <div>
-        <h3>Material</h3>
-        <p>Plastic</p>
-      </div>
-
-      <div>
-        <h3>Temperature Range</h3>
-        <p>- 40 / +85°C</p>
+        <h3>{language === "ar" ? "الخامة" : "Material"}</h3>
+        <p>{product[`material${suffix}`]}</p>
       </div>
       <div>
-        <h3>Connectivity</h3>
-        <p>USB B Male Plu</p>
+        <h3>{language === "ar" ? "مدى الحرارة" : "Temperature Range"}</h3>
+        <p>{product[`temperature_range${suffix}`]}</p>
       </div>
       <div>
-        <h3>Item Model</h3>
-        <p>B098865</p>
-      </div> 
-
-      <div>
-        <h3>Product Dimensions</h3>
-        <p>12.7 cm * 9.3 cm</p>
+        <h3>{language === "ar" ? "التوصيل" : "Connectivity"}</h3>
+        <p>{product[`connectivity${suffix}`]}</p>
       </div>
       <div>
-        <h3>Power Supply Voltage</h3>
-        <p>5v±0.5v</p>
+        <h3>{language === "ar" ? "أبعاد المنتج" : "Product Dimensions"}</h3>
+        <p>{product[`product_dimensions${suffix}`]}</p>
       </div>
       <div>
-        <h3>Pen Type</h3>
-        <p>Rechargeable</p>
-      </div>   
-
-      <div>
-        <h3>Pen Color</h3>
-        <p>White</p>
+        <h3>{language === "ar" ? "جهد التشغيل" : "Power Supply Voltage"}</h3>
+        <p>{product[`power_supply_voltage${suffix}`]}</p>
       </div>
       <div>
-        <h3>Pen Length</h3>
-        <p>16.5 cm</p>
+        <h3>{language === "ar" ? "نوع القلم" : "Pen Type"}</h3>
+        <p>{product[`pen_type${suffix}`]}</p>
       </div>
-             
+      <div>
+        <h3>{language === "ar" ? "لون القلم" : "Pen Color"}</h3>
+        <p>{product[`pen_color${suffix}`]}</p>
+      </div>
+      <div>
+        <h3>{language === "ar" ? "طول القلم" : "Pen Length"}</h3>
+        <p>{product[`pen_length${suffix}`]}</p>
+      </div>
     </section>
   );
 }
