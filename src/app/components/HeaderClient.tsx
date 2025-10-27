@@ -6,9 +6,8 @@ export default function HeaderClient() {
   const { language, toggleLanguage } = useLanguage()
   return (
     <div className="header-icons">
-      <ShoppingCart />
       <div onClick={toggleLanguage} style={{ cursor: 'pointer' }}>
-        <span>{language === 'ar' ? 'Ar' : 'En'}</span>
+        <span>{language === 'ar' ? 'EN' : 'AR'}</span>
       </div>
     </div>
   )

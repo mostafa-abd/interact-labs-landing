@@ -26,12 +26,11 @@ export default function RootLayout({
         className={`${inter.variable} antialiased`}
       >
       <LanguageProvider>
-
       <Header/>
         {children}
         <Footer/>
-        </LanguageProvider>
 
+        </LanguageProvider>
       </body>
     </html>
   );
