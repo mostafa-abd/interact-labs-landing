@@ -98,3 +98,60 @@ footer .social a {
   width: 28px;
   height: 28px;
 }
+.dots-root {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.85);
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.dots {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0b6efd;
+  opacity: 0.25;
+  transform: translateY(0);
+  animation: dots-bounce 900ms infinite ease-in-out;
+}
+
+.dot:nth-child(1) { animation-delay: 0ms; }
+.dot:nth-child(2) { animation-delay: 150ms; }
+.dot:nth-child(3) { animation-delay: 300ms; }
+
+@keyframes dots-bounce {
+  0%   { transform: translateY(0);   opacity: 0.25; }
+  30%  { transform: translateY(-8px); opacity: 1;    }
+  60%  { transform: translateY(0);   opacity: 0.6;  }
+  100% { transform: translateY(0);   opacity: 0.25; }
+}
+
+@media (max-width: 480px) {
+  .dot { width: 10px; height: 10px; }
+  .dots { gap: 8px; }
+}
+button:hover:not(.product-info-Quantity button) {
+    background: linear-gradient(135deg, #5a5fe0, #6064bf, #4f54a6);
+  background-size: 200% 200%;
+  animation: diagonalGlow 2.5s ease infinite;
+  box-shadow: 0 8px 20px rgba(96, 100, 191, 0.3);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+@keyframes diagonalGlow {
+  0%   { background-position: 0% 100%; }
+  50%  { background-position: 100% 0%; }
+  100% { background-position: 0% 100%; }
+}

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useLanguage } from "../../context/LanguageContext";
+import Loading from "@/app/loading";
 
 export default function CheckoutPage() {
   const { slug } = useParams();
@@ -21,12 +22,21 @@ export default function CheckoutPage() {
   const [countryPhone, setCountryPhone] = useState<string>("");
   const [userCountry, setUserCountry] = useState<string>("");
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+
+  const [status, setStatus] = useState<"IDLE" | "CREATING" | "ERROR">("IDLE");
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
   useEffect(() => {
     setIsClient(true);
     const allCountries = Country.getAllCountries();
     setCountries(allCountries);
 
-    // تحديد الدولة تلقائيًا
     fetch("https://ipapi.co/json/")
       .then((res) => res.json())
       .then((data) => setUserCountry(data.country_name))
@@ -41,7 +51,6 @@ export default function CheckoutPage() {
     setCountryPhone(selectedData ? `${selectedData.phonecode}` : "");
   };
 
-  // الأسعار المصرية
   const priceMapEGP: Record<string, { current: number; before: number }> = {
     "55-B": { current: 31500, before: 35000 },
     "65-B": { current: 38988, before: 43320 },
@@ -54,7 +63,6 @@ export default function CheckoutPage() {
     "TACT": { current: 7182, before: 7980 },
   };
 
-  // الأسعار السعودية (ريال)
   const priceMapSAR: Record<string, { current: number; before: number }> = {
     "TACT": { current: 835, before: 928 },
   };
@@ -65,8 +73,7 @@ export default function CheckoutPage() {
   let beforePrice = 0;
   let currency = "EGP";
 
-  // تحديد المنتج والكمية من الرابط
-  if (slug.includes("TACT-Panel")) {
+  if (typeof slug === "string" && slug.includes("TACT-Panel")) {
     const match = slug.match(/(\d+)-Inches-(H|B)-(\d+)/);
     const size = match ? match[1] : "55";
     const model = match ? match[2] : "H";
@@ -74,7 +81,7 @@ export default function CheckoutPage() {
     const key = `${size}-${model}`;
     ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
     name = `TACT Panel ${size} Inches-${model}`;
-  } else {
+  } else if (typeof slug === "string") {
     const parts = slug.split("-");
     qty = Number(parts.pop());
     const baseName = parts.join(" ");
@@ -82,14 +89,13 @@ export default function CheckoutPage() {
     ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
     name = baseName;
 
-    // لو المنتج TACT والدولة السعودية
     if (key === "TACT" && userCountry === "Saudi Arabia") {
       ({ current: currentPrice, before: beforePrice } = priceMapSAR[key]);
       currency = "SAR";
     }
   }
 
-  const totalPrice = currentPrice * qty;
+  const totalPrice = Math.round(Number(currentPrice) * Number(qty));
 
   const product = {
     name,
@@ -117,17 +123,76 @@ export default function CheckoutPage() {
     vat: isAr ? "شامل ضريبة القيمة المضافة 14%" : "Including 14% VAT",
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.phone || !formData.address) {
+      alert(isAr ? "من فضلك أكمل جميع البيانات" : "Please complete all fields");
+      return;
+    }
+
+    try {
+      setStatus("CREATING");
+
+      const res = await fetch("/api/paymob", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: totalPrice,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+        }),
+      });
+
+      const result = await res.json();
+
+      if (result.error) {
+        setStatus("ERROR");
+        alert(`${isAr ? "خطأ" : "Error"}: ${result.error}\n${JSON.stringify(result.details || {}, null, 2)}`);
+        return;
+      }
+
+      if (result.iframeUrl) {
+        setIsRedirecting(true);
+        setTimeout(() => {
+          window.location.href = result.iframeUrl;
+        }, 150); 
+      } else {
+        setStatus("ERROR");
+        alert(isAr ? "فشل بدأ عملية الدفع" : "Error initializing payment");
+      }
+    } catch (error) {
+      console.error("💥 Client Error:", error);
+      setStatus("ERROR");
+      alert(isAr ? "حدث خطأ أثناء الاتصال بالسيرفر" : "Error connecting to server");
+    }
+  };
+
   return (
     <section className="checkout" dir={dir}>
-      <form action="">
+      {(status === "CREATING" || isRedirecting) && <Loading />}
+
+      <form onSubmit={handleSubmit}>
         <h2>{texts.deliveryInfo}</h2>
         <div>
           <label>{texts.name}</label>
-          <input type="text" placeholder={isAr ? "اسمك" : "Your name"} />
+          <input
+            type="text"
+            placeholder={isAr ? "اسمك" : "Your name"}
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
         </div>
         <div>
           <label>{texts.email}</label>
-          <input type="email" placeholder={isAr ? "بريدك الإلكتروني" : "Your email"} />
+          <input
+            type="email"
+            placeholder={isAr ? "بريدك الإلكتروني" : "Your email"}
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
         </div>
         <div>
           <label>{texts.country}</label>
@@ -159,18 +224,25 @@ export default function CheckoutPage() {
           <input
             type="text"
             placeholder={isAr ? "رقم الهاتف" : "Your phone"}
-            pattern="^[0-9]{0,10}$"
-            onInput={(e) => {
-              const t = e.target as HTMLInputElement;
-              t.value = t.value.replace(/[^0-9]/g, "").slice(0, 10);
+            value={formData.phone}
+            onChange={(e) => {
+              const val = e.target.value.replace(/[^0-9+]/g, "").slice(0, 15);
+              setFormData({ ...formData, phone: val });
             }}
           />
         </div>
         <div>
           <label>{texts.address}</label>
-          <input type="text" placeholder={isAr ? "عنوان التوصيل" : "Delivery Address"} />
+          <input
+            type="text"
+            placeholder={isAr ? "عنوان التوصيل" : "Delivery Address"}
+            value={formData.address}
+            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+          />
         </div>
-        <button type="submit">{texts.continue}</button>
+        <button type="submit" disabled={status === "CREATING" || isRedirecting}>
+          {isAr ? "المتابعة للدفع" : "Continue to payment"}
+        </button>
       </form>
 
       <div className="order-summary">
