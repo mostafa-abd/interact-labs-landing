@@ -9,7 +9,6 @@ import Feedback from "../components/feedback";
 import ProductDetails from "../components/product-details";
 import "../assets/css/product.css";
 
-// ✅ تأكد إن النوع متوافق مع Next.js App Router
 interface PageProps {
   params: {
     slug: string;
@@ -17,7 +16,6 @@ interface PageProps {
 }
 
 export default function ProductPage({ params }: PageProps) {
-  // ✅ استخدم التفكيك العادي بدون React.use
   const { slug } = params;
 
   const product = products[slug as keyof typeof products];
