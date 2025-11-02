@@ -1,9 +1,11 @@
-'use client'
-import { useLanguage } from '../context/LanguageContext'
-import { ShoppingCart } from 'lucide-react'
+'use client';
+import { useLanguage } from '../context/LanguageContext';
+import { ShoppingCart } from 'lucide-react';
 
 export default function HeaderClient() {
-const { language, toggleLanguage } = useLanguage() as any;
+  const langContext = useLanguage();
+  const language = langContext?.language ?? 'en';
+  const toggleLanguage = langContext?.toggleLanguage ?? (() => {});
 
   return (
     <div className="header-icons">
@@ -11,5 +13,5 @@ const { language, toggleLanguage } = useLanguage() as any;
         <span>{language === 'ar' ? 'EN' : 'AR'}</span>
       </div>
     </div>
-  )
+  );
 }

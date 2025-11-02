@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Image from "next/image";
 import Compatible from '../assets/images/Compatible.svg';
@@ -9,14 +9,20 @@ import users from '../assets/images/users.svg';
 import { useLanguage } from "../context/LanguageContext";
 import { usePathname } from "next/navigation";
 
+// ✅ عرف نوع العنصر اللي ممكن يحتوي على صورة أو لأ
+type BenefitItem = {
+  title: { en: string; ar: string };
+  desc: { en: string; ar: string };
+  img?: string ; // النوع المناسب لصورة import من next/image
+};
+
 export default function Benefits() {
-  // @ts-ignore
-const language = useLanguage()?.language ?? "en";
+  const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
   const pathname = usePathname();
   const isTACTPanel = pathname.includes("tact-panel");
 
-  const tactPanelBenefits = [
+  const tactPanelBenefits: BenefitItem[] = [
     {
       title: { en: "Unbreakable", ar: "ضد الكسر" },
       desc: {
@@ -54,7 +60,7 @@ const language = useLanguage()?.language ?? "en";
     },
   ];
 
-  const defaultBenefits = [
+  const defaultBenefits: BenefitItem[] = [
     {
       img: Durable,
       title: { en: "Durable", ar: "متين" },
@@ -97,7 +103,7 @@ const language = useLanguage()?.language ?? "en";
     },
   ];
 
-  const benefitsToShow = isTACTPanel ? tactPanelBenefits : defaultBenefits;
+  const benefitsToShow: BenefitItem[] = isTACTPanel ? tactPanelBenefits : defaultBenefits;
 
   return (
     <section
@@ -116,7 +122,6 @@ const language = useLanguage()?.language ?? "en";
                   alt={item.title[language]}
                   fill
                   style={{ objectFit: "contain" }}
-                  
                 />
               </div>
             )}

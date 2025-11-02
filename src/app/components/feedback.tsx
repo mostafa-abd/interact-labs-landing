@@ -7,9 +7,15 @@ import { Star } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import { useEffect, useState } from "react";
 
+// ✅ عرف نوع كل feedback
+type FeedbackItem = {
+  title: string;
+  text: string;
+  name: string;
+};
+
 export default function Feedback() {
-  // @ts-ignore
-const language = useLanguage()?.language ?? "en";
+  const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
   const dir = isAr ? "rtl" : "ltr";
 
@@ -18,7 +24,7 @@ const language = useLanguage()?.language ?? "en";
     setSwiperKey(dir);
   }, [dir]);
 
-  const feedbacks = isAr
+  const feedbacks: FeedbackItem[] = isAr
     ? [
         {
           title: "الشاشة ممتازة والتعامل راقي جدًا",
@@ -92,7 +98,7 @@ const language = useLanguage()?.language ?? "en";
           <SwiperSlide
             key={index}
             style={{
-              width: "320px", // كل كارت عرضه ثابت
+              width: "320px",
               background: "#fff",
               borderRadius: "12px",
               padding: "20px",

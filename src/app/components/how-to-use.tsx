@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
 import { useLanguage } from "../context/LanguageContext";
 
 export default function HowToUse() {
-  // @ts-ignore
-const language = useLanguage()?.language ?? "en";
+  const langContext = useLanguage();
+  const language = langContext?.language ?? "en";
   const isAr = language === "ar";
 
   const content = {
@@ -43,7 +43,11 @@ const language = useLanguage()?.language ?? "en";
   };
 
   return (
-    <section className="how-to-use" dir={isAr ? "rtl" : "ltr"} style={{ textAlign: isAr ? "right" : "left" }}>
+    <section
+      className="how-to-use"
+      dir={isAr ? "rtl" : "ltr"}
+      style={{ textAlign: isAr ? "right" : "left" }}
+    >
       <div>
         <h2>{content.warranty[language].title}</h2>
         <p>{content.warranty[language].description}</p>
