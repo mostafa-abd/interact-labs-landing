@@ -9,7 +9,7 @@ import Feedback from "../components/feedback";
 import ProductDetails from "../components/product-details";
 import "../assets/css/product.css";
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export default function ProductPage({ params }: Props) {
