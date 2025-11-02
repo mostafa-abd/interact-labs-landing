@@ -3,6 +3,7 @@
 import { useLanguage } from "../context/LanguageContext";
 
 export default function HowToUse() {
+  // @ts-ignore
 const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
 

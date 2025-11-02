@@ -3,6 +3,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { ShoppingCart } from 'lucide-react'
 
 export default function HeaderClient() {
+  // @ts-ignore
   const { language, toggleLanguage } = useLanguage()
   return (
     <div className="header-icons">

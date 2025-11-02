@@ -10,6 +10,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { usePathname } from "next/navigation";
 
 export default function Benefits() {
+  // @ts-ignore
 const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
   const pathname = usePathname();

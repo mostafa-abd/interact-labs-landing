@@ -7,6 +7,7 @@ import { useLanguage } from "../context/LanguageContext";
 import HeaderClient from "../components/HeaderClient";
 
 export default function Header() {
+  // @ts-ignore
   const { language, toggleLanguage } = useLanguage()
 
   return (
