@@ -8,7 +8,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { useEffect, useState } from "react";
 
 export default function Feedback() {
-  const { language } = useLanguage();
+const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
   const dir = isAr ? "rtl" : "ltr";
 

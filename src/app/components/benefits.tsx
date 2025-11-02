@@ -10,7 +10,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { usePathname } from "next/navigation";
 
 export default function Benefits() {
-  const { language } = useLanguage();
+const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
   const pathname = usePathname();
   const isTACTPanel = pathname.includes("tact-panel");

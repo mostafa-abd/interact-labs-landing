@@ -3,7 +3,7 @@
 import { useLanguage } from "../context/LanguageContext";
 
 export default function HowToUse() {
-  const { language } = useLanguage();
+const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
 
   const content = {

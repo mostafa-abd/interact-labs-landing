@@ -14,7 +14,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { useRouter } from "next/navigation";
 
 export default function MainSection({ product }: { product: any }) {
-  const { language } = useLanguage();
+const language = useLanguage()?.language ?? "en";
   const router = useRouter();
   const suffix = language === "ar" ? "_ar" : "_en";
   const dir = language === "ar" ? "rtl" : "ltr";

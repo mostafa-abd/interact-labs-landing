@@ -12,7 +12,7 @@ import Loading from "@/app/loading";
 export default function CheckoutPage() {
   const { slug } = useParams();
   const searchParams = useSearchParams();
-  const { language } = useLanguage();
+const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
   const dir = isAr ? "rtl" : "ltr";
 
