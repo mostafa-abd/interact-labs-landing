@@ -7,8 +7,8 @@ import { useLanguage } from "../context/LanguageContext";
 import HeaderClient from "../components/HeaderClient";
 
 export default function Header() {
-  // @ts-ignore
-  const { language, toggleLanguage } = useLanguage()
+const { language, toggleLanguage } = useLanguage() as any;
+
 
   return (
     <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem 2rem" }}>

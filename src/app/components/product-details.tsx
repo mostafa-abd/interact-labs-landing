@@ -4,8 +4,8 @@ import { useLanguage } from "../context/LanguageContext";
 import { usePathname } from "next/navigation"; // 👈 نضيف ده
 
 export default function ProductDetails({ product }: { product: any }) {
-  // @ts-ignore
-const language = useLanguage()?.language ?? "en";
+const { language, toggleLanguage } = useLanguage() as any;
+
   const suffix = language === "ar" ? "_ar" : "_en";
   const dir = language === "ar" ? "rtl" : "ltr";
 

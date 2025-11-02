@@ -12,8 +12,8 @@ import Loading from "@/app/loading";
 export default function CheckoutPage() {
   const { slug } = useParams();
   const searchParams = useSearchParams();
-  // @ts-ignore
-const language = useLanguage()?.language ?? "en";
+const { language, toggleLanguage } = useLanguage() as any;
+
   const isAr = language === "ar";
   const dir = isAr ? "rtl" : "ltr";
 
