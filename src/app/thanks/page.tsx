@@ -10,7 +10,7 @@ export default function Thanks() {
                   <Image
         src={ThanksImg}
         alt="Interact Labs Thanks"
-        priority
+        
       />
         </div>
               <h1>Your order is confirmed</h1>

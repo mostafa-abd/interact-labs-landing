@@ -1,14 +1,21 @@
 'use client'
 
 import { useLanguage } from "../context/LanguageContext";
+import { usePathname } from "next/navigation"; // 👈 نضيف ده
 
-export default function ProductDetails({ product}: { product: any; }) {
-  const { language, toggleLanguage } = useLanguage()
+export default function ProductDetails({ product }: { product: any }) {
+  const { language } = useLanguage();
   const suffix = language === "ar" ? "_ar" : "_en";
-    const dir = language === "ar" ? "rtl" : "ltr";
+  const dir = language === "ar" ? "rtl" : "ltr";
+
+  const pathname = usePathname(); // 👈 نجيب المسار الحالي
+  const isTACTPanel = pathname.includes("tact-panel"); // 👈 نتحقق هل المنتج TACT Panel
+
+  // 👇 لو هو TACT Panel منعرضش أي حاجة
+  if (isTACTPanel) return null;
 
   return (
-    <section className="product-details"  dir={dir}>
+    <section className="product-details" dir={dir}>
       <h1>{language === "ar" ? "تفاصيل المنتج" : "Product Details"}</h1>
 
       <div>

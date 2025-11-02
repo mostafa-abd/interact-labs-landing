@@ -5,12 +5,13 @@ import Select from "react-select";
 import { Country, State } from "country-state-city";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../context/LanguageContext";
 import Loading from "@/app/loading";
 
 export default function CheckoutPage() {
   const { slug } = useParams();
+  const searchParams = useSearchParams();
   const { language } = useLanguage();
   const isAr = language === "ar";
   const dir = isAr ? "rtl" : "ltr";
@@ -19,28 +20,39 @@ export default function CheckoutPage() {
   const [countries, setCountries] = useState<any[]>([]);
   const [stateOptions, setStateOptions] = useState<any[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<any>(null);
-  const [countryPhone, setCountryPhone] = useState<string>("");
-  const [userCountry, setUserCountry] = useState<string>("");
+  const [selectedState, setSelectedState] = useState<any>(null);
+  const [countryPhone, setCountryPhone] = useState<string>("20"); 
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
+    phone: "",  
     address: "",
+    state: "",
   });
 
   const [status, setStatus] = useState<"IDLE" | "CREATING" | "ERROR">("IDLE");
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
+    const success = searchParams.get('success');
+    const orderId = searchParams.get('order_id');
+    if (success === 'true' && orderId) {
+      alert(isAr ? `الدفع نجح! رقم الطلب: ${orderId}` : `Payment succeeded! Order ID: ${orderId}`);
+    } else if (success === 'false') {
+      alert(isAr ? "الدفع فشل. جرب تاني." : "Payment failed. Try again.");
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     setIsClient(true);
     const allCountries = Country.getAllCountries();
     setCountries(allCountries);
-
-    fetch("https://ipapi.co/json/")
-      .then((res) => res.json())
-      .then((data) => setUserCountry(data.country_name))
-      .catch(() => setUserCountry("Egypt"));
+    const egypt = allCountries.find((c) => c.name === "Egypt");
+    if (egypt) {
+      setSelectedCountry({ value: egypt.isoCode, label: egypt.name });
+      handleCountryChange({ value: egypt.isoCode });
+    }
   }, []);
 
   const handleCountryChange = (selected: any) => {
@@ -48,23 +60,25 @@ export default function CheckoutPage() {
     const states = State.getStatesOfCountry(selected.value) || [];
     setStateOptions(states.map((s) => ({ label: s.name, value: s.name })));
     const selectedData = countries.find((c) => c.isoCode === selected.value);
-    setCountryPhone(selectedData ? `${selectedData.phonecode}` : "");
+    setCountryPhone(selectedData ? `${selectedData.phonecode}` : "20");
   };
 
   const priceMapEGP: Record<string, { current: number; before: number }> = {
-    "55-B": { current: 31500, before: 35000 },
+    "55-B": { current: 10, before: 37620 },
     "65-B": { current: 38988, before: 43320 },
-    "75-B": { current: 57399, before: 60420 },
-    "85-B": { current: 96631, before: 99620 },
-    "55-H": { current: 37200, before: 40700 },
+    "75-B": { current: 55555, before: 60420 },
+    "85-B": { current: 94639, before: 99620 },
+    "55-H": { current: 38053, before: 43320 },
     "65-H": { current: 44688, before: 49020 },
-    "75-H": { current: 57399, before: 60420 },
-    "85-H": { current: 102331, before: 105320 },
-    "TACT": { current: 7182, before: 7980 },
+    "75-H": { current: 61255, before: 66120 },
+    "85-H": { current: 100339, before: 105320 },
+    "TACT": { current: 7200, before: 10000 },
   };
 
-  const priceMapSAR: Record<string, { current: number; before: number }> = {
-    "TACT": { current: 835, before: 928 },
+  const productImages: Record<string, string> = {
+    "TACT": "/images/tact/main.webp",
+    "TACT-Panel-H": "/images/tact-panel-h/4-2.webp",
+    "TACT-Panel-B": "/images/tact-panel-b/2-6.webp",
   };
 
   let name = "";
@@ -72,38 +86,35 @@ export default function CheckoutPage() {
   let currentPrice = 0;
   let beforePrice = 0;
   let currency = "EGP";
+  let image = "/images/default.jpg";
 
-  if (typeof slug === "string" && slug.includes("TACT-Panel")) {
+  if (typeof slug === "string" && slug.match(/(\d+)-Inches-(H|B)-\d+/)) {  
     const match = slug.match(/(\d+)-Inches-(H|B)-(\d+)/);
-    const size = match ? match[1] : "55";
-    const model = match ? match[2] : "H";
-    qty = match ? Number(match[3]) : 1;
-    const key = `${size}-${model}`;
-    ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
-    name = `TACT Panel ${size} Inches-${model}`;
+    if (match) {
+      const size = match[1];
+      const model = match[2];
+      qty = Number(match[3]);
+      const key = `${size}-${model}`;
+      ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
+      name = `TACT Panel ${size} Inches-${model}`;
+      image = model === "H" ? productImages["TACT-Panel-H"] : productImages["TACT-Panel-B"];
+    }
   } else if (typeof slug === "string") {
     const parts = slug.split("-");
-    qty = Number(parts.pop());
-    const baseName = parts.join(" ");
-    const key = parts.join("-");
-    ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
-    name = baseName;
+    if (parts.length > 1) {
+      qty = Number(parts.pop()); 
+      const baseName = parts.join("-");
+      name = baseName;
+      const key = baseName;
+      ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
 
-    if (key === "TACT" && userCountry === "Saudi Arabia") {
-      ({ current: currentPrice, before: beforePrice } = priceMapSAR[key]);
-      currency = "SAR";
+      image = productImages["TACT"] || "/images/default.jpg";
     }
   }
 
-  const totalPrice = Math.round(Number(currentPrice) * Number(qty));
+  const totalPrice = Math.round(Number(currentPrice) * Number(qty));  
 
-  const product = {
-    name,
-    qty,
-    price: currentPrice,
-    beforePrice,
-    image: "/assets/images/products/default.jpg",
-  };
+  const product = { name, qty, price: currentPrice, beforePrice, image };
 
   const texts = {
     deliveryInfo: isAr ? "معلومات التوصيل" : "Delivery Information",
@@ -114,59 +125,95 @@ export default function CheckoutPage() {
     phone: isAr ? "رقم الهاتف" : "Phone number",
     address: isAr ? "العنوان" : "Address",
     continue: isAr ? "المتابعة للدفع" : "Continue to payment",
+    cod: isAr ? "الدفع عند الاستلام" : "Payment upon receipt",
     orderSummary: isAr ? "ملخص الطلب" : "Order Summary",
     qty: isAr ? "الكمية" : "Qty",
     subtotal: isAr ? "المجموع الفرعي" : "Subtotal",
     shipping: isAr ? "الشحن" : "Shipping",
     freeShipping: isAr ? "شحن مجاني" : "Free Shipping",
     total: isAr ? "الإجمالي" : "Total",
-    vat: isAr ? "شامل ضريبة القيمة المضافة 14%" : "Including 14% VAT",
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.name || !formData.email || !formData.phone || !formData.address) {
+  const handlePaymob = async () => {
+    if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.state) {
       alert(isAr ? "من فضلك أكمل جميع البيانات" : "Please complete all fields");
       return;
     }
+    if (totalPrice <= 0) { 
+      alert(isAr ? "سعر المنتج غير صحيح" : "Invalid product price");
+      return;
+    }
+
+    const phoneIntl = selectedCountry 
+      ? `+${countryPhone}${formData.phone.replace(/\D/g, "")}` 
+      : `+20${formData.phone.replace(/\D/g, "")}`;
 
     try {
       setStatus("CREATING");
-
       const res = await fetch("/api/paymob", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: totalPrice,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          address: formData.address,
+        body: JSON.stringify({ 
+          amount: totalPrice, 
+          ...formData,
+          phone: phoneIntl,
+          country: selectedCountry ? selectedCountry.value : "EG",
+          product: {  
+            name: product.name,
+            qty: product.qty,
+            price: currentPrice,  
+            currency,
+          }
         }),
       });
 
       const result = await res.json();
 
-      if (result.error) {
-        setStatus("ERROR");
-        alert(`${isAr ? "خطأ" : "Error"}: ${result.error}\n${JSON.stringify(result.details || {}, null, 2)}`);
-        return;
-      }
-
       if (result.iframeUrl) {
         setIsRedirecting(true);
-        setTimeout(() => {
-          window.location.href = result.iframeUrl;
-        }, 150); 
+        setTimeout(() => (window.location.href = result.iframeUrl), 150);
       } else {
         setStatus("ERROR");
-        alert(isAr ? "فشل بدأ عملية الدفع" : "Error initializing payment");
+        alert(isAr ? `فشل بدأ عملية الدفع: ${result.error || 'خطأ غير معروف'}` : `Error: ${result.error || 'Unknown'}`);
       }
     } catch (error) {
-      console.error("💥 Client Error:", error);
       setStatus("ERROR");
       alert(isAr ? "حدث خطأ أثناء الاتصال بالسيرفر" : "Error connecting to server");
+    }
+  };
+
+  const handleCOD = async () => {
+    if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.state) {
+      alert(isAr ? "من فضلك أكمل جميع البيانات" : "Please complete all fields");
+      return;
+    }
+
+    const phoneIntl = selectedCountry 
+      ? `+${countryPhone}${formData.phone.replace(/\D/g, "")}` 
+      : `+20${formData.phone.replace(/\D/g, "")}`;
+
+    try {
+      await fetch("/api/send-cod-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: "mostafa.for.work2@gmail.com",
+          subject: `طلب الدفع عند الاستلام - ${product.name}`,
+          body: `
+اسم العميل: ${formData.name}
+المحافظة: ${formData.state}
+البريد: ${formData.email}
+الهاتف: ${phoneIntl}
+العنوان: ${formData.address}
+المنتج: ${product.name}
+الكمية: ${product.qty}
+السعر: ${totalPrice} ${currency}
+          `,
+        }),
+      });
+      alert(isAr ? "تم إرسال تفاصيل الطلب بنجاح" : "Order details sent successfully");
+    } catch (err) {
+      alert(isAr ? "حدث خطأ أثناء إرسال الإيميل" : "Error sending email");
     }
   };
 
@@ -174,7 +221,7 @@ export default function CheckoutPage() {
     <section className="checkout" dir={dir}>
       {(status === "CREATING" || isRedirecting) && <Loading />}
 
-      <form onSubmit={handleSubmit}>
+      <form>
         <h2>{texts.deliveryInfo}</h2>
         <div>
           <label>{texts.name}</label>
@@ -185,6 +232,7 @@ export default function CheckoutPage() {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
         </div>
+
         <div>
           <label>{texts.email}</label>
           <input
@@ -194,6 +242,7 @@ export default function CheckoutPage() {
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
         </div>
+
         <div>
           <label>{texts.country}</label>
           {isClient && (
@@ -206,6 +255,7 @@ export default function CheckoutPage() {
             />
           )}
         </div>
+
         <div>
           <label>{texts.state}</label>
           {isClient && (
@@ -214,23 +264,31 @@ export default function CheckoutPage() {
               isSearchable
               isDisabled={!selectedCountry}
               options={stateOptions}
+              onChange={(selected) => {
+                setSelectedState(selected);
+                setFormData({ ...formData, state: selected ? selected.label : "" });
+              }}
               classNamePrefix="select"
             />
           )}
         </div>
+
         <div className="phone">
           <label>{texts.phone}</label>
           {selectedCountry && <span>+{countryPhone}</span>}
           <input
             type="text"
-            placeholder={isAr ? "رقم الهاتف" : "Your phone"}
+            placeholder={isAr ? "رقم الهاتف المحلي (مثل 0123456789)" : "Local phone number (e.g., 0123456789)"}
             value={formData.phone}
-            onChange={(e) => {
-              const val = e.target.value.replace(/[^0-9+]/g, "").slice(0, 15);
-              setFormData({ ...formData, phone: val });
-            }}
+            onChange={(e) =>
+              setFormData({ 
+                ...formData, 
+                phone: e.target.value.replace(/\D/g, "").slice(0, 10)
+              })
+            }
           />
         </div>
+
         <div>
           <label>{texts.address}</label>
           <input
@@ -240,8 +298,12 @@ export default function CheckoutPage() {
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
           />
         </div>
-        <button type="submit" disabled={status === "CREATING" || isRedirecting}>
-          {isAr ? "المتابعة للدفع" : "Continue to payment"}
+
+        <button type="button" onClick={handlePaymob} disabled={status === "CREATING" || isRedirecting}>
+          {texts.continue}
+        </button>
+        <button type="button" onClick={handleCOD}>
+          {texts.cod}
         </button>
       </form>
 
@@ -249,19 +311,11 @@ export default function CheckoutPage() {
         <h2>{texts.orderSummary}</h2>
         <div>
           <div className="product-Image">
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={200}
-              height={200}
-              priority
-            />
+            <Image src={product.image} alt={product.name} width={200} height={200} priority />
           </div>
           <div className="product-info">
             <h4>{product.name}</h4>
-            <span>
-              {texts.qty}: <b>{product.qty}</b>
-            </span>
+            <span>{texts.qty}: <b>{product.qty}</b></span>
             <p>{product.price.toLocaleString()} {currency}</p>
           </div>
         </div>
@@ -269,7 +323,7 @@ export default function CheckoutPage() {
         <hr />
         <div>
           <span>{texts.subtotal}</span>
-          <span>{totalPrice.toLocaleString()} {currency}</span>
+          <span>{totalPrice.toLocaleString()} {currency}</span>  
         </div>
         <div>
           <span>{texts.shipping}</span>
@@ -277,10 +331,8 @@ export default function CheckoutPage() {
         </div>
         <hr />
         <div>
-          <span>
-            {texts.total} <br /> {texts.vat}
-          </span>
-          <span>{totalPrice.toLocaleString()} {currency}</span>
+          <span>{texts.total}</span>
+          <span>{totalPrice.toLocaleString()} {currency}</span>  
         </div>
       </div>
     </section>

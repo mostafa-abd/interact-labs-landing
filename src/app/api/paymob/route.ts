@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { amount, name, email, phone, address } = await req.json();
+    const { amount, name, email, phone, address, state, country, product } = await req.json();
 
     if (!amount || !name || !email || !phone || !address) {
-      console.error("Missing fields:", { amount, name, email, phone, address });
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -16,10 +15,10 @@ export async function POST(req: Request) {
     const firstName = (name || "").split(" ")[0] || "User";
     const lastName = (name || "").split(" ").slice(1).join(" ") || "Tester";
     const phoneIntl =
-      String(phone).startsWith("+") ? String(phone) : `+20${String(phone).replace(/\D/g, "")}`;
+      String(phone).startsWith("+")
+        ? String(phone)
+        : `+20${String(phone).replace(/\D/g, "")}`;
     const currency = "EGP";
-
-    
 
     const authRes = await fetch("https://accept.paymob.com/api/auth/tokens", {
       method: "POST",
@@ -47,7 +46,14 @@ export async function POST(req: Request) {
         delivery_needed: false,
         amount_cents: amountCents,
         currency,
-        items: [],
+        items: product ? [  
+          {
+            name: product.name,
+            amount_cents: Math.round(Number(product.price) * 100),  
+            description: `${product.name} - ${product.qty} units`,
+            quantity: product.qty,
+          }
+        ] : [],
       }),
     });
     const orderData = await orderRes.json();
@@ -69,26 +75,33 @@ export async function POST(req: Request) {
       phone_number: phoneIntl,
       shipping_method: "NA",
       postal_code: "NA",
-      city: "Cairo",
-      country: "EG", 
+      city: state || "Cairo",  
+      country: country || "EG",
       last_name: lastName,
-      state: "NA",
+      state: state || "NA",  
     };
 
-const paymentKeyRes = await fetch("https://accept.paymob.com/api/acceptance/payment_keys", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    auth_token: token,
-    amount_cents: amountCents,
-    expiration: 3600,
-    order_id: orderData.id,
-    billing_data,
-    currency,
-    integration_id: Number(process.env.PAYMOB_INTEGRATION_ID),
-    redirect_url: process.env.NEXT_PUBLIC_SUCCESS_URL, 
-  }),
-});
+    const successUrl = process.env.NEXT_PUBLIC_SUCCESS_URL || "https://yourdomain.com/payment/success";
+    const failedUrl = process.env.NEXT_PUBLIC_FAILED_URL || "https://yourdomain.com/payment/failed";
+    const redirectUrl = `${successUrl}?order_id=${orderData.id}`;
+
+    const paymentKeyRes = await fetch(
+      "https://accept.paymob.com/api/acceptance/payment_keys",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          auth_token: token,
+          amount_cents: amountCents,
+          expiration: 3600,
+          order_id: orderData.id,
+          billing_data,
+          currency,
+          integration_id: Number(process.env.PAYMOB_INTEGRATION_ID),
+          redirect_url: redirectUrl,
+        }),
+      }
+    );
 
     const paymentData = await paymentKeyRes.json();
 
@@ -100,7 +113,6 @@ const paymentKeyRes = await fetch("https://accept.paymob.com/api/acceptance/paym
     }
 
     const iframeUrl = `https://accept.paymob.com/api/acceptance/iframes/${process.env.PAYMOB_IFRAME_ID}?payment_token=${paymentData.token}`;
-    console.log("🌐 iframeUrl:", iframeUrl);
 
     return NextResponse.json({
       iframeUrl,
@@ -112,9 +124,11 @@ const paymentKeyRes = await fetch("https://accept.paymob.com/api/acceptance/paym
       },
     });
   } catch (error: any) {
-    console.error(" Server Error:", error);
     return NextResponse.json(
-      { error: "Payment initialization failed", details: error?.message || error },
+      {
+        error: "Payment initialization failed",
+        details: error?.message || error,
+      },
       { status: 500 }
     );
   }
