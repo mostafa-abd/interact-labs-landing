@@ -108,7 +108,7 @@ export async function POST(req: Request) {
     console.log("📝 [PAYMOB STEP 2] Order response:", JSON.stringify(orderData, null, 2));
 
     if (!orderRes.ok || !orderData.id) {
-      console.error("❌ [PAYMOB STEP 2] Order creation failed!");
+      console.error("❌ [PAYMOB STEP 2] Order creation failed:", JSON.stringify(orderData, null, 2));
       return NextResponse.json(
         { error: "Order creation failed", details: orderData },
         { status: 500 }
@@ -140,14 +140,6 @@ export async function POST(req: Request) {
     // STEP 4: Create payment key
     console.log("🔑 [PAYMOB STEP 4] Creating payment key...");
 
-    const successUrl = process.env.NEXT_PUBLIC_SUCCESS_URL || "http://localhost:3000/payment/success";
-    const failedUrl = process.env.NEXT_PUBLIC_FAILED_URL || "http://localhost:3000/payment/failed";
-
-    console.log("🔗 [PAYMOB STEP 4] URLs:", {
-      successUrl,
-      failedUrl,
-    });
-
     const paymentKeyPayload = {
       auth_token: token,
       amount_cents: amountCents,
@@ -174,7 +166,7 @@ export async function POST(req: Request) {
     console.log("🔑 [PAYMOB STEP 4] Payment key response:", JSON.stringify(paymentData, null, 2));
 
     if (!paymentKeyRes.ok || !paymentData.token) {
-      console.error("❌ [PAYMOB STEP 4] Payment key creation failed!");
+      console.error("❌ [PAYMOB STEP 4] Payment key creation failed:", JSON.stringify(paymentData, null, 2));
       return NextResponse.json(
         { error: "Payment key not created", details: paymentData },
         { status: 500 }

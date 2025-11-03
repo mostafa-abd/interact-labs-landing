@@ -13,6 +13,13 @@ export default function Thanks() {
   const amount = Number(searchParams.get("amount_cents") || "0") / 100;
   const currency = searchParams.get("currency") || "EGP";
   const orderId = searchParams.get("order");
+  const txnCode = searchParams.get("txn_response_code");
+  const cardType = searchParams.get("source_data.sub_type");
+  const cardLast4 = searchParams.get("source_data.pan");
+  const email = searchParams.get("email");
+  const name = searchParams.get("name");
+  const phone = searchParams.get("phone");
+  const address = searchParams.get("address");
 
   return (
     <section className="thanks">
@@ -20,31 +27,23 @@ export default function Thanks() {
         <Image src={ThanksImg} alt="Interact Labs Thanks" />
       </div>
 
-      {success ? (
-        <>
-          <h1>تم تأكيد طلبك</h1>
-          <p>
-            شكراً لطلبك! تم استلام مبلغ <strong>{amount} {currency}</strong> بنجاح.
-            رقم الطلب: <strong>{orderId}</strong>
-          </p>
-          <p>طلبك بيتعالج دلوقتي، وهيوصلك إيميل فيه تفاصيل التوصيل قريب.</p>
-        </>
-      ) : (
-        <>
-          <h1>فيه مشكلة في الدفع</h1>
-          <p>
-            للأسف العملية ما اكتملتش.
-            {errorOccurred && errorMessage ? (
-              <>
-                <br />
-                السبب: <strong>{decodeURIComponent(errorMessage)}</strong>
-              </>
-            ) : (
-              <> يرجى المحاولة مرة تانية أو التواصل مع الدعم الفني.</>
-            )}
-          </p>
-        </>
-      )}
+      <h1>{success ? "✅ العملية نجحت" : "❌ العملية فشلت"}</h1>
+      <ul>
+        <li><strong>الاسم:</strong> {name}</li>
+        <li><strong>الإيميل:</strong> {email}</li>
+        <li><strong>رقم الموبايل:</strong> {phone}</li>
+        <li><strong>العنوان:</strong> {address}</li>
+        <li><strong>رقم الطلب:</strong> {orderId}</li>
+        <li><strong>المبلغ:</strong> {amount} {currency}</li>
+        <li><strong>نوع الكارت:</strong> {cardType}</li>
+        <li><strong>آخر ٤ أرقام:</strong> {cardLast4}</li>
+        <li><strong>كود العملية:</strong> {txnCode}</li>
+        {errorOccurred && errorMessage && (
+          <li><strong>سبب الفشل:</strong> {decodeURIComponent(errorMessage)}</li>
+        )}
+      </ul>
+
+      {!success && <p>يرجى مراجعة البيانات أو المحاولة مرة تانية.</p>}
     </section>
   );
 }
