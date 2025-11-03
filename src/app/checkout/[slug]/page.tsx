@@ -12,7 +12,7 @@ import Loading from "@/app/loading";
 export default function CheckoutPage() {
   const { slug } = useParams();
   const searchParams = useSearchParams();
-const { language, toggleLanguage } = useLanguage() as any;
+  const { language, toggleLanguage } = useLanguage() as any;
 
   const isAr = language === "ar";
   const dir = isAr ? "rtl" : "ltr";
@@ -57,15 +57,17 @@ const { language, toggleLanguage } = useLanguage() as any;
   }, []);
 
   const handleCountryChange = (selected: any) => {
+    console.log("🌍 [CHECKOUT] Country changed:", selected);
     setSelectedCountry(selected);
     const states = State.getStatesOfCountry(selected.value) || [];
     setStateOptions(states.map((s) => ({ label: s.name, value: s.name })));
     const selectedData = countries.find((c) => c.isoCode === selected.value);
     setCountryPhone(selectedData ? `${selectedData.phonecode}` : "20");
+    console.log("📞 [CHECKOUT] Phone code set to:", selectedData?.phonecode);
   };
 
   const priceMapEGP: Record<string, { current: number; before: number }> = {
-    "55-B": { current: 10, before: 37620 },
+    "55-B": { current: 12, before: 37620 }, // Changed from 10 to 50
     "65-B": { current: 38988, before: 43320 },
     "75-B": { current: 55555, before: 60420 },
     "85-B": { current: 94639, before: 99620 },
@@ -108,7 +110,6 @@ const { language, toggleLanguage } = useLanguage() as any;
       name = baseName;
       const key = baseName;
       ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
-
       image = productImages["TACT"] || "/images/default.jpg";
     }
   }
@@ -116,6 +117,15 @@ const { language, toggleLanguage } = useLanguage() as any;
   const totalPrice = Math.round(Number(currentPrice) * Number(qty));  
 
   const product = { name, qty, price: currentPrice, beforePrice, image };
+
+  console.log("🛍️ [CHECKOUT] Product details:", {
+    slug,
+    name,
+    qty,
+    currentPrice,
+    totalPrice,
+    currency
+  });
 
   const texts = {
     deliveryInfo: isAr ? "معلومات التوصيل" : "Delivery Information",
@@ -136,62 +146,109 @@ const { language, toggleLanguage } = useLanguage() as any;
   };
 
   const handlePaymob = async () => {
+    console.log("💳 [CHECKOUT] Starting Paymob payment process...");
+    console.log("📝 [CHECKOUT] Form data:", formData);
+    console.log("🌍 [CHECKOUT] Selected country:", selectedCountry);
+    console.log("📍 [CHECKOUT] Selected state:", selectedState);
+
+    // Validation
     if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.state) {
+      console.error("❌ [CHECKOUT] Validation failed - missing fields:", {
+        name: !!formData.name,
+        email: !!formData.email,
+        phone: !!formData.phone,
+        address: !!formData.address,
+        state: !!formData.state,
+      });
       alert(isAr ? "من فضلك أكمل جميع البيانات" : "Please complete all fields");
       return;
     }
+
     if (totalPrice <= 0) { 
+      console.error("❌ [CHECKOUT] Invalid price:", totalPrice);
       alert(isAr ? "سعر المنتج غير صحيح" : "Invalid product price");
       return;
     }
 
+    // Prepare phone number (remove leading zeros)
+    const cleanPhone = formData.phone.replace(/^0+/, "").replace(/\D/g, "");
     const phoneIntl = selectedCountry 
-      ? `+${countryPhone}${formData.phone.replace(/\D/g, "")}` 
-      : `+20${formData.phone.replace(/\D/g, "")}`;
+      ? `+${countryPhone}${cleanPhone}` 
+      : `+20${cleanPhone}`;
+
+    console.log("📞 [CHECKOUT] Phone processing:", {
+      original: formData.phone,
+      cleaned: cleanPhone,
+      withCountryCode: phoneIntl
+    });
+
+    const paymentPayload = { 
+      amount: totalPrice, 
+      ...formData,
+      phone: phoneIntl,
+      country: selectedCountry ? selectedCountry.value : "EG",
+      product: {
+        name: product.name,
+        qty: product.qty,
+        price: currentPrice,
+        currency,
+      }
+    };
+
+    console.log("📦 [CHECKOUT] Payment payload:", JSON.stringify(paymentPayload, null, 2));
 
     try {
       setStatus("CREATING");
+      console.log("🌐 [CHECKOUT] Sending request to /api/paymob...");
+      
       const res = await fetch("/api/paymob", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          amount: totalPrice, 
-          ...formData,
-          phone: phoneIntl,
-          country: selectedCountry ? selectedCountry.value : "EG",
-          product: {  
-            name: product.name,
-            qty: product.qty,
-            price: currentPrice,  
-            currency,
-          }
-        }),
+        body: JSON.stringify(paymentPayload),
       });
 
+      console.log("📡 [CHECKOUT] Response status:", res.status);
+      
       const result = await res.json();
+      console.log("📡 [CHECKOUT] Response data:", JSON.stringify(result, null, 2));
 
       if (result.iframeUrl) {
+        console.log("✅ [CHECKOUT] Payment URL received:", result.iframeUrl);
+        console.log("🔍 [CHECKOUT] Debug info:", result.debug);
         setIsRedirecting(true);
-        setTimeout(() => (window.location.href = result.iframeUrl), 150);
+        console.log("🔄 [CHECKOUT] Redirecting to payment page...");
+        setTimeout(() => {
+          window.location.href = result.iframeUrl;
+        }, 150);
       } else {
         setStatus("ERROR");
-        alert(isAr ? `فشل بدأ عملية الدفع: ${result.error || 'خطأ غير معروف'}` : `Error: ${result.error || 'Unknown'}`);
+        console.error("❌ [CHECKOUT] No iframe URL in response:", result);
+        alert(isAr 
+          ? `فشل بدء عملية الدفع: ${result.error || 'خطأ غير معروف'}` 
+          : `Error: ${result.error || 'Unknown'}`
+        );
       }
     } catch (error) {
       setStatus("ERROR");
+      console.error("💥 [CHECKOUT] Fatal error:", error);
       alert(isAr ? "حدث خطأ أثناء الاتصال بالسيرفر" : "Error connecting to server");
     }
   };
 
   const handleCOD = async () => {
+    console.log("💵 [CHECKOUT] Starting COD process...");
+    
     if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.state) {
       alert(isAr ? "من فضلك أكمل جميع البيانات" : "Please complete all fields");
       return;
     }
 
+    const cleanPhone = formData.phone.replace(/^0+/, "").replace(/\D/g, "");
     const phoneIntl = selectedCountry 
-      ? `+${countryPhone}${formData.phone.replace(/\D/g, "")}` 
-      : `+20${formData.phone.replace(/\D/g, "")}`;
+      ? `+${countryPhone}${cleanPhone}` 
+      : `+20${cleanPhone}`;
+
+    console.log("📧 [CHECKOUT] Sending COD email...");
 
     try {
       await fetch("/api/send-cod-email", {
@@ -212,8 +269,10 @@ const { language, toggleLanguage } = useLanguage() as any;
           `,
         }),
       });
+      console.log("✅ [CHECKOUT] COD email sent successfully");
       alert(isAr ? "تم إرسال تفاصيل الطلب بنجاح" : "Order details sent successfully");
     } catch (err) {
+      console.error("❌ [CHECKOUT] COD email error:", err);
       alert(isAr ? "حدث خطأ أثناء إرسال الإيميل" : "Error sending email");
     }
   };
@@ -250,6 +309,7 @@ const { language, toggleLanguage } = useLanguage() as any;
             <Select
               placeholder={isAr ? "اختر الدولة" : "Select Country"}
               isSearchable
+              value={selectedCountry}
               options={countries.map((c) => ({ value: c.isoCode, label: c.name }))}
               onChange={handleCountryChange}
               classNamePrefix="select"
@@ -264,6 +324,7 @@ const { language, toggleLanguage } = useLanguage() as any;
               placeholder={isAr ? "اختر المحافظة / الولاية" : "Select State"}
               isSearchable
               isDisabled={!selectedCountry}
+              value={selectedState}
               options={stateOptions}
               onChange={(selected) => {
                 setSelectedState(selected);
@@ -284,7 +345,7 @@ const { language, toggleLanguage } = useLanguage() as any;
             onChange={(e) =>
               setFormData({ 
                 ...formData, 
-                phone: e.target.value.replace(/\D/g, "").slice(0, 10)
+                phone: e.target.value.replace(/\D/g, "").slice(0, 11)
               })
             }
           />
