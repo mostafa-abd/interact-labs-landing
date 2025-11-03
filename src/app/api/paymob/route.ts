@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   console.log("🔵 [PAYMOB] Starting payment process...");
-  
+
   try {
     const body = await req.json();
     console.log("📦 [PAYMOB] Received request body:", JSON.stringify(body, null, 2));
-    
+
     const { amount, name, email, phone, address, state, country, product } = body;
 
     // ✅ Validation
@@ -35,12 +35,12 @@ export async function POST(req: Request) {
 
     console.log("💰 [PAYMOB] Payment details:", {
       amountCents,
-      amount: amount,
+      amount,
       firstName,
       lastName,
       phoneIntl,
       currency,
-      product: product
+      product
     });
 
     console.log("🔑 [PAYMOB] Environment variables check:", {
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
         api_key: process.env.PAYMOB_API_KEY,
       }),
     });
-    
+
     const authData = await authRes.json();
     console.log("🔐 [PAYMOB STEP 1] Auth response status:", authRes.status);
     console.log("🔐 [PAYMOB STEP 1] Auth response:", JSON.stringify(authData, null, 2));
@@ -84,6 +84,7 @@ export async function POST(req: Request) {
       delivery_needed: false,
       amount_cents: amountCents,
       currency,
+      merchant_order_id: `order-${Date.now()}`, // ✅ سطر مضاف لتفادي التكرار
       items: product ? [
         {
           name: product.name,
@@ -93,7 +94,7 @@ export async function POST(req: Request) {
         }
       ] : [],
     };
-    
+
     console.log("📝 [PAYMOB STEP 2] Order payload:", JSON.stringify(orderPayload, null, 2));
 
     const orderRes = await fetch("https://accept.paymob.com/api/ecommerce/orders", {
@@ -101,7 +102,7 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderPayload),
     });
-    
+
     const orderData = await orderRes.json();
     console.log("📝 [PAYMOB STEP 2] Order response status:", orderRes.status);
     console.log("📝 [PAYMOB STEP 2] Order response:", JSON.stringify(orderData, null, 2));
@@ -138,10 +139,10 @@ export async function POST(req: Request) {
 
     // STEP 4: Create payment key
     console.log("🔑 [PAYMOB STEP 4] Creating payment key...");
-    
+
     const successUrl = process.env.NEXT_PUBLIC_SUCCESS_URL || "http://localhost:3000/payment/success";
     const failedUrl = process.env.NEXT_PUBLIC_FAILED_URL || "http://localhost:3000/payment/failed";
-    
+
     console.log("🔗 [PAYMOB STEP 4] URLs:", {
       successUrl,
       failedUrl,
@@ -183,7 +184,7 @@ export async function POST(req: Request) {
     console.log("✅ [PAYMOB STEP 4] Payment key created successfully");
 
     // STEP 5: Generate iframe URL
-const iframeUrl = `https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.PAYMOB_IFRAME_ID}?payment_token=${paymentData.token}`;    
+    const iframeUrl = `https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.PAYMOB_IFRAME_ID}?payment_token=${paymentData.token}`;
     console.log("🎬 [PAYMOB STEP 5] Iframe URL generated:", iframeUrl);
     console.log("✅ [PAYMOB] Payment process completed successfully!");
 
