@@ -67,7 +67,7 @@ export default function CheckoutPage() {
   };
 
   const priceMapEGP: Record<string, { current: number; before: number }> = {
-    "55-B": { current: 10, before: 37620 }, // Changed from 10 to 50
+    "55-B": { current: 11, before: 37620 }, // Changed from 10 to 50
     "65-B": { current: 38988, before: 43320 },
     "75-B": { current: 55555, before: 60420 },
     "85-B": { current: 94639, before: 99620 },
