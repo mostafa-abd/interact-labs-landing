@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "open-build": "npx @opennextjs/cloudflare build",
-    "pages-deploy": "npx wrangler pages deploy --project-name=interact-labs --branch=main",
-    "deploy": "npm run build && npm run open-build && npm run pages-deploy"
-  },
+  "dev": "next dev",
+  "build": "next build",
+  "open-build": "npx @opennextjs/cloudflare build",
+  "pages-deploy": "npx wrangler pages deploy .open-next --project-name=interact-labs --branch=main",
+  "deploy": "npm run build && npm run open-build && npm run pages-deploy"
+},
   "dependencies": {
     "country-state-city": "^3.2.1",
     "lucide-react": "^0.546.0",
