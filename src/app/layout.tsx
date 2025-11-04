@@ -10,9 +10,11 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Interact Labs",
-  description: " Interact Labs",
+export const metadata = {
+  title: "Shop Interact",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
