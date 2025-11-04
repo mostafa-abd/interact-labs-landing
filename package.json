@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "open-build": "npx @opennextjs/cloudflare build",
-    "deploy": "npm run build && npm run open-build"
+    "pages-deploy": "npx wrangler pages deploy --project-name=interact-labs --branch=main",
+    "deploy": "npm run build && npm run open-build && npm run pages-deploy"
   },
   "dependencies": {
     "country-state-city": "^3.2.1",
@@ -26,6 +27,6 @@
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "wrangler": "^4.38.0"
+    "wrangler": "^4.45.4"
   }
 }
