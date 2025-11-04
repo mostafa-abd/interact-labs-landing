@@ -1,4 +1,13 @@
 name = "shop"
-compatibility_date = "2025-11-04"
-pages_build_output_dir = ".open-next/worker"
-compatibility_flags = ["nodejs_compat"]
+compatibility_date = "2025-11-05"
+pages_build_output_dir = ".open-next/server-function"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+
+[[r2_buckets]]
+binding = "NEXT_INC_CACHE_R2_BUCKET"
+bucket_name = "next-cache-bucket"  
+
+[[services]]
+binding = "WORKER_SELF_REFERENCE"
+service = "shop"  
+
