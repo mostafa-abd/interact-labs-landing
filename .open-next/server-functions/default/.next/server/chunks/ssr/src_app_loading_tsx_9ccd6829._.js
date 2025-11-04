@@ -1,0 +1,3 @@
+module.exports=[42816,a=>{"use strict";var b=a.i(87924);function c(){return(0,b.jsx)("div",{className:"dots-root",role:"status","aria-live":"polite",children:(0,b.jsxs)("div",{className:"dots",children:[(0,b.jsx)("span",{className:"dot"}),(0,b.jsx)("span",{className:"dot"}),(0,b.jsx)("span",{className:"dot"})]})})}a.s(["default",()=>c])}];
+
+//# sourceMappingURL=src_app_loading_tsx_9ccd6829._.js.map
