@@ -25,7 +25,7 @@ export default function CheckoutPage() {
   const country = "Egypt";
 
   const priceMapEGP: Record<string, { current: number; before: number }> = {
-    "55-B": { current: 10, before: 43320 },
+    "55-B": { current: 32335, before: 43320 },
     "65-B": { current: 38988, before: 43320 },
     "75-B": { current: 55555, before: 60420 },
     "85-B": { current: 94639, before: 99620 },
@@ -56,7 +56,8 @@ export default function CheckoutPage() {
       const model = match[2];
       qty = Number(match[3]);
       const key = `${size}-${model}`;
-      ({ current: currentPrice, beforePrice } = priceMapEGP[key] || {});
+({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
+
       name = `TACT Panel ${size} Inches-${model}`;
       image = model === "H" ? productImages["TACT-Panel-H"] : productImages["TACT-Panel-B"];
     }
@@ -67,7 +68,8 @@ export default function CheckoutPage() {
       const baseName = parts.join("-");
       name = baseName;
       const key = baseName;
-      ({ current: currentPrice, beforePrice } = priceMapEGP[key] || {});
+({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
+
       image = productImages["TACT"] || "/images/default.jpg";
     }
   }

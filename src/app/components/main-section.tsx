@@ -61,7 +61,7 @@ export default function MainSection({ product }: { product: Product }) {
   const priceMap: Record<string, PriceInfo> = {
     "TACT-EG": { current: 7200, before: 10000, currency: "EGP" },
     "TACT-SA": { current: 565, before: 975, currency: "SAR" },
-    "55-B": { current: 10, before: 37620, currency: "EGP" },
+    "55-B": { current: 32335, before: 37620, currency: "EGP" },
     "65-B": { current: 38988, before: 43320, currency: "EGP" },
     "75-B": { current: 55555, before: 60420, currency: "EGP" },
     "85-B": { current: 94639, before: 99620, currency: "EGP" },

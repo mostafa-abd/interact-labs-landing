@@ -1,11 +1,9 @@
-import { withCloudflare } from '@cloudflare/next-on-pages';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  experimental: {
-    appDir: true, 
+  images: {
+    unoptimized: true,
   },
-  output: 'standalone', 
 };
 
-export default withCloudflare(nextConfig);
+export default nextConfig;

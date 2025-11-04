@@ -5,10 +5,10 @@ workers_dev = true
 compatibility_date = "2025-11-04"
 
 [build]
-command = "npm run build"
+command = "npm run build && npm run export"
 cwd = "."
 watch_dir = "."
 
 [site]
-bucket = ".next"
-entry-point = "workers-site"
+bucket = "out"
+entry-point = "."
