@@ -1,14 +1,12 @@
-name = "interact"      
-type = "javascript"            
-account_id = "dedf79626ca47685dc9bc5194f2c1b2f" 
-workers_dev = true
+name = "interact"
+account_id = "dedf79626ca47685dc9bc5194f2c1b2f"
 compatibility_date = "2025-11-04"
+workers_dev = true
 
 [build]
-command = "npm run build && npm run export"
+command = "npm run build"
 cwd = "."
 watch_dir = "."
 
-[site]
-bucket = "out"
-entry-point = "."
+[assets]
+directory = "./out"
