@@ -1,7 +1,11 @@
-import type { NextConfig } from "next";
+import { withCloudflare } from '@cloudflare/next-on-pages';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    appDir: true, 
+  },
+  output: 'standalone', 
 };
 
-export default nextConfig;
+export default withCloudflare(nextConfig);

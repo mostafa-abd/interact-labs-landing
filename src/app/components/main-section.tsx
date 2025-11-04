@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Warranty from "../assets/images/Warranty.svg";
 import Sale from "../assets/images/After sale support.svg";
 import Installment from "../assets/images/Installment.svg";
-import Shipping from "../assets/images/Free Shipping.svg";
+import Shipping from "../assets/images/visa.png";
 import Cash from "../assets/images/Cash On Delivery.svg";
 
 type Model = "B" | "H";
@@ -117,14 +117,12 @@ export default function MainSection({ product }: { product: Product }) {
   useEffect(() => {
     setMainImage(productImages[0]);
     setActiveIndex(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [model, size, productSlug]); // تحديث عند تغيير النموذج، الحجم أو المنتج
-
+  }, [model, size, productSlug]); 
   const texts = {
     warranty: isAr ? "الضمان" : "Warranty",
     saleSupport: isAr ? "الدعم بعد البيع" : "After sale support",
     installment: isAr ? "أقساط" : "Installment",
-    freeShipping: isAr ? "شحن مجاني" : "Free Shipping",
+    freeShipping: isAr ? "الدفع اونلاين" : "Online payment",
     cashOnDelivery: isAr ? "الدفع عند الاستلام" : "Cash On Delivery",
     priceVAT: isAr ? "السعر شامل الضريبة" : "Price include VAT",
     installmentsInfo: isAr ? "اشترِ بالتقسيط وادفع شهريًا." : "Buy with installments and pay monthly.",

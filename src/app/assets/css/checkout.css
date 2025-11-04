@@ -6,7 +6,7 @@
 }
 .checkout form {
   width: 58%;
-  min-height: 725px;
+  min-height: 800px;
   background-color: #fafaff;
   display: flex;
   justify-content: space-between;
@@ -27,27 +27,9 @@
   flex-direction: column;
   justify-content: space-between;
 }
-.checkout form > .phone {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.checkout form > .phone input {
-  width: calc(100% - 70px);
-}
 
-.checkout form > .phone span {
-  background: #fff;
-  border-radius: 8px;
-  text-align: center;
-  line-height: 49px;
-  height: 63%;
-  font-size: 14px;
-  border: 2px solid #d4d4de;
-  min-width: 50px;
-}
+
+
 .checkout label {
   font-size: 14px;
   font-weight: 500;
@@ -148,9 +130,7 @@
 #Address {
   height: 88px;
 }
-.checkout form > div:last-of-type {
-  width: 100%;
-}
+
 .checkout button {
   width: 100%;
   height: 60px;

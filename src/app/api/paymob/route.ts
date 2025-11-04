@@ -1,206 +1,108 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  console.log("🔵 [PAYMOB] Starting payment process...");
-
   try {
-    const body = await req.json();
-    console.log("📦 [PAYMOB] Received request body:", JSON.stringify(body, null, 2));
-
-    const { amount, name, email, phone, address, state, country, product } = body;
-
-    // ✅ Validation
-    if (!amount || !name || !email || !phone || !address) {
-      console.error("❌ [PAYMOB] Missing required fields:", {
-        amount: !!amount,
-        name: !!name,
-        email: !!email,
-        phone: !!phone,
-        address: !!address
-      });
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
-    }
-
-    // ✅ Prepare data
-    const amountCents = Math.round(Number(amount) * 100);
-    const firstName = (name || "").split(" ")[0] || "User";
-    const lastName = (name || "").split(" ").slice(1).join(" ") || "Tester";
-    const phoneIntl = String(phone).startsWith("+")
-      ? String(phone)
-      : `+20${String(phone).replace(/\D/g, "")}`;
-    const currency = "EGP";
-
-    console.log("💰 [PAYMOB] Payment details:", {
-      amountCents,
+    const {
       amount,
-      firstName,
-      lastName,
-      phoneIntl,
       currency,
-      product
-    });
+      product_name,
+      quantity,
+      billing_data,
+    } = await req.json();
 
-    console.log("🔑 [PAYMOB] Environment variables check:", {
-      hasApiKey: !!process.env.PAYMOB_API_KEY,
-      apiKeyLength: process.env.PAYMOB_API_KEY?.length,
-      hasIntegrationId: !!process.env.PAYMOB_INTEGRATION_ID,
-      integrationId: process.env.PAYMOB_INTEGRATION_ID,
-      hasIframeId: !!process.env.PAYMOB_IFRAME_ID,
-      iframeId: process.env.PAYMOB_IFRAME_ID,
-    });
+    // 🔑 مفاتيح Paymob من ملف .env
+    const PAYMOB_API_KEY = process.env.PAYMOB_API_KEY!;
+    const INTEGRATION_ID = process.env.PAYMOB_INTEGRATION_ID!;
+    const IFRAME_ID = process.env.PAYMOB_IFRAME_ID!;
 
-    // STEP 1: Authentication
-    console.log("🔐 [PAYMOB STEP 1] Authenticating with Paymob...");
-    const authRes = await fetch("https://accept.paymob.com/api/auth/tokens", {
+    // 🔹 1. Get Auth Token
+    const authRes = await fetch("https://accept.paymobsolutions.com/api/auth/tokens", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        api_key: process.env.PAYMOB_API_KEY,
-      }),
+      body: JSON.stringify({ api_key: PAYMOB_API_KEY }),
     });
 
     const authData = await authRes.json();
-    console.log("🔐 [PAYMOB STEP 1] Auth response status:", authRes.status);
-    console.log("🔐 [PAYMOB STEP 1] Auth response:", JSON.stringify(authData, null, 2));
-
-    if (!authRes.ok || !authData.token) {
-      console.error("❌ [PAYMOB STEP 1] Auth failed!");
-      return NextResponse.json(
-        { error: "Authentication failed", details: authData },
-        { status: 500 }
-      );
-    }
-
     const token = authData.token;
-    console.log("✅ [PAYMOB STEP 1] Auth successful, token received");
+    if (!token) throw new Error("Auth token failed");
 
-    // STEP 2: Create Order
-    console.log("📝 [PAYMOB STEP 2] Creating order...");
-    const orderPayload = {
-      auth_token: token,
-      delivery_needed: false,
-      amount_cents: amountCents,
-      currency,
-      merchant_order_id: `order-${Date.now()}`, // ✅ سطر مضاف لتفادي التكرار
-      items: product ? [
-        {
-          name: product.name,
-          amount_cents: Math.round(Number(product.price) * 100),
-          description: `${product.name} - ${product.qty} units`,
-          quantity: product.qty,
-        }
-      ] : [],
-    };
-
-    console.log("📝 [PAYMOB STEP 2] Order payload:", JSON.stringify(orderPayload, null, 2));
-
-    const orderRes = await fetch("https://accept.paymob.com/api/ecommerce/orders", {
+    // 🔹 2. Create Order
+    const orderRes = await fetch("https://accept.paymobsolutions.com/api/ecommerce/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderPayload),
+      body: JSON.stringify({
+        auth_token: token,
+        delivery_needed: false,
+        amount_cents: Math.round(amount * 100),
+        currency,
+        items: [
+          {
+            name: product_name,
+            amount_cents: Math.round((amount / quantity) * 100),
+            quantity,
+          },
+        ],
+      }),
     });
 
     const orderData = await orderRes.json();
-    console.log("📝 [PAYMOB STEP 2] Order response status:", orderRes.status);
-    console.log("📝 [PAYMOB STEP 2] Order response:", JSON.stringify(orderData, null, 2));
+    const orderId = orderData.id;
+    if (!orderId) throw new Error("Order creation failed");
 
-    if (!orderRes.ok || !orderData.id) {
-      console.error("❌ [PAYMOB STEP 2] Order creation failed:", JSON.stringify(orderData, null, 2));
-      return NextResponse.json(
-        { error: "Order creation failed", details: orderData },
-        { status: 500 }
-      );
-    }
-
-    console.log("✅ [PAYMOB STEP 2] Order created successfully, ID:", orderData.id);
-
-    // STEP 3: Prepare billing data
-    console.log("👤 [PAYMOB STEP 3] Preparing billing data...");
-    const billing_data = {
-      apartment: "NA",
-      email,
-      floor: "NA",
-      first_name: firstName,
-      street: address,
-      building: "NA",
-      phone_number: phoneIntl,
-      shipping_method: "NA",
-      postal_code: "NA",
-      city: state || "Cairo",
-      country: country || "EG",
-      last_name: lastName,
-      state: state || "NA",
-    };
-
-    console.log("👤 [PAYMOB STEP 3] Billing data:", JSON.stringify(billing_data, null, 2));
-
-    // STEP 4: Create payment key
-    console.log("🔑 [PAYMOB STEP 4] Creating payment key...");
-
-    const paymentKeyPayload = {
-      auth_token: token,
-      amount_cents: amountCents,
-      expiration: 3600,
-      order_id: orderData.id,
-      billing_data,
-      currency,
-      integration_id: Number(process.env.PAYMOB_INTEGRATION_ID),
-    };
-
-    console.log("🔑 [PAYMOB STEP 4] Payment key payload:", JSON.stringify(paymentKeyPayload, null, 2));
-
+    // 🔹 3. Generate Payment Key
     const paymentKeyRes = await fetch(
-      "https://accept.paymob.com/api/acceptance/payment_keys",
+      "https://accept.paymobsolutions.com/api/acceptance/payment_keys",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(paymentKeyPayload),
+        body: JSON.stringify({
+          auth_token: token,
+          amount_cents: Math.round(amount * 100),
+          expiration: 3600,
+          order_id: orderId,
+          billing_data: {
+            apartment: billing_data?.apartment || "1",
+            email: billing_data?.email,
+            floor: billing_data?.floor || "1",
+            first_name: billing_data?.first_name,
+            last_name: billing_data?.last_name,
+            street: billing_data?.street || "1",
+            building: billing_data?.building || "1",
+            phone_number: billing_data?.phone_number,
+            city: billing_data?.city || "1",
+            country: "EG", 
+            state: billing_data?.state || "1",
+          },
+          currency,
+          integration_id: INTEGRATION_ID,
+        }),
       }
     );
 
-    const paymentData = await paymentKeyRes.json();
-    console.log("🔑 [PAYMOB STEP 4] Payment key response status:", paymentKeyRes.status);
-    console.log("🔑 [PAYMOB STEP 4] Payment key response:", JSON.stringify(paymentData, null, 2));
+    const paymentKeyData = await paymentKeyRes.json();
+    const paymentToken = paymentKeyData.token;
 
-    if (!paymentKeyRes.ok || !paymentData.token) {
-      console.error("❌ [PAYMOB STEP 4] Payment key creation failed:", JSON.stringify(paymentData, null, 2));
-      return NextResponse.json(
-        { error: "Payment key not created", details: paymentData },
-        { status: 500 }
-      );
+    if (!paymentToken) {
+      console.error("❌ Payment Key Response:", paymentKeyData);
+      throw new Error("Payment key failed");
     }
 
-    console.log("✅ [PAYMOB STEP 4] Payment key created successfully");
+    const iframeUrl = `https://accept.paymobsolutions.com/api/acceptance/iframes/${IFRAME_ID}?payment_token=${paymentToken}`;
 
-    // STEP 5: Generate iframe URL
-    const iframeUrl = `https://accept.paymobsolutions.com/api/acceptance/iframes/${process.env.PAYMOB_IFRAME_ID}?payment_token=${paymentData.token}`;
-    console.log("🎬 [PAYMOB STEP 5] Iframe URL generated:", iframeUrl);
-    console.log("✅ [PAYMOB] Payment process completed successfully!");
+    return NextResponse.json({ success: true, iframeUrl });
 
-    return NextResponse.json({
-      iframeUrl,
-      debug: {
-        amountCents,
-        orderId: orderData.id,
-        integrationId: Number(process.env.PAYMOB_INTEGRATION_ID),
-        iframeId: Number(process.env.PAYMOB_IFRAME_ID),
-        currency,
-        paymentToken: paymentData.token,
-        billingData: billing_data,
-      },
-    });
   } catch (error: any) {
-    console.error("💥 [PAYMOB] Fatal error:", error);
-    console.error("💥 [PAYMOB] Error stack:", error?.stack);
+    console.error("🔥 Paymob Error:", error);
+
+    let details = "";
+    try {
+      details = await error?.response?.text?.();
+    } catch (e) {
+      details = error.message;
+    }
+
     return NextResponse.json(
-      {
-        error: "Payment initialization failed",
-        details: error?.message || error,
-        stack: error?.stack,
-      },
+      { success: false, error: details || "Unknown error" },
       { status: 500 }
     );
   }
