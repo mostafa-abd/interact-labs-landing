@@ -1,10 +1,6 @@
+"use client";
 import React from "react";
 import products from "@/data/products.json";
-import MainSection from "../components/main-section";
-import Benefits from "../components/benefits";
-import Feedback from "../components/feedback";
-import ProductDetails from "../components/product-details";
-import "../assets/css/product.css";
 
 interface Props {
   params: { slug?: string };
@@ -23,19 +19,17 @@ export default function ProductPage({ params }: Props) {
   console.log("🟢 normalizedSlug:", normalizedSlug);
 
   const product = products[normalizedSlug as keyof typeof products];
-  console.log("🟣 product found:", product ? "✅ yes" : "❌ no");
+  console.log("🟣 product found:", product);
 
   if (!product) {
-    console.error(`❌ Product not found for slug: "${normalizedSlug}"`);
+    console.error("❌ Product not found for slug:", normalizedSlug);
     return <h1>Product not found</h1>;
   }
 
   return (
     <main>
-      <MainSection product={product} />
-      <Benefits />
-      <Feedback />
-      <ProductDetails product={product} />
+      <h1>{product.product_name}</h1>
+      <p>{product.description_en}</p>
     </main>
   );
 }
