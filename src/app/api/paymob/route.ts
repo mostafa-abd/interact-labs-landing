@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -10,12 +10,12 @@ export async function POST(req: Request) {
       billing_data,
     } = await req.json();
 
-    // 🔑 مفاتيح Paymob من ملف .env
+    // مفاتيح Paymob من .env
     const PAYMOB_API_KEY = process.env.PAYMOB_API_KEY!;
     const INTEGRATION_ID = process.env.PAYMOB_INTEGRATION_ID!;
     const IFRAME_ID = process.env.PAYMOB_IFRAME_ID!;
 
-    // 🔹 1. Get Auth Token
+    // 1. Get Auth Token
     const authRes = await fetch("https://accept.paymobsolutions.com/api/auth/tokens", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const token = authData.token;
     if (!token) throw new Error("Auth token failed");
 
-    // 🔹 2. Create Order
+    // 2. Create Order
     const orderRes = await fetch("https://accept.paymobsolutions.com/api/ecommerce/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     const orderId = orderData.id;
     if (!orderId) throw new Error("Order creation failed");
 
-    // 🔹 3. Generate Payment Key
+    // 3. Generate Payment Key
     const paymentKeyRes = await fetch(
       "https://accept.paymobsolutions.com/api/acceptance/payment_keys",
       {
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
             building: billing_data?.building || "1",
             phone_number: billing_data?.phone_number,
             city: billing_data?.city || "1",
-            country: "EG", 
+            country: "EG",
             state: billing_data?.state || "1",
           },
           currency,
@@ -81,28 +81,14 @@ export async function POST(req: Request) {
 
     const paymentKeyData = await paymentKeyRes.json();
     const paymentToken = paymentKeyData.token;
-
-    if (!paymentToken) {
-      console.error("❌ Payment Key Response:", paymentKeyData);
-      throw new Error("Payment key failed");
-    }
+    if (!paymentToken) throw new Error("Payment key failed");
 
     const iframeUrl = `https://accept.paymobsolutions.com/api/acceptance/iframes/${IFRAME_ID}?payment_token=${paymentToken}`;
-
     return NextResponse.json({ success: true, iframeUrl });
-
   } catch (error: any) {
     console.error("🔥 Paymob Error:", error);
-
-    let details = "";
-    try {
-      details = await error?.response?.text?.();
-    } catch (e) {
-      details = error.message;
-    }
-
     return NextResponse.json(
-      { success: false, error: details || "Unknown error" },
+      { success: false, error: error.message || "Unknown error" },
       { status: 500 }
     );
   }

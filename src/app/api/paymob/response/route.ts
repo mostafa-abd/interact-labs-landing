@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const success = searchParams.get("success");
+    const url = new URL(req.url);
+    const success = url.searchParams.get("success");
 
     if (success === "true") {
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/thanks`);

@@ -3,12 +3,9 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-
     console.log("✅ Transaction processed callback received:", body);
 
-    // هنا ممكن تحفظ بيانات العملية في قاعدة البيانات
-    // زي حالة الدفع، رقم العملية، المبلغ، الإيميل، إلخ.
-    // مثال:
+    // هنا تحفظ بيانات العملية في قاعدة البيانات إذا أردت
     // await savePaymentToDB(body);
 
     return NextResponse.json({ message: "Callback received successfully" });
