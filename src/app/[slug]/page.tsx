@@ -7,21 +7,27 @@ import ProductDetails from "../components/product-details";
 import "../assets/css/product.css";
 
 interface Props {
-  params?: { slug?: string };
+  params: { slug?: string };
 }
 
 export const runtime = "edge";
 
 export default function ProductPage({ params }: Props) {
-  const rawSlug = params?.slug ?? "";
-  const slug = decodeURIComponent(rawSlug).toLowerCase().replace(/\//g, ""); // 👈 تنظيف أي / أو رموز
-  const product = products[slug as keyof typeof products];
+  console.log("✅ Product Page Loaded");
+  console.log("🟡 params:", params);
+
+  const slug = params?.slug || "";
+  console.log("🔵 slug value:", slug);
+
+  const normalizedSlug = slug.toLowerCase();
+  console.log("🟢 normalizedSlug:", normalizedSlug);
+
+  const product = products[normalizedSlug as keyof typeof products];
+  console.log("🟣 product found:", product ? "✅ yes" : "❌ no");
 
   if (!product) {
-    console.log("🔍 slug not found:", slug);
+    console.error(`❌ Product not found for slug: "${normalizedSlug}"`);
     return <h1>Product not found</h1>;
-    <h2>Slug: {JSON.stringify(params)}</h2>
-
   }
 
   return (
