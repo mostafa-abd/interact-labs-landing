@@ -1,4 +1,6 @@
 "use client";
+export const runtime = "edge";
+
 import "../../assets/css/checkout.css";
 import { useState } from "react";
 import Image from "next/image";

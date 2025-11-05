@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "../assets/css/thanks.css";
 import Image from "next/image";
 import ThanksImg from "../assets/images/thanks.svg";
+export const runtime = "edge";
 
 export default function Thanks() {
   const [orderData, setOrderData] = useState<any>(null);

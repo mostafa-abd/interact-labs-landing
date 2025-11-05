@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 export default function NotFoundPage() {
   return (
     <div style={{ padding: "2rem", textAlign: "center" }}>

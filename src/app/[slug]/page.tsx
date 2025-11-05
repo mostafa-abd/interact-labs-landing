@@ -11,6 +11,7 @@ import "../assets/css/product.css";
 interface Props {
   params: { slug: string };
 }
+export const runtime = "edge";
 
 export default function ProductPage({ params }: Props) {
   const { slug } = params;

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "../assets/css/thanks.css";
 import Image from "next/image";
 import FailureImg from "../assets/images/Failure.svg";
+export const runtime = "edge";
 
 export default function Failure() {
   const [orderData, setOrderData] = useState<any>(null);

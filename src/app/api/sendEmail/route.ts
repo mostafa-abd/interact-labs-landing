@@ -1,4 +1,5 @@
 (globalThis as any).lastSentData ||= null;
+export const runtime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
   try {
