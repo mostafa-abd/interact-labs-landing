@@ -7,17 +7,20 @@ import ProductDetails from "../components/product-details";
 import "../assets/css/product.css";
 
 interface Props {
-  params: { slug?: string };
+  params?: { slug?: string };
 }
 
 export const runtime = "edge";
 
 export default function ProductPage({ params }: Props) {
-  const slug = params?.slug || ""; // 👈 تجنب undefined
-  const normalizedSlug = slug.toLowerCase(); // 👈 بعد التأكد إنها string
-  const product = products[normalizedSlug as keyof typeof products];
+  const rawSlug = params?.slug ?? "";
+  const slug = decodeURIComponent(rawSlug).toLowerCase().replace(/\//g, ""); // 👈 تنظيف أي / أو رموز
+  const product = products[slug as keyof typeof products];
 
-  if (!product) return <h1>Product not found</h1>;
+  if (!product) {
+    console.log("🔍 slug not found:", slug);
+    return <h1>Product not found</h1>;
+  }
 
   return (
     <main>
