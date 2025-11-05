@@ -16,7 +16,9 @@ export const runtime = "edge";
 export default function ProductPage({ params }: Props) {
   const { slug } = params;
 
-  const product = products[slug as keyof typeof products];
+  const normalizedSlug = slug.toLowerCase(); // 👈 هنا التحويل
+  const product = products[normalizedSlug as keyof typeof products];
+
   if (!product) return <h1>Product not found</h1>;
 
   return (
