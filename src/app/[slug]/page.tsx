@@ -20,6 +20,8 @@ export default function ProductPage({ params }: Props) {
   if (!product) {
     console.log("🔍 slug not found:", slug);
     return <h1>Product not found</h1>;
+    <h2>Slug: {JSON.stringify(params)}</h2>
+
   }
 
   return (
