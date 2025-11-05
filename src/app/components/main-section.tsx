@@ -148,7 +148,7 @@ export default function MainSection({ product }: { product: Product }) {
             alt="Main Product"
             fill
             priority
-            style={{ objectFit: "contain" }}
+            style={{ objectFit: "fill" }}
             sizes="100%"
             fetchPriority="high"
           />
@@ -169,7 +169,7 @@ export default function MainSection({ product }: { product: Product }) {
                   src={img}
                   alt={`Sub ${i + 1}`}
                   fill
-                  style={{ objectFit: "contain" }}
+                  style={{ objectFit: "fill" }}
                   loading="lazy"
                   sizes="100%"
                 />
@@ -196,7 +196,7 @@ export default function MainSection({ product }: { product: Product }) {
           {[Warranty, Sale, Installment, Shipping, Cash].map((icon, i) => (
             <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
               <div style={{ position: "relative", width: 60, height: 60 }}>
-                <Image src={icon as StaticImageData} alt="feature" fill style={{ objectFit: "contain" }} loading="lazy" />
+                <Image src={icon as StaticImageData} alt="feature" fill style={{ objectFit: "fill" }} loading="lazy" />
               </div>
               <span style={{ fontSize: 12 }}>
                 {[
