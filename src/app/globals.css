@@ -23,7 +23,7 @@ header {
   justify-content: space-between;
   align-items: center;
 }
-section:not(.feedback){
+section:not(.feedback , .join){
     background-color: #fff;
         padding: 15px;
     border-radius: 8px;

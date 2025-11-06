@@ -7,6 +7,7 @@ import Feedback from "../components/feedback";
 import ProductDetails from "../components/product-details";
 import HowToUse from "../components/how-to-use";
 import "../assets/css/product.css";
+import Join from './../components/join';
 
 interface Props {
   params: Promise<{ slug?: string }>;
@@ -31,7 +32,7 @@ export default async function ProductPage({ params }: Props) {
       <Benefits />
       <Feedback />
       <ProductDetails product={product} />
-      
+      <Join/>
     </main>
   );
 }
