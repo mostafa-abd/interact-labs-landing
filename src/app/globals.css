@@ -148,7 +148,8 @@ footer .social a {
   .dot { width: 10px; height: 10px; }
   .dots { gap: 8px; }
 }
-button:hover:not(.product-info-Quantity button) {
-  margin: 10px 0;
+button:not(.product-info-Quantity button) {
+    margin: 10px 0;
+cursor: pointer;
 }
 

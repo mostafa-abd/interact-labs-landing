@@ -482,6 +482,18 @@ font-size: clamp(16px, 3vw, 20px);
 }
 
 @media (max-width: 500px) {
+  body{
+        padding: 0 0 200px;
+  }
+  .float-box h1{
+width: 100%;
+text-align: center;
+  }
+  .float-box>div{
+justify-content: space-around;
+  }
+    .float-box button{
+    width: 100%;  }
   .product-info-warranty div {
     max-width: 60px;
   }
