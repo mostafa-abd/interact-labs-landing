@@ -63,7 +63,7 @@
   margin: 20px 0;
 }
 .order-summary > div:first-of-type {
-  height: 120px;
+  min-height: 170px;
 }
 
 .order-summary > div:last-of-type {
