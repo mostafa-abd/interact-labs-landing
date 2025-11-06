@@ -18,11 +18,17 @@ body {
 header {
   width: 100%;
   height: 95px;
-  background-color: #fff;
   padding: 0 4%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+section:not(.feedback){
+    background-color: #fff;
+        padding: 15px;
+    border-radius: 8px;
+
+
 }
 header .logo {
   width: 100px;
@@ -75,7 +81,7 @@ footer {
   width: 100%;
   min-height: 100px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   padding: 0 5%;
   flex-wrap: wrap;
@@ -148,6 +154,7 @@ button:hover:not(.product-info-Quantity button) {
   box-shadow: 0 8px 20px rgba(96, 100, 191, 0.3);
   transform: translateY(-2px);
   transition: all 0.3s ease;
+  margin: 10px 0;
 }
 
 @keyframes diagonalGlow {

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 
 import products from "@/data/products.json";
@@ -6,6 +5,7 @@ import MainSection from "../components/main-section";
 import Benefits from "../components/benefits";
 import Feedback from "../components/feedback";
 import ProductDetails from "../components/product-details";
+import HowToUse from "../components/how-to-use";
 import "../assets/css/product.css";
 
 interface Props {
@@ -27,9 +27,11 @@ export default async function ProductPage({ params }: Props) {
   return (
     <main>
       <MainSection product={product} />
+      {normalizedSlug === "tact" && <HowToUse />}
       <Benefits />
       <Feedback />
       <ProductDetails product={product} />
+      
     </main>
   );
 }

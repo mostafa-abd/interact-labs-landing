@@ -13,11 +13,16 @@
   justify-content: space-between;
   flex-direction: column;
 }
+.main-section .swiper-slide{
+  width: 100px!important;
+}
 .main-product-image {
   width: 100%;
   height: 480px;
-  background: gray;
       position: relative;
+}
+.swiper-pagination{
+  display: none;
 }
 .sub-product-images {
   width: 100%;
@@ -39,7 +44,9 @@
   background: #ccc;
   border-radius: 10px;
 }
-
+.product-images .swiper-wrapper {
+  gap:40px;
+}
 .sub-image {
   flex: 0 0 auto;
   width: 110px;
@@ -84,7 +91,7 @@
 }
 .product-info-review {
   width: 100%;
-  max-width: 230px;
+  max-width: 225px;
   height: 20px;
   display: flex;
   align-items: center;
@@ -112,7 +119,8 @@
 }
 .product-info-warranty {
   width: 100%;
-  height: 65px;
+  min-height: 65px;
+  flex-wrap: nowrap;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -176,19 +184,24 @@
 }
 .product-info-Quantity {
   width: 100%;
-  height: 40px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+      gap: 10px;
+
 }
 .Quantity,.size-select,.model-select{
-  height: 100%;
+  height: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
   font-weight: 500;
   color: #28283e;
+      width: 100%;
+    max-width: 180px;
 }
 .product-info-Quantity span{
   margin:0 10px;
@@ -366,6 +379,11 @@ font-size: clamp(16px, 2vw, 24px);
   .main-section .product-images {
     width: 100%;
     min-width: 100%;
+            height: 540px;
+  }
+  .main-section .product-info{
+    height: 770px;
+
   }
   .how-to-use > div {
     min-width: 100%;
@@ -431,9 +449,9 @@ font-size: clamp(16px, 2vw, 24px);
     width:100%;
   }
   .product-details div p{
-        width: 30%;
+        width: 60%;
 }
-.product-images .swiper-wrapper {
-  gap:40px;
+.Quantity,.size-select,.model-select{
+  max-width: 100%;
 }
 }

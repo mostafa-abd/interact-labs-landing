@@ -9,11 +9,11 @@ import users from '../assets/images/users.svg';
 import { useLanguage } from "../context/LanguageContext";
 import { usePathname } from "next/navigation";
 
-// ✅ عرف نوع العنصر اللي ممكن يحتوي على صورة أو لأ
+
 type BenefitItem = {
   title: { en: string; ar: string };
   desc: { en: string; ar: string };
-  img?: string ; // النوع المناسب لصورة import من next/image
+  img?: string ; 
 };
 
 export default function Benefits() {
@@ -112,11 +112,11 @@ export default function Benefits() {
       style={{ textAlign: isAr ? "right" : "left" }}
     >
       <h1>{isAr ? "مميزات TACT Panel" : "TACT Panel Benefits"}</h1>
-      <div className="benefits-boxes" style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
+      <div className="benefits-boxes" >
         {benefitsToShow.map((item, index) => (
-          <div key={index} style={{ width: 180, textAlign: "center" }}>
+          <div key={index} style={{ minHeight: 100 }} >
             {item.img && (
-              <div style={{ width: 60, height: 60, margin: "0 auto", position: "relative" }}>
+              <div style={{ width: 60, height: 60, position: "relative" }}>
                 <Image
                   src={item.img}
                   alt={item.title[language]}

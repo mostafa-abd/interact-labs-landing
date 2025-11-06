@@ -178,7 +178,7 @@ export default function CheckoutPage() {
     email: isAr ? "البريد الإلكتروني" : "Email",
     phone: isAr ? "رقم الهاتف" : "Phone number",
     city: isAr ? "المدينة" : "City",
-    state: isAr ? "المحافظة" : "State",
+    state: isAr ? "العنوان" : "Address",
     continue: isAr ? "المتابعة للدفع" : "Continue to payment",
     cod: isAr ? "الدفع عند الاستلام" : "Payment upon receipt",
     orderSummary: isAr ? "ملخص الطلب" : "Order Summary",

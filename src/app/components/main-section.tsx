@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import Warranty from "../assets/images/Warranty.svg";
 import Sale from "../assets/images/After sale support.svg";
 import Installment from "../assets/images/Installment.svg";
-import Shipping from "../assets/images/visa.png";
+import Shipping from "../assets/images/visa.svg";
 import Cash from "../assets/images/Cash On Delivery.svg";
 
 type Model = "B" | "H";
@@ -130,6 +130,7 @@ export default function MainSection({ product }: { product: Product }) {
     buyNow: isAr ? "اشترِ الآن" : "Buy Now",
     size: isAr ? "الحجم" : "Size",
     model: isAr ? "النموذج" : "Model",
+    reviews : isAr? "تقيمم" : "reviews"
   };
 
   const handleBuyNow = () => {
@@ -148,13 +149,17 @@ export default function MainSection({ product }: { product: Product }) {
             alt="Main Product"
             fill
             priority
-            style={{ objectFit: "fill" }}
+            style={{ objectFit: "contain" }}
             sizes="100%"
             fetchPriority="high"
           />
         </div>
 
-        <Swiper spaceBetween={10} slidesPerView={4.5} grabCursor style={{ width: "100%", padding: "10px 0" }}>
+        <Swiper dir="rtl" slidesPerView={4.3} grabCursor style={{ width: "100%", padding: "10px 0" }}breakpoints={{
+    0: { slidesPerView: 2.5 },
+    640: { slidesPerView: 3.2 },
+    1024: { slidesPerView: 4.3 },
+  }}>
           {productImages.map((img, i) => (
             <SwiperSlide key={i}>
               <div
@@ -163,7 +168,7 @@ export default function MainSection({ product }: { product: Product }) {
                   setMainImage(img);
                   setActiveIndex(i);
                 }}
-                style={{ position: "relative", width: 106, height: 86 }}
+               
               >
                 <Image
                   src={img}
@@ -182,10 +187,10 @@ export default function MainSection({ product }: { product: Product }) {
       <div className="product-info">
         <h1>{displayName}</h1>
 
-        <div className="product-info-review" style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <div className="product-info-review" >
           <span>4.5</span>
-          <span style={{ display: "flex", gap: 4 }}>{[...Array(5)].map((_, i) => <Star key={i} size={17} />)}</span>
-          <span>(100 reviews)</span>
+          <span >{[...Array(5)].map((_, i) => <Star key={i} size={17} />)}</span>
+          <span>(37 {texts.reviews})</span>
         </div>
 
         <p className="product-info-description">
@@ -196,9 +201,9 @@ export default function MainSection({ product }: { product: Product }) {
           {[Warranty, Sale, Installment, Shipping, Cash].map((icon, i) => (
             <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
               <div style={{ position: "relative", width: 60, height: 60 }}>
-                <Image src={icon as StaticImageData} alt="feature" fill style={{ objectFit: "fill" }} loading="lazy" />
+                <Image src={icon as StaticImageData} alt="feature" fill style={{ objectFit: "contain" }} loading="lazy" />
               </div>
-              <span style={{ fontSize: 12 }}>
+              <span >
                 {[
                   texts.warranty,
                   texts.saleSupport,
@@ -211,30 +216,30 @@ export default function MainSection({ product }: { product: Product }) {
           ))}
         </div>
 
-        <div className="product-info-price" style={{ marginTop: 16, display: "flex", gap: 12, alignItems: "baseline" }}>
-          <span style={{ fontWeight: 600 }}>{currentPrice.currency}</span>
-          <span style={{ fontSize: 24, fontWeight: 700 }}>{currentPrice.current.toLocaleString()}</span>
-          <span style={{ color: "#777" }}>
+        <div className="product-info-price" >
+          <span >{currentPrice.currency}</span>
+          <span >{currentPrice.current.toLocaleString()}</span>
+          <span >
             <del>{currentPrice.before.toLocaleString()}</del> {currentPrice.currency}
           </span>
         </div>
 
-        <p className="product-info-vat" style={{ marginTop: 8, color: "#555" }}>
-          <span>{texts.priceVAT}</span> • <span>{texts.installmentsInfo}</span>
+        <p className="product-info-vat">
+          <span>{texts.priceVAT}</span> 
         </p>
 
-        <div className="product-info-Quantity" style={{ marginTop: 12 }}>
-          <div className="Quantity" style={{ display: "flex", gap: 12, alignItems: "center" }}>
+        <div className="product-info-Quantity" >
+          <div className="Quantity" >
             <span>{texts.quantity}</span>
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <div >
               <button onClick={() => setQuantity((q) => Math.max(1, q - 1))}>-</button>
-              <p style={{ margin: 0 }}>{quantity}</p>
+              <p >{quantity}</p>
               <button onClick={() => setQuantity((q) => q + 1)}>+</button>
             </div>
           </div>
 
           {isTACTPanel && (
-            <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
+            <>
               <div className="size-select">
                 <span>{texts.size}</span>
                 <select value={size} onChange={(e) => setSize(e.target.value)}>
@@ -245,18 +250,18 @@ export default function MainSection({ product }: { product: Product }) {
                 </select>
               </div>
 
-              <div className="model-select" style={{ marginTop: 0 }}>
+              <div className="model-select"style={{ marginTop: 0 }}>
                 <span>{texts.model}</span>
                 <select value={model} onChange={(e) => setModel(e.target.value as Model)}>
                   <option value="B">B</option>
                   <option value="H">H</option>
                 </select>
               </div>
-            </div>
+            </>
           )}
         </div>
 
-        <div className="product-info-btns" style={{ marginTop: 18 }}>
+        <div className="product-info-btns" >
           <button onClick={handleBuyNow}>{texts.buyNow}</button>
         </div>
       </div>

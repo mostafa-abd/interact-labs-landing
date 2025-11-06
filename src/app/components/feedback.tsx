@@ -29,7 +29,7 @@ export default function Feedback() {
         {
           title: "الشاشة ممتازة والتعامل راقي جدًا",
           text: "الشاشة ممتازة ما شاء الله والتعامل فوق الممتاز، والمهندس محترم جدًا وقمة في الأدب ورُقي التعامل. متشكر لكم جدًا وإن شاء الله مش آخر تعامل.",
-          name: "عميل سعيد",
+          name: "محمد سالم",
         },
         {
           title: "تجربة رائعة من البداية للنهاية",
@@ -56,7 +56,7 @@ export default function Feedback() {
         {
           title: "Excellent screen and professional service",
           text: "The screen is amazing, and the service is outstanding. The engineer was very polite and respectful. Thank you so much, and I’m sure it won’t be our last deal.",
-          name: "Happy Client",
+          name: "Mohamed Salem",
         },
         {
           title: "Great experience from start to finish",
