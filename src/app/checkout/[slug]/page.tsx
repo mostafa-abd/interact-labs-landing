@@ -180,7 +180,7 @@ export default function CheckoutPage() {
     city: isAr ? "المدينة" : "City",
     state: isAr ? "العنوان" : "Address",
     continue: isAr ? "المتابعة للدفع" : "Continue to payment",
-    cod: isAr ? "الدفع عند الاستلام" : "Payment upon receipt",
+    cod: isAr ? "الدفع عند الاستلام" : "Cash on delivery",
     orderSummary: isAr ? "ملخص الطلب" : "Order Summary",
     qty: isAr ? "الكمية" : "Qty",
     subtotal: isAr ? "المجموع الفرعي" : "Subtotal",
@@ -216,7 +216,6 @@ export default function CheckoutPage() {
         </div>
         <hr />
         <div><span>{texts.subtotal}</span><span>{totalPrice.toLocaleString()} {currency}</span></div>
-        <div><span>{texts.shipping}</span><span>{texts.freeShipping}</span></div>
         <hr />
         <div><span>{texts.total}</span><span>{totalPrice.toLocaleString()} {currency}</span></div>
       </div>

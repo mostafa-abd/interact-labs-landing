@@ -63,7 +63,7 @@ export async function POST(req: Request): Promise<Response> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Interact Labs <onboarding@resend.dev>",
+        from: "Interact Labs <d.marketing@interact-labs.com>",
         to: ["d.marketing@interact-labs.com"],
         subject: `New Order (${paymentStatus}): ${productName}`,
         html,
