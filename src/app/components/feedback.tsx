@@ -122,7 +122,6 @@ export default function Feedback() {
 
   return (
     <section className="feedback">
-  
 
       <Swiper
         modules={[Pagination]}
