@@ -152,7 +152,6 @@ button:hover:not(.product-info-Quantity button) {
   background-size: 200% 200%;
   animation: diagonalGlow 2.5s ease infinite;
   box-shadow: 0 8px 20px rgba(96, 100, 191, 0.3);
-  transform: translateY(-2px);
   transition: all 0.3s ease;
   margin: 10px 0;
 }

@@ -6,8 +6,6 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log("✅ Paymob Callback received:", body);
 
-    // هنا ممكن تعمل معالجة بيانات الدفع (تحديث حالة الطلب بالـ DB)
-    // مثال: إذا كان body.success = true → تأكيد الطلب
 
     return NextResponse.json({ message: "Callback received successfully" });
   } catch (error) {
