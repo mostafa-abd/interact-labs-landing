@@ -149,10 +149,6 @@ footer .social a {
   .dots { gap: 8px; }
 }
 button:hover:not(.product-info-Quantity button) {
-    background: linear-gradient(135deg, #5a5fe0, #6064bf, #4f54a6);
-  background-size: 200% 200%;
-  box-shadow: 0 8px 20px rgba(96, 100, 191, 0.3);
-  transition: all 0.3s ease;
   margin: 10px 0;
 }
 
