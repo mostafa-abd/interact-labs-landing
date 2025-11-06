@@ -1,13 +1,14 @@
+// app/api/payment-callback/route.ts
 import { NextResponse } from "next/server";
+
 export const runtime = "edge";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("✅ Transaction processed callback received:", body);
+    console.log("✅ Transaction callback received:", body);
 
-    // هنا تحفظ بيانات العملية في قاعدة البيانات إذا أردت
-    // await savePaymentToDB(body);
+    // هنا ممكن تضيف أي معالجة أو تحديث حالة الطلب في قاعدة البيانات
 
     return NextResponse.json({ message: "Callback received successfully" });
   } catch (error) {

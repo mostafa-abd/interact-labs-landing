@@ -1,4 +1,6 @@
+// app/api/payment-redirect/route.ts
 import { NextResponse } from "next/server";
+
 export const runtime = "edge";
 
 export async function GET(req: Request) {
@@ -6,16 +8,10 @@ export async function GET(req: Request) {
     const url = new URL(req.url);
     const success = url.searchParams.get("success");
 
-    if (success === "true") {
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/thanks`);
-    } else {
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/Failure`);
-    }
+    // استخدم مسارات نسبية لتجنب أي SecurityError
+    return NextResponse.redirect(success === "true" ? "/thanks" : "/Failure");
   } catch (error) {
-    console.error("❌ Error in payment response:", error);
-    return NextResponse.json(
-      { error: "Error processing response" },
-      { status: 500 }
-    );
+    console.error("❌ Error in payment redirect:", error);
+    return NextResponse.json({ error: "Error processing redirect" }, { status: 500 });
   }
 }
