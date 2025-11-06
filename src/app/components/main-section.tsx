@@ -32,6 +32,24 @@ interface PriceInfo {
 type ImageSource = string | StaticImageData;
 
 export default function MainSection({ product }: { product: Product }) {
+    useEffect(() => {
+    const applyPadding = () => {
+      if (window.innerWidth <= 500) {
+        document.body.style.paddingBottom = "200px";
+      } else {
+        document.body.style.paddingBottom = "";
+      }
+    };
+
+    applyPadding(); 
+
+    window.addEventListener("resize", applyPadding); 
+
+    return () => {
+      document.body.style.paddingBottom = ""; 
+      window.removeEventListener("resize", applyPadding);
+    };
+  }, []);
   const langContext = useLanguage();
   const language = langContext?.language ?? "en";
   const router = useRouter();
@@ -47,6 +65,8 @@ export default function MainSection({ product }: { product: Product }) {
 
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [showFloatingBox, setShowFloatingBox] = useState(false);
+
+
 
   useEffect(() => {
     async function detectCountry() {
