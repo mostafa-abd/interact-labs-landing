@@ -24,7 +24,7 @@ export default function CheckoutPage() {
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
-  const country = "Egypt";
+  const country = "EG";
 
   const priceMapEGP: Record<string, { current: number; before: number }> = {
     "55-B": { current: 32335, before: 43320 },
@@ -58,8 +58,7 @@ export default function CheckoutPage() {
       const model = match[2];
       qty = Number(match[3]);
       const key = `${size}-${model}`;
-({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
-
+      ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
       name = `TACT Panel ${size} Inches-${model}`;
       image = model === "H" ? productImages["TACT-Panel-H"] : productImages["TACT-Panel-B"];
     }
@@ -70,8 +69,7 @@ export default function CheckoutPage() {
       const baseName = parts.join("-");
       name = baseName;
       const key = baseName;
-({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
-
+      ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
       image = productImages["TACT"] || "/images/default.jpg";
     }
   }
@@ -102,7 +100,7 @@ export default function CheckoutPage() {
       alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
       return;
     }
-    if (emailSent) return; 
+    if (emailSent) return;
     setLoadingCOD(true);
     try {
       saveSessionData("COD");
@@ -126,7 +124,7 @@ export default function CheckoutPage() {
       alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
       return;
     }
-    if (emailSent) return; 
+    if (emailSent) return;
     setLoadingPayment(true);
     try {
       saveSessionData("PENDING");
@@ -138,12 +136,20 @@ export default function CheckoutPage() {
           currency,
           product_name: product.name,
           quantity: qty,
-          billing_data: { first_name: firstName, last_name: lastName, email, phone_number: phone, city, state, country },
+          billing_data: {
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            phone_number: phone,
+            city,
+            state,
+            country,
+          },
         }),
       });
       const data = await res.json();
       if (data.success && data.iframeUrl) {
-        window.location.href = data.iframeUrl;
+        window.location.href = data.iframeUrl; // توجيه المستخدم للـ iframe
       } else {
         saveSessionData("Unpaid");
         await fetch("/api/sendEmail", {
@@ -152,7 +158,7 @@ export default function CheckoutPage() {
           body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
         });
         setEmailSent(true);
-        router.push("/failure");
+        router.push("/Failure");
       }
     } catch (err) {
       console.error(err);
@@ -165,7 +171,7 @@ export default function CheckoutPage() {
         });
         setEmailSent(true);
       }
-      router.push("/failure");
+      router.push("/Failure");
     } finally {
       setLoadingPayment(false);
     }
@@ -193,12 +199,12 @@ export default function CheckoutPage() {
     <section className="checkout" dir={dir}>
       <form>
         <h2>{texts.deliveryInfo}</h2>
-        <div><label>{texts.firstName}</label><input value={firstName} onChange={(e)=>setFirstName(e.target.value)} required /></div>
-        <div><label>{texts.lastName}</label><input value={lastName} onChange={(e)=>setLastName(e.target.value)} required /></div>
-        <div><label>{texts.email}</label><input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required /></div>
-        <div><label>{texts.phone}</label><input value={phone} onChange={(e)=>setPhone(e.target.value)} required /></div>
-        <div><label>{texts.city}</label><input value={city} onChange={(e)=>setCity(e.target.value)} required /></div>
-        <div><label>{texts.state}</label><input value={state} onChange={(e)=>setState(e.target.value)} required /></div>
+        <div><label>{texts.firstName}</label><input value={firstName} onChange={(e) => setFirstName(e.target.value)} required /></div>
+        <div><label>{texts.lastName}</label><input value={lastName} onChange={(e) => setLastName(e.target.value)} required /></div>
+        <div><label>{texts.email}</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
+        <div><label>{texts.phone}</label><input value={phone} onChange={(e) => setPhone(e.target.value)} required /></div>
+        <div><label>{texts.city}</label><input value={city} onChange={(e) => setCity(e.target.value)} required /></div>
+        <div><label>{texts.state}</label><input value={state} onChange={(e) => setState(e.target.value)} required /></div>
 
         <button type="button" onClick={handlePayment} disabled={loadingPayment}>
           {loadingPayment ? "Processing.." : texts.continue}
@@ -211,8 +217,14 @@ export default function CheckoutPage() {
       <div className="order-summary">
         <h2>{texts.orderSummary}</h2>
         <div>
-          <div className="product-Image"><Image src={product.image} alt={product.name} width={200} height={200} priority /></div>
-          <div className="product-info"><h4>{product.name}</h4><span>{texts.qty}: <b>{product.qty}</b></span><p>{product.price.toLocaleString()} {currency}</p></div>
+          <div className="product-Image">
+            <Image src={product.image} alt={product.name} width={200} height={200} priority />
+          </div>
+          <div className="product-info">
+            <h4>{product.name}</h4>
+            <span>{texts.qty}: <b>{product.qty}</b></span>
+            <p>{product.price.toLocaleString()} {currency}</p>
+          </div>
         </div>
         <hr />
         <div><span>{texts.subtotal}</span><span>{totalPrice.toLocaleString()} {currency}</span></div>
