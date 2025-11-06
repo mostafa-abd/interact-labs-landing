@@ -99,7 +99,7 @@ export default function MainSection({ product }: { product: Product }) {
   const productSlug = product.slug || product.product_name.toLowerCase().replace(/\s+/g, "-");
 
   const productImageMap: Record<string, string[]> = {
-    tact: ["main.webp", "1.webp", "2.webp", "3.webp", "4.webp", "5.webp", "6.webp", "7.webp", "8.webp"],
+    tact: ["main.webp", "5.webp", "6.webp", "7.webp", "8.webp", "1.webp", "2.webp", "3.webp", "4.webp"],
     "tact-panel-b": ["2-6.webp", "usb.webp", "pin-b.webp", "pin-b-2.webp"],
     "tact-panel-h": ["4-2.webp", "face.webp", "side.webp", "usb.webp", "pin.webp"],
   };
