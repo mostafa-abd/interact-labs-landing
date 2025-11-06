@@ -11,6 +11,7 @@ export default function Others() {
   const language = useLanguage()?.language ?? "en";
   const isAr = language === "ar";
   const pathname = usePathname();
+  if (pathname !== "/tact-panel") return null;
 
   const othersData: OtherItem[] = [
     { title: { en: "4K Quality", ar: "جودة الصورة 4K" } },
