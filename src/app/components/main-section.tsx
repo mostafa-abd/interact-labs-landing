@@ -100,7 +100,7 @@ export default function MainSection({ product }: { product: Product }) {
 
   const productImageMap: Record<string, string[]> = {
     tact: ["main.webp", "1.webp", "2.webp", "3.webp", "4.webp", "5.webp", "6.webp", "7.webp", "8.webp"],
-    "tact-panel-b": ["2-6.webp", "usb.webp", "pin-b.webp"],
+    "tact-panel-b": ["2-6.webp", "usb.webp", "pin-b.webp", "pin-b-2.webp"],
     "tact-panel-h": ["4-2.webp", "face.webp", "side.webp", "usb.webp", "pin.webp"],
   };
 
@@ -109,9 +109,21 @@ export default function MainSection({ product }: { product: Product }) {
   const imageBasePath = isTACTPanel
     ? `/images/${productSlug}-${model.toLowerCase()}`
     : `/images/${productSlug}`;
-  const productImages: string[] = possibleImages.map((img) => `${imageBasePath}/${img}`);
+    
+type SlideItem = string | { type: "video"; url: string };
 
-  const [mainImage, setMainImage] = useState<ImageSource>(productImages[0]);
+let productImages: SlideItem[] = possibleImages.map(
+  (img) => `${imageBasePath}/${img}`
+);
+
+if (isTACTPanel) {
+  productImages = [
+    { type: "video", url: "https://www.youtube.com/embed/4oytDp2Sdsw" }, 
+    ...productImages,
+  ];
+}
+  
+const [mainImage, setMainImage] = useState<SlideItem>(productImages[0]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   useEffect(() => {
@@ -119,9 +131,9 @@ export default function MainSection({ product }: { product: Product }) {
     setActiveIndex(0);
   }, [model, size, productSlug]); 
   const texts = {
-    warranty: isAr ? "الضمان" : "Warranty",
-    saleSupport: isAr ? "الدعم بعد البيع" : "After sale support",
-    installment: isAr ? "أقساط" : "Installment",
+    warranty: isAr ? "ضمان" : "Warranty",
+    saleSupport: isAr ? "خدمة عملاء" : "After sale support",
+    installment: isAr ? "أنظمة تقسيط مختلفة" : "Installment",
     freeShipping: isAr ? "الدفع اونلاين" : "Online payment",
     cashOnDelivery: isAr ? "الدفع عند الاستلام" : "Cash On Delivery",
     priceVAT: isAr ? "السعر شامل الضريبة" : "Price include VAT",
@@ -143,52 +155,119 @@ export default function MainSection({ product }: { product: Product }) {
   return (
     <section className="main-section" dir={dir}>
       <div className="product-images">
-        <div className="main-product-image" style={{ position: "relative" }}>
-          <Image
-            src={mainImage}
-            alt="Main Product"
-            fill
-            priority
-            style={{ objectFit: "contain" }}
-            sizes="100%"
-            fetchPriority="high"
-          />
-        </div>
+<div className="main-product-image" style={{ position: "relative" }}>
+  {typeof mainImage === "object" && mainImage.type === "video" ? (
+    <iframe
+      width="100%"
+      height="450"
+      src={mainImage.url}
+      title="Product Video"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+      style={{ borderRadius: 12, width: "100%", height: "100%" }}
+    ></iframe>
+  ) : (
+    <Image
+      src={mainImage as string}
+      alt="Main Product"
+      fill
+      priority
+      style={{ objectFit: "contain" }}
+      sizes="100%"
+      fetchPriority="high"
+    />
+  )}
+</div>
 
-        <Swiper dir="rtl" slidesPerView={4.3} grabCursor style={{ width: "100%", padding: "10px 0" }}breakpoints={{
+
+        <Swiper dir="ltr" slidesPerView={4.3} grabCursor style={{ width: "100%", padding: "10px 0" }}breakpoints={{
     0: { slidesPerView: 2.5 },
     640: { slidesPerView: 3.2 },
     1024: { slidesPerView: 4.3 },
   }}>
-          {productImages.map((img, i) => (
-            <SwiperSlide key={i}>
-              <div
-                className={`sub-image cursor-pointer ${i === activeIndex ? "active" : ""}`}
-                onClick={() => {
-                  setMainImage(img);
-                  setActiveIndex(i);
-                }}
-               
-              >
-                <Image
-                  src={img}
-                  alt={`Sub ${i + 1}`}
-                  fill
-                  style={{ objectFit: "fill" }}
-                  loading="lazy"
-                  sizes="100%"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
+         {productImages.map((item, i) => (
+  <SwiperSlide key={i}>
+    <div
+      className={`sub-image cursor-pointer ${i === activeIndex ? "active" : ""}`}
+      onClick={() => {
+        setMainImage(item);
+        setActiveIndex(i);
+      }}
+      style={{ position: "relative" }}
+    >
+      {typeof item === "object" && item.type === "video" ? (
+        <>
+          {/* صورة مصغّرة للفيديو */}
+          <Image
+            src="https://img.youtube.com/vi/4oytDp2Sdsw/hqdefault.jpg"
+            alt="Video Thumbnail"
+            fill
+            style={{ objectFit: "cover", borderRadius: 8 }}
+            loading="lazy"
+          />
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              background: "rgba(0,0,0,0.6)",
+              borderRadius: "50%",
+              width: 50,
+              height: 50,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <span
+              style={{
+                width: 0,
+                height: 0,
+                borderTop: "10px solid transparent",
+                borderBottom: "10px solid transparent",
+                borderLeft: "15px solid white",
+              }}
+            ></span>
+          </div>
+        </>
+      ) : (
+        <Image
+          src={item as string}
+          alt={`Sub ${i + 1}`}
+          fill
+          style={{ objectFit: "cover", borderRadius: 8 }}
+          loading="lazy"
+        />
+      )}
+    </div>
+  </SwiperSlide>
+))}
+
         </Swiper>
       </div>
 
       <div className="product-info">
-        <h1>{displayName}</h1>
+<h1>
+  {isAr ? (
+    isTACTPanel ? (
+      `تاكت بانل ${size} بوصة - ${
+        model === "B" ? "الإصدار الأول" : "الإصدار الثاني"
+      }`
+    ) : isTACT ? (
+      "تاكت"
+    ) : (
+      displayName
+    )
+  ) : (
+    displayName
+  )}
+</h1>
+
 
         <div className="product-info-review" >
-          <span>4.5</span>
+          <span>4.8</span>
           <span >{[...Array(5)].map((_, i) => <Star key={i} size={17} />)}</span>
           <span>(37 {texts.reviews})</span>
         </div>
@@ -216,13 +295,27 @@ export default function MainSection({ product }: { product: Product }) {
           ))}
         </div>
 
-        <div className="product-info-price" >
-          <span >{currentPrice.currency}</span>
-          <span >{currentPrice.current.toLocaleString()}</span>
-          <span >
-            <del>{currentPrice.before.toLocaleString()}</del> {currentPrice.currency}
-          </span>
-        </div>
+<div className="product-info-price">
+  <span>
+    {isAr
+      ? currentPrice.currency === "EGP"
+        ? "جنيه"
+        : currentPrice.currency
+      : currentPrice.currency}
+  </span>
+
+  <span>{currentPrice.current.toLocaleString()}</span>
+
+  <span>
+    <del>{currentPrice.before.toLocaleString()}</del>{" "}
+    {isAr
+      ? currentPrice.currency === "EGP"
+        ? "جنيه"
+        : currentPrice.currency
+      : currentPrice.currency}
+  </span>
+</div>
+
 
         <p className="product-info-vat">
           <span>{texts.priceVAT}</span> 

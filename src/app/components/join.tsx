@@ -16,15 +16,16 @@ export default function Join() {
           <span>Join</span> High Performing Clients
         </>
       ),
-      text: `You will be in a great community that will help maximize your educational and communication skills. Supporting you to deliver the right information to the right audience by the right tools.`,
+      text: `You will be in a great community that will help maximize your educational and communication skills. Supporting you to deliver the right information to the right information to the right audience by the right tool. 
+`,
     },
     ar: {
       title: (
         <>
-          <span>انضم</span> إلى عملاء متميزين
+          <span>انضم</span> إلى عملاء وعائلة تاكت
         </>
       ),
-      text: `ستكون ضمن مجتمع رائع يساعدك على تطوير مهاراتك التعليمية والتواصلية، ويدعمك لتقديم المعلومة الصحيحة للجمهور المناسب باستخدام الأدوات المناسبة.`,
+      text: `في عائلة تاكت، سوف نساعدك على زيادة مهارات التواصل والعرض والتعليم، ودعمك في إيصال المعلومات إلى الجمهور المناسب باستخدام الأدوات والتطبيقات المناسبة`,
     },
   };
 

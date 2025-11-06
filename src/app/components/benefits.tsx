@@ -24,24 +24,24 @@ export default function Benefits() {
 
   const tactPanelBenefits: BenefitItem[] = [
     {
-      title: { en: "Unbreakable", ar: "ضد الكسر" },
+      title: { en: "Break resistant technology", ar: "ضد الكسر" },
       desc: {
-        en: "Designed to resist impacts and ensure long-lasting performance.",
+        en: "Designed to resist shocks impacts and ensure long-lasting performance.",
         ar: "مصممة لتكون مقاومة للكسر وتتحمل الاستخدام الطويل.",
       },
     },
     {
       title: { en: "Two Screens in One", ar: "شاشتين في شاشة" },
       desc: {
-        en: "Can work as an interactive screen or a regular TV.",
+        en: "Can work as an interactive Screen or a regular TV with internal receiver",
         ar: "يمكن أن تعمل كشاشة تفاعلية أو شاشة تلفزيون عادية.",
       },
     },
     {
-      title: { en: "Made with AOI Cooperation", ar: "تصنع بالتعاون مع الهيئة العربية للتصنيع" },
+      title: { en: "AOI Partnership", ar: "شراكة استراتيجية" },
       desc: {
-        en: "Developed in collaboration with the Arab Organization for Industrialization.",
-        ar: "تم تطويرها بالتعاون مع الهيئة العربية للتصنيع.",
+        en: "Manufactured in collaboration with the Arab Organization for Industrialization.",
+        ar: "تصنع بالتعاون مع الهيئة العربية للتصنيع",
       },
     },
     {
@@ -52,10 +52,10 @@ export default function Benefits() {
       },
     },
     {
-      title: { en: "Sizes from 55 to 98 inches", ar: "مقاسات تبدأ من ٥٥ بوصة وحتى ٩٨ بوصة" },
+      title: { en: "Up to 98 inch", ar: "مقاسات وإصدارات متعددة" },
       desc: {
-        en: "Available in multiple sizes to fit all environments.",
-        ar: "تتوفر بمقاسات متعددة تناسب جميع الاستخدامات.",
+        en: "Available in multiple sizes and models to fit all environment ",
+        ar: "مقاسات تصل حتى ٩٨ بوصة وإصدارات متعددة بإمكانيات مختلفة",
       },
     },
   ];
@@ -74,23 +74,23 @@ export default function Benefits() {
       title: { en: "Compatible", ar: "متوافق" },
       desc: {
         en: "Works with any Projector, any TV screen, any software.",
-        ar: "يعمل مع أي جهاز عرض، أي شاشة تلفاز، وأي برنامج.",
+        ar: "يعمل مع أي جهاز عرض أو شاشة تلفزيون مسطحة، يتوافق مع أي تطبيق كمبيوتر وييسهل التحرك به",
       },
     },
     {
       img: Monitors,
-      title: { en: "Large Monitors", ar: "شاشات كبيرة" },
+      title: { en: "Large Monitors", ar: "مساحة تفاعلية ضخمة" },
       desc: {
         en: "Transforms large screens/monitors into a fast and accurate interactive surface up to 150 inches.",
-        ar: "حوّل الشاشات الكبيرة إلى سطح تفاعلي سريع ودقيق يصل إلى 150 بوصة.",
+        ar: "يحول أي مساحة عرض إلى سطح تفاعلي سريع ودقيق، يصل إلي ١٥٠ بوصة",
       },
     },
     {
       img: Effective,
-      title: { en: "Cost Effective", ar: "فعّال من حيث التكلفة" },
+      title: { en: "Cost Effective", ar: "سعر تنافسي" },
       desc: {
         en: "Costs less than half the price of an electronic board.",
-        ar: "تكلف أقل من نصف سعر اللوح الإلكتروني.",
+        ar: "موفر مقارنة بالحلول التفاعلية الأخرى كالشاشات التفاعلية والسبورات الذكية",
       },
     },
     {
@@ -111,7 +111,15 @@ export default function Benefits() {
       dir={isAr ? "rtl" : "ltr"}
       style={{ textAlign: isAr ? "right" : "left" }}
     >
-      <h1>{isAr ? "مميزات TACT Panel" : "TACT Panel Benefits"}</h1>
+<h1>
+  {isAr
+    ? isTACTPanel
+      ? "مميزات شاشات تاكت التفاعلية"
+      : "مميزات تاكت"
+    : isTACTPanel
+      ? "TACT PANEL Benefits"
+      : "TACT Benefits"}
+</h1>
       <div className="benefits-boxes" >
         {benefitsToShow.map((item, index) => (
           <div key={index} style={{ minHeight: 100 }} >

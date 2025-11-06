@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
- import Header from "./includes/header";
- import Footer from "./includes/footer";
+import Header from "./includes/header";
+import Footer from "./includes/footer";
 import { LanguageProvider } from "./context/LanguageContext";
 
-const inter = Inter({
-  variable: "--font-Inter",
-  subsets: ["latin"],
-});
-
-export const metadata = {
+export const metadata: Metadata = {
   title: "Shop Interact",
   icons: {
     icon: "/favicon.ico",
@@ -23,17 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} antialiased`}
-      >
-     <LanguageProvider>
-      <Header/>
-        {children}
-        <Footer/>
-
-        </LanguageProvider>
-      </body>
+    <html suppressHydrationWarning>
+      <LanguageProvider>
+        <body className="antialiased">
+          <Header />
+          {children}
+          <Footer />
+        </body>
+      </LanguageProvider>
     </html>
   );
 }

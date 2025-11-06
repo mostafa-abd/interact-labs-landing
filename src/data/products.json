@@ -1,8 +1,8 @@
 {
   "tact": {
     "product_name": "TACT",
-    "description_ar": "أول شاشة تفاعلية مصرية مزودة بالذكاء الاصطناعي وضد الكسر تعمل بنظام تشغيل أندرويد ١٣",
-    "description_en": "The first Egyptian interactive display equipped with AI and anti-break technology, running Android 13.",
+    "description_ar": "يحول أي شاشة أو مساحة عرض بروجيكتور كالحائط أو السبورة البيضاء إلى سطح تفاعلي باستخدام القلم المرفق",
+    "description_en": "Transform any screen or Projected area into an interactive surface with rechargeable pen",
     "category": "B,H",
     "sizes": ["55", "65", "75", "85"],
     "brand_ar": "تاكت",
@@ -31,8 +31,8 @@
   },
   "tact-panel": {
     "product_name": "TACT Panel",
-    "description_ar": "يحوّل أي شاشة أو سطح عرض إلى سطح تفاعلي باستخدام قلم قابل لإعادة الشحن.",
-    "description_en": "Transforms any screen or projected area into an interactive surface with a rechargeable pen.",
+    "description_ar": "أول شاشة تفاعلية مصرية، مقاومة للكسر والصدمات، تصنع بالتعاون مع الهيئة العربية للتصنيع وبضمان ٣ سنوات",
+    "description_en": "The first Egyptian interactive screen, with Break resistant technology, up to 40 points for multi-touch functionality in Windows & 10 in Android.",
     "brand_ar": "تاكت",
     "brand_en": "TACT",
     "color_ar": "أسود",

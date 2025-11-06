@@ -73,12 +73,12 @@ export default function ProductDetails({ product }: Props): ReactElement | null 
       </div>
 
       <div>
-        <h3>{language === 'ar' ? 'مدى الحرارة' : 'Temperature Range'}</h3>
+        <h3>{language === 'ar' ? 'نطاق درجة الحرارة' : 'Temperature Range'}</h3>
         <p>{getField('temperature_range')}</p>
       </div>
 
       <div>
-        <h3>{language === 'ar' ? 'التوصيل' : 'Connectivity'}</h3>
+        <h3>{language === 'ar' ? 'الاتصال' : 'Connectivity'}</h3>
         <p>{getField('connectivity')}</p>
       </div>
 
