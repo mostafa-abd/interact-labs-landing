@@ -483,10 +483,14 @@ font-size: clamp(16px, 3vw, 20px);
     text-align: center;
 
 }
+
 .feedback{
   margin-bottom: 50px;
 }
 @media (max-width: 500px) {
+  .join{
+        height: 250px;
+  }
 .benefits-boxes h4 ,.benefits-boxes p{
   text-align: start;
 }
@@ -512,6 +516,7 @@ justify-content: space-around;
   .product-details div{
     flex-direction:row;
     width:100%;
+    height: 50px;
   }
   .product-details div p{
         width: 60%;
