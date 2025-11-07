@@ -1,5 +1,20 @@
 'use client';
 
+export {};
+
+declare global {
+  module "*.png" {
+    const value: string;
+    export default value;
+  }
+
+  module "*.svg" {
+    const value: string;
+    export default value;
+  }
+}
+
+
 import Image from "next/image";
 import Compatible from '../assets/images/Compatible.svg';
 import Durable from '../assets/images/Durable.svg';
