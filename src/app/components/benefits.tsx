@@ -1,20 +1,4 @@
 'use client';
-
-export {};
-
-declare global {
-  module "*.png" {
-    const value: string;
-    export default value;
-  }
-
-  module "*.svg" {
-    const value: string;
-    export default value;
-  }
-}
-
-
 import Image from "next/image";
 import Compatible from '../assets/images/Compatible.svg';
 import Durable from '../assets/images/Durable.svg';
@@ -46,7 +30,7 @@ export default function Benefits() {
   const tactPanelBenefits: BenefitItem[] = [
     {
       img: Resistant,
-      title: { en: "Break resistant technology", ar: "ضد الكسر" },
+      title: { en: "Break resistant", ar: "ضد الكسر" },
       desc: {
         en: "Designed to resist shocks impacts and ensure long-lasting performance.",
         ar: "مصممة لتكون مقاومة للكسر وتتحمل الاستخدام الطويل.",
@@ -107,7 +91,7 @@ export default function Benefits() {
       img: Monitors,
       title: { en: "Large Monitors", ar: "مساحة تفاعلية ضخمة" },
       desc: {
-        en: "Transforms large screens/monitors into a fast and accurate interactive surface up to 150 inches.",
+        en: "Transforms large screens into a fast and accurate interactive surface up to 150 inches.",
         ar: "يحول أي مساحة عرض إلى سطح تفاعلي سريع ودقيق، يصل إلي ١٥٠ بوصة.",
       },
     },
