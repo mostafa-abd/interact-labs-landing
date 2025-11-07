@@ -11,7 +11,7 @@ const { language, toggleLanguage } = useLanguage() as any;
 
 
   return (
-    <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem 2rem" }}>
+    <header >
       <div className="logo" style={{ position: "relative", width: 150, height: 50 }}>
         <Image
           src={Logo}
