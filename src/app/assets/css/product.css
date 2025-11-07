@@ -503,6 +503,7 @@ text-align: center;
   }
   .float-box>div{
 justify-content: space-around;
+width: 100%;
   }
     .float-box button{
     width: 100%;  }
@@ -524,4 +525,21 @@ justify-content: space-around;
 .Quantity,.size-select,.model-select{
   max-width: 100%;
 }
+}
+
+.whatsapp-web {
+  display: flex;
+}
+.whatsapp-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .whatsapp-web {
+    display: none !important;
+  }
+  .whatsapp-mobile {
+    display: flex !important;
+  }
+
 }

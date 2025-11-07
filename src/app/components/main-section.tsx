@@ -191,26 +191,43 @@ export default function MainSection({ product }: { product: Product }) {
     router.push(`/checkout/${slug}`);
   };
 
-  const FloatingBox = () => (
-    <div className="float-box"
+const FloatingBox = () => (
+  <div
+    className="float-box"
+    style={{
+      position: "fixed",
+      bottom: 0,
+      left: 0,
+      width: "100%",
+      background: "#fff",
+      boxShadow: "0 -3px 10px rgba(0,0,0,0.1)",
+      padding: "15px 7%",
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 15,
+      justifyContent: "space-between",
+      alignItems: "center",
+      zIndex: 999,
+    }}
+    dir={dir}
+  >
+    <div
+      className="float-left"
       style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        background: "#fff",
-        boxShadow: "0 -3px 10px rgba(0,0,0,0.1)",
-        padding: "15px 7%",
         display: "flex",
         flexWrap: "wrap",
-        gap: 15,
-        justifyContent: "space-between",
         alignItems: "center",
-        zIndex: 999,
+        gap: 15,
+        flex: 1,
       }}
-      dir={dir}
     >
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 15 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+        }}
+      >
         <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700 }}>
           {isAr
             ? isTACTPanel
@@ -221,44 +238,81 @@ export default function MainSection({ product }: { product: Product }) {
             : displayName}
         </h1>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <button
-            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+        <a
+          href="https://wa.me/201091430618"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="whatsapp-mobile"
+          style={{
+            display: "none", 
+            background: "#25D366",
+            borderRadius: "50%",
+            width: 46,
+            height: 40,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"
+            alt="WhatsApp"
+            width={22}
+            height={22}
             style={{
-              width: 35,
-              height: 35,
-              borderRadius: 8,
-              border: "1px solid #ccc",
-              fontSize: 18,
+              objectFit: "contain",
+              filter: "brightness(0) invert(1)", 
             }}
-          >
-            -
-          </button>
-          <p style={{ minWidth: 30, textAlign: "center" }}>{quantity}</p>
-          <button
-            onClick={() => setQuantity((q) => q + 1)}
-            style={{
-              width: 35,
-              height: 35,
-              borderRadius: 8,
-              border: "1px solid #ccc",
-              fontSize: 18,
-            }}
-          >
-            +
-          </button>
-        </div>
-
-        <div style={{ fontSize: 18, fontWeight: "bold", color: "#333" }}>
-          {currentPrice.current.toLocaleString()}{" "}
-          {isAr
-            ? currentPrice.currency === "EGP"
-              ? "جنيه"
-              : currentPrice.currency
-            : currentPrice.currency}
-        </div>
+          />
+        </a>
       </div>
 
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <button
+          onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+          style={{
+            width: 35,
+            height: 35,
+            borderRadius: 8,
+            border: "1px solid #ccc",
+            fontSize: 18,
+          }}
+        >
+          -
+        </button>
+        <p style={{ minWidth: 30, textAlign: "center" }}>{quantity}</p>
+        <button
+          onClick={() => setQuantity((q) => q + 1)}
+          style={{
+            width: 35,
+            height: 35,
+            borderRadius: 8,
+            border: "1px solid #ccc",
+            fontSize: 18,
+          }}
+        >
+          +
+        </button>
+      </div>
+
+      <div style={{ fontSize: 18, fontWeight: "bold", color: "#333" }}>
+        {currentPrice.current.toLocaleString()}{" "}
+        {isAr
+          ? currentPrice.currency === "EGP"
+            ? "جنيه"
+            : currentPrice.currency
+          : currentPrice.currency}
+      </div>
+    </div>
+
+    <div
+      className="float-right"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        flexWrap: "wrap",
+      }}
+    >
       <button
         onClick={handleBuyNow}
         style={{
@@ -269,13 +323,43 @@ export default function MainSection({ product }: { product: Product }) {
           fontSize: 16,
           cursor: "pointer",
           fontWeight: 500,
-          border:"none"
+          border: "none",
         }}
       >
         {texts.buyNow}
       </button>
+
+      <a
+        href="https://wa.me/201091430618"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="whatsapp-web"
+        style={{
+          background: "#25D366",
+          borderRadius: "50%",
+          width: 45,
+          height: 45,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transition: "transform 0.2s ease",
+        }}
+      >
+        <Image
+          src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg"
+          alt="WhatsApp"
+          width={25}
+          height={25}
+          style={{
+            objectFit: "contain",
+            filter: "brightness(0) invert(1)", 
+          }}
+        />
+      </a>
     </div>
-  );
+  </div>
+);
+
 
   return (
     <>
