@@ -180,7 +180,7 @@ export default function MainSection({ product }: { product: Product }) {
     quantity: isAr ? "الكمية" : "Quantity",
     buyNow: isAr ? "اشترِ الآن" : "Buy Now",
     size: isAr ? "الحجم" : "Size",
-    model: isAr ? "النموذج" : "Model",
+    model: isAr ? "الموديل" : "Model",
     reviews: isAr ? "تقييم" : "reviews"
   };
 
