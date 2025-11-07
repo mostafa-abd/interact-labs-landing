@@ -483,7 +483,9 @@ font-size: clamp(16px, 3vw, 20px);
     text-align: center;
 
 }
-
+.feedback{
+  margin-bottom: 50px;
+}
 @media (max-width: 500px) {
 .benefits-boxes h4 ,.benefits-boxes p{
   text-align: start;
