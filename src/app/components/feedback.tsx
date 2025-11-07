@@ -22,42 +22,53 @@ export default function Feedback() {
   const isTACTPanel = pathname.includes("tact-panel");
 
  
-  const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
-    ar: [
-      {
-        title: "الشاشة ممتاذه والتعامل راقي جدًا",
-        text: "الشاشه ممتاذه ماشاء الله والتعامل فوق الممتاز بالاضافه أن المهندس راجل محترم جدا جدا وقمه فى الأدب ورقى التعامل ومتشكر لكم جدا جدا وان شاء الله موش اخر تعامل.",
-        name: "Mohamed Salem",
-      },
-      {
-        title: "تعاون واحترافية عالية",
-        text: "احب اشكر كلا من المهندس باسم والمهندس محمد سامح على تعاونهم من اول البدء على معرفه وامكانيات الشاشه حتى استلامها وتوصلها والتدريب عليها. الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والاحترام والتعاون شكرا لكم جميعا.",
-        name: "Eng. Ibrahim Ali - Almohands",
-      },
-      {
-        title: "جودة ممتازة وسهولة في الاستخدام",
-        text: "الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والمهنية شكرا.",
-        name: "Hosam El Deen Gaber",
-      },
-    ],
-    en: [
-      {
-        title: "Excellent screen and great service",
-        text: "The screen is amazing, Mashallah. Excellent service, and the engineer was very respectful and professional. Thank you so much, and hopefully, it won’t be the last deal.",
-        name: "Mohamed Salem",
-      },
-      {
-        title: "Very professional and helpful team",
-        text: "I would like to thank Eng. Basem and Eng. Mohamed Sameh for their support from start to delivery and training. The screen is great, easy to use, and made of durable materials. The engineers are very polite and cooperative. Thanks to you all.",
-        name: "Eng. Ibrahim Ali - Almohands",
-      },
-      {
-        title: "High quality and smooth usage",
-        text: "The screen is excellent, smooth to use, and made from strong materials. The engineers were very professional and polite. Thank you.",
-        name: "Hosam El Deen Gaber",
-      },
-    ],
-  };
+ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
+  ar: [
+    {
+      title: "الشاشة ممتاذه والتعامل راقي جدًا",
+      text: "الشاشه ممتاذه ماشاء الله والتعامل فوق الممتاز بالاضافه أن المهندس راجل محترم جدا جدا وقمه فى الأدب ورقى التعامل ومتشكر لكم جدا جدا وان شاء الله موش اخر تعامل.",
+      name: "Mohamed Salem",
+    },
+    {
+      title: "تعاون واحترافية عالية",
+      text: "احب اشكر كلا من المهندس باسم والمهندس محمد سامح على تعاونهم من اول البدء على معرفه وامكانيات الشاشه حتى استلامها وتوصلها والتدريب عليها. الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والاحترام والتعاون شكرا لكم جميعا.",
+      name: "Eng. Ibrahim Ali - Almohands",
+    },
+    {
+      title: "جودة ممتازة وسهولة في الاستخدام",
+      text: "الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والمهنية شكرا.",
+      name: "Hosam El Deen Gaber",
+    },
+    {
+      title: "شغل محترم وخدمة عملاء مميزة",
+      text: "شغل محترم وخدمة عملاء مميزه.",
+      name: "مستر محمد شفيق",
+    },
+  ],
+  en: [
+    {
+      title: "Excellent screen and great service",
+      text: "The screen is amazing, Mashallah. Excellent service, and the engineer was very respectful and professional. Thank you so much, and hopefully, it won’t be the last deal.",
+      name: "Mohamed Salem",
+    },
+    {
+      title: "Very professional and helpful team",
+      text: "I would like to thank Eng. Basem and Eng. Mohamed Sameh for their support from start to delivery and training. The screen is great, easy to use, and made of durable materials. The engineers are very polite and cooperative. Thanks to you all.",
+      name: "Eng. Ibrahim Ali - Almohands",
+    },
+    {
+      title: "High quality and smooth usage",
+      text: "The screen is excellent, smooth to use, and made from strong materials. The engineers were very professional and polite. Thank you.",
+      name: "Hosam El Deen Gaber",
+    },
+    {
+      title: "Highly recommended product",
+      text: "A great product for those who really want an interactive screen to work with, this makes your courses, explainers, meetings, etc. way more productive, definitely recommending it!",
+      name: "Shady Manaa",
+    },
+  ],
+};
+
 
   const tactFeedbacks: Record<string, FeedbackItem[]> = {
     ar: [

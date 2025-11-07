@@ -20,10 +20,8 @@ export default function Others() {
     { title: { en: "2 USB Ports", ar: "٢ مخرج يو إس بي " } },
     { title: { en: "3 HDMI Ports", ar: "٣ مخرج إتش دي إم أي " } },
     { title: { en: "3 Years Warranty", ar: "ضمان 3 سنوات" } },
-    { title: { en: "40 Multi-touch points in Windows 10", ar: " نقطة لمس في نفس اللحظة لنظام الويندوز" } },
-    { title: { en: "Multi-touch points in Windows", ar: "١٠ نقطة لمس في نفس اللحظة لنظام الأندرويد" } },
-    { title: { en: "Delivered with Stand", ar: "حامل تثبيت حائط" } },
-    { title: { en: "2 Remote Controls", ar: "٢ ريموت فيهم واحد سمارت " } },
+    { title: { en: "Delivered with wall Stand", ar: "حامل تثبيت حائط" } },
+    { title: { en: "Delivered with 2 Remote Controls", ar: "٢ ريموت فيهم واحد سمارت " } },
   ];
 
   return (
@@ -33,7 +31,7 @@ export default function Others() {
       style={{ textAlign: isAr ? "right" : "left" }}
     >
       <h1>
-        {isAr ? "مواصفات أخرى" : "Other Features"}
+        {isAr ? "مواصفات أخرى" : "Others "}
       </h1>
 
       <div className="benefits-boxes">
