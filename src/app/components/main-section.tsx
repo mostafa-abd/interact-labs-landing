@@ -181,7 +181,7 @@ export default function MainSection({ product }: { product: Product }) {
     buyNow: isAr ? "اشترِ الآن" : "Buy Now",
     size: isAr ? "الحجم" : "Size",
     model: isAr ? "النموذج" : "Model",
-    reviews: isAr ? "تقيمم" : "reviews"
+    reviews: isAr ? "تقييم" : "reviews"
   };
 
   const handleBuyNow = () => {
