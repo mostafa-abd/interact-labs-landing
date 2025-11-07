@@ -18,6 +18,7 @@ export default function CheckoutPage() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [loadingCOD, setLoadingCOD] = useState(false);
@@ -25,6 +26,22 @@ export default function CheckoutPage() {
   const [emailSent, setEmailSent] = useState(false);
 
   const country = "EG";
+
+  // ✅ تحقق مباشر من رقم الهاتف
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, 11);
+    setPhone(onlyDigits);
+
+    if (onlyDigits && !/^01\d{0,9}$/.test(onlyDigits)) {
+      setPhoneError(isAr ? "الرقم لازم يبدأ بـ 01" : "Phone must start with 01");
+    } else if (onlyDigits.length === 11 && !/^01\d{9}$/.test(onlyDigits)) {
+      setPhoneError(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
+    } else {
+      setPhoneError("");
+    }
+  };
+
+  const validatePhone = () => /^01\d{9}$/.test(phone);
 
   const priceMapEGP: Record<string, { current: number; before: number }> = {
     "55-B": { current: 32335, before: 43320 },
@@ -100,6 +117,11 @@ export default function CheckoutPage() {
       alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
       return;
     }
+    if (!validatePhone()) {
+      alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
+      return;
+    }
+
     if (emailSent) return;
     setLoadingCOD(true);
     try {
@@ -124,6 +146,11 @@ export default function CheckoutPage() {
       alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
       return;
     }
+    if (!validatePhone()) {
+      alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
+      return;
+    }
+
     if (emailSent) return;
     setLoadingPayment(true);
     try {
@@ -149,7 +176,7 @@ export default function CheckoutPage() {
       });
       const data = await res.json();
       if (data.success && data.iframeUrl) {
-        window.location.href = data.iframeUrl; // توجيه المستخدم للـ iframe
+        window.location.href = data.iframeUrl;
       } else {
         saveSessionData("Unpaid");
         await fetch("/api/sendEmail", {
@@ -202,7 +229,22 @@ export default function CheckoutPage() {
         <div><label>{texts.firstName}</label><input value={firstName} onChange={(e) => setFirstName(e.target.value)} required /></div>
         <div><label>{texts.lastName}</label><input value={lastName} onChange={(e) => setLastName(e.target.value)} required /></div>
         <div><label>{texts.email}</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
-        <div><label>{texts.phone}</label><input value={phone} onChange={(e) => setPhone(e.target.value)} required /></div>
+
+        <div>
+          <label>{texts.phone}</label>
+          <input
+            type="tel"
+            value={phone}
+            onChange={handlePhoneChange}
+            required
+            pattern="^01\d{9}$"
+            inputMode="numeric"
+            placeholder="01xxxxxxxxx"
+            className={phoneError ? "error-input" : ""}
+          />
+          {phoneError && <p className="error-text">{phoneError}</p>}
+        </div>
+
         <div><label>{texts.city}</label><input value={city} onChange={(e) => setCity(e.target.value)} required /></div>
         <div><label>{texts.state}</label><input value={state} onChange={(e) => setState(e.target.value)} required /></div>
 
