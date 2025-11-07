@@ -15,11 +15,14 @@ import Sizes from '../assets/images/Sizes.png';
 import { useLanguage } from "../context/LanguageContext";
 import { usePathname } from "next/navigation";
 
+import type { StaticImageData } from "next/image";
+
 type BenefitItem = {
   title: { en: string; ar: string };
   desc: { en: string; ar: string };
-  img?: string;
+  img?: StaticImageData;
 };
+
 
 export default function Benefits() {
   const language = useLanguage()?.language ?? "en";
@@ -56,7 +59,7 @@ export default function Benefits() {
       img: FastResponse,
       title: { en: "Ultra-Fast Response", ar: "سرعة استجابة عالية" },
       desc: {
-        en: "Less than 7ms response time for smooth and accurate interaction.",
+        en: "Less than 7ms response time for smooth, accurate, and seamless interaction.",
         ar: "سرعة استجابة أقل من ٧ مللي ثانية لتفاعل دقيق وسلس.",
       },
     },
@@ -64,7 +67,7 @@ export default function Benefits() {
       img: Sizes,
       title: { en: "Up to 98 inch", ar: "مقاسات وإصدارات متعددة" },
       desc: {
-        en: "Available in multiple sizes and models to fit all environments.",
+        en: "Available in multiple sizes and models to fit all environments and use cases.",
         ar: "مقاسات تصل حتى ٩٨ بوصة وإصدارات متعددة بإمكانيات مختلفة.",
       },
     },

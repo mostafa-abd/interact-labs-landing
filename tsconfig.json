@@ -35,8 +35,7 @@
     ".next/types/**/*.ts",
     "src/app/context/productSlice.jsx",
     "src/app/api/paymob/response/route.ts",
-    ".next/dev/types/**/*.ts", 
-    "global.d.ts"
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
