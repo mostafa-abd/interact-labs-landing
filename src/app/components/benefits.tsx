@@ -74,7 +74,7 @@ export default function Benefits() {
       title: { en: "Compatible", ar: "متوافق" },
       desc: {
         en: "Works with any Projector, any TV screen, any software.",
-        ar: "يعمل مع أي جهاز عرض أو شاشة تلفزيون مسطحة، يتوافق مع أي تطبيق كمبيوتر وييسهل التحرك به",
+        ar: "يعمل مع أي جهاز عرض أو شاشة تلفزيون مسطحة، يتوافق مع أي تطبيق كمبيوتر ويسهل التحرك به",
       },
     },
     {

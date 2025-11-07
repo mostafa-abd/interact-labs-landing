@@ -16,7 +16,7 @@ export default function Join() {
           <span>Join</span> High Performing Clients
         </>
       ),
-      text: `You will be in a great community that will help maximize your educational and communication skills. Supporting you to deliver the right information to the right information to the right audience by the right tool. 
+      text: `You will be in a great community that will help maximize your educational and communication skills. Supporting you to deliver to the right information to the right audience by the right tool. 
 `,
     },
     ar: {
