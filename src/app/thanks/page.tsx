@@ -14,7 +14,6 @@ export default function Thanks() {
       const parsedData = JSON.parse(data);
       setOrderData(parsedData);
 
-      // إرسال الإيميل عند نجاح الطلب
       fetch("/api/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

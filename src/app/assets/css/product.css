@@ -464,6 +464,7 @@ font-size: clamp(16px, 3vw, 20px);
   justify-content: space-evenly;
   flex-direction: column;
   margin: 10px;
+      align-items: center;
 }
 .benefits-boxes span {
   width: 40px;
@@ -473,15 +474,23 @@ font-size: clamp(16px, 3vw, 20px);
   font-size: 20px;
   font-weight: 500;
   color: #363654;
+  text-align: center;
 }
 .benefits-boxes p {
   font-size: 16px;
   font-weight: 400;
   color: #69698c;
+    text-align: center;
+
 }
 
 @media (max-width: 500px) {
-
+.benefits-boxes h4 ,.benefits-boxes p{
+  text-align: start;
+}
+.benefits-boxes > div{
+  align-items: flex-start;
+}
   .float-box h1{
 width: 100%;
 text-align: center;

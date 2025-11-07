@@ -27,7 +27,6 @@ export default function CheckoutPage() {
 
   const country = "EG";
 
-  // ✅ تحقق مباشر من رقم الهاتف
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, 11);
     setPhone(onlyDigits);

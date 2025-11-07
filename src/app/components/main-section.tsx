@@ -397,12 +397,10 @@ export default function MainSection({ product }: { product: Product }) {
       <p className="product-info-description">
   {(() => {
     if (isTACTPanel && model === "H") {
-      // ✅ وصف خاص بالإصدار H
       return isAr
         ? "أول شاشة تفاعلية مصرية، مقاومة للكسر والصدمات، نظام تشغيل ويندوز ١٠ وأندرويد ١٣، رامات ٨ جيجا، مساحة تخزين ٢٥٦ جيجا SSD، حتى ٤٠ نقاط لمس في نفس اللحظة"
         : "The first Egyptian interactive screen, with Break resistant technology, operating system Window 10, Ram 8 G, HD 256 SSD, up to 40 multi-touch points.";
     } else {
-      // ✅ الوصف العادي من الداتا
       return language === "ar"
         ? product.description_ar
         : product.description_en;

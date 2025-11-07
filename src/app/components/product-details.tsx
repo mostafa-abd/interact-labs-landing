@@ -7,7 +7,6 @@ import type { ReactElement } from 'react';
 type Locale = 'en' | 'ar';
 
 interface Product {
-  // الحقول الثنائية للغات (اختاري أو أضيفي حسب الـ API)
   brand_en?: string;
   brand_ar?: string;
   color_en?: string;
@@ -29,7 +28,6 @@ interface Product {
   pen_length_en?: string;
   pen_length_ar?: string;
 
-  // أي حقول إضافية من الـ API
   [key: string]: unknown;
 }
 
@@ -49,7 +47,6 @@ export default function ProductDetails({ product }: Props): ReactElement | null 
 
   const suffix = language === 'ar' ? '_ar' : '_en';
 
-  // مساعد للوصول للحقل الآمن مع fallback نصي فارغ
   const getField = (base: string): string =>
     String(product[`${base}${suffix}`] ?? '');
 

@@ -6,14 +6,20 @@ import Durable from '../assets/images/Durable.svg';
 import Monitors from '../assets/images/Monitors.svg';
 import Effective from '../assets/images/Effective.svg';
 import users from '../assets/images/users.svg';
+
+import Resistant from '../assets/images/Resistant.png';
+import DualScreen from '../assets/images/DualScreen.png';
+import Partnership from '../assets/images/Partnership.png';
+import FastResponse from '../assets/images/FastResponse.png';
+import Sizes from '../assets/images/Sizes.png';
+
 import { useLanguage } from "../context/LanguageContext";
 import { usePathname } from "next/navigation";
-
 
 type BenefitItem = {
   title: { en: string; ar: string };
   desc: { en: string; ar: string };
-  img?: string ; 
+  img?: string;
 };
 
 export default function Benefits() {
@@ -24,6 +30,7 @@ export default function Benefits() {
 
   const tactPanelBenefits: BenefitItem[] = [
     {
+      img: Resistant,
       title: { en: "Break resistant technology", ar: "ضد الكسر" },
       desc: {
         en: "Designed to resist shocks impacts and ensure long-lasting performance.",
@@ -31,20 +38,23 @@ export default function Benefits() {
       },
     },
     {
+      img: DualScreen,
       title: { en: "Two Screens in One", ar: "شاشتين في شاشة" },
       desc: {
-        en: "Can work as an interactive Screen or a regular TV with internal receiver",
+        en: "Can work as an interactive Screen or a regular TV with internal receiver.",
         ar: "يمكن أن تعمل كشاشة تفاعلية أو شاشة تلفزيون عادية.",
       },
     },
     {
+      img: Partnership,
       title: { en: "AOI Partnership", ar: "شراكة استراتيجية" },
       desc: {
         en: "Manufactured in collaboration with the Arab Organization for Industrialization.",
-        ar: "تصنع بالتعاون مع الهيئة العربية للتصنيع",
+        ar: "تصنع بالتعاون مع الهيئة العربية للتصنيع.",
       },
     },
     {
+      img: FastResponse,
       title: { en: "Ultra-Fast Response", ar: "سرعة استجابة عالية" },
       desc: {
         en: "Less than 7ms response time for smooth and accurate interaction.",
@@ -52,10 +62,11 @@ export default function Benefits() {
       },
     },
     {
+      img: Sizes,
       title: { en: "Up to 98 inch", ar: "مقاسات وإصدارات متعددة" },
       desc: {
-        en: "Available in multiple sizes and models to fit all environment ",
-        ar: "مقاسات تصل حتى ٩٨ بوصة وإصدارات متعددة بإمكانيات مختلفة",
+        en: "Available in multiple sizes and models to fit all environments.",
+        ar: "مقاسات تصل حتى ٩٨ بوصة وإصدارات متعددة بإمكانيات مختلفة.",
       },
     },
   ];
@@ -74,7 +85,7 @@ export default function Benefits() {
       title: { en: "Compatible", ar: "متوافق" },
       desc: {
         en: "Works with any Projector, any TV screen, any software.",
-        ar: "يعمل مع أي جهاز عرض أو شاشة تلفزيون مسطحة، يتوافق مع أي تطبيق كمبيوتر ويسهل التحرك به",
+        ar: "يعمل مع أي جهاز عرض أو شاشة تلفزيون مسطحة، يتوافق مع أي تطبيق كمبيوتر ويسهل التحرك به.",
       },
     },
     {
@@ -82,7 +93,7 @@ export default function Benefits() {
       title: { en: "Large Monitors", ar: "مساحة تفاعلية ضخمة" },
       desc: {
         en: "Transforms large screens/monitors into a fast and accurate interactive surface up to 150 inches.",
-        ar: "يحول أي مساحة عرض إلى سطح تفاعلي سريع ودقيق، يصل إلي ١٥٠ بوصة",
+        ar: "يحول أي مساحة عرض إلى سطح تفاعلي سريع ودقيق، يصل إلي ١٥٠ بوصة.",
       },
     },
     {
@@ -90,7 +101,7 @@ export default function Benefits() {
       title: { en: "Cost Effective", ar: "سعر تنافسي" },
       desc: {
         en: "Costs less than half the price of an electronic board.",
-        ar: "موفر مقارنة بالحلول التفاعلية الأخرى كالشاشات التفاعلية والسبورات الذكية",
+        ar: "موفر مقارنة بالحلول التفاعلية الأخرى كالشاشات التفاعلية والسبورات الذكية.",
       },
     },
     {
@@ -103,7 +114,7 @@ export default function Benefits() {
     },
   ];
 
-  const benefitsToShow: BenefitItem[] = isTACTPanel ? tactPanelBenefits : defaultBenefits;
+  const benefitsToShow = isTACTPanel ? tactPanelBenefits : defaultBenefits;
 
   return (
     <section
@@ -111,18 +122,19 @@ export default function Benefits() {
       dir={isAr ? "rtl" : "ltr"}
       style={{ textAlign: isAr ? "right" : "left" }}
     >
-<h1>
-  {isAr
-    ? isTACTPanel
-      ? "مميزات شاشات تاكت التفاعلية"
-      : "مميزات تاكت"
-    : isTACTPanel
-      ? "TACT PANEL Benefits"
-      : "TACT Benefits"}
-</h1>
-      <div className="benefits-boxes" >
+      <h1>
+        {isAr
+          ? isTACTPanel
+            ? "مميزات شاشات تاكت التفاعلية"
+            : "مميزات تاكت"
+          : isTACTPanel
+          ? "TACT PANEL Benefits"
+          : "TACT Benefits"}
+      </h1>
+
+      <div className="benefits-boxes">
         {benefitsToShow.map((item, index) => (
-          <div key={index} style={{ minHeight: 100 }} >
+          <div key={index} style={{ minHeight: 100 }}>
             {item.img && (
               <div style={{ width: 60, height: 60, position: "relative" }}>
                 <Image

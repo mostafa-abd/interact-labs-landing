@@ -2,7 +2,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Inter, Almarai } from 'next/font/google';
 
-// ✅ استيراد الخطوط
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
