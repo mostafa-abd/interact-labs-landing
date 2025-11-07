@@ -444,8 +444,7 @@ font-size: clamp(16px, 3vw, 20px);
   justify-content: space-evenly;
 }
 .benefits h1 {
-  font-size: 40px;
-  font-weight: 600;
+    font-size: clamp(25px, 4vw, 40px);  font-weight: 600;
   color: #28283e;
 }
 .benefits-boxes {
