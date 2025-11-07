@@ -66,6 +66,11 @@ export default function Feedback() {
       text: "A great product for those who really want an interactive screen to work with, this makes your courses, explainers, meetings, etc. way more productive, definitely recommending it!",
       name: "Shady Manaa",
     },
+      {
+      title: "Professional work and excellent customer service",
+      text: "Professional work and excellent customer service",
+      name: "Mr. Mohamed Shafik",
+    },
   ],
 };
 
