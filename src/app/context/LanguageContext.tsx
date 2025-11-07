@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { Inter, Tajawal } from 'next/font/google';
+import { Inter, Almarai } from 'next/font/google';
 
 // ✅ استيراد الخطوط
 const inter = Inter({
@@ -9,17 +9,17 @@ const inter = Inter({
   weight: ['400', '500', '700'],
 });
 
-const tajawal = Tajawal({
-  variable: '--font-tajawal',
+const almarai = Almarai({
+  variable: '--font-almarai',
   subsets: ['arabic'],
-  weight: ['400', '500', '700'],
+  weight: ['300', '400', '700', '800'],
 });
 
 interface LanguageContextType {
   language: 'en' | 'ar';
   toggleLanguage: () => void;
   isAr: boolean;
-  currentFont: string; // ✅ هنا هنحفظ اسم الخط الحالي
+  currentFont: string; 
 }
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
@@ -34,9 +34,8 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   const toggleLanguage = () => setLanguage((prev) => (prev === 'en' ? 'ar' : 'en'));
 
   const isAr = language === 'ar';
-  const currentFont = isAr ? tajawal.variable : inter.variable;
+  const currentFont = isAr ? almarai.variable : inter.variable;
 
-  // ✅ نحدّث اتجاه الصفحة والخط عند تغيير اللغة
   useEffect(() => {
     document.documentElement.dir = isAr ? 'rtl' : 'ltr';
     document.documentElement.lang = isAr ? 'ar' : 'en';
