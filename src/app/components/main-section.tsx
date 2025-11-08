@@ -239,7 +239,7 @@ const FloatingBox = () => (
         </h1>
 
         <a
-          href="https://wa.me/201091430618"
+          href="https://wa.me/201013707879"
           target="_blank"
           rel="noopener noreferrer"
           className="whatsapp-mobile"
@@ -330,7 +330,7 @@ const FloatingBox = () => (
       </button>
 
       <a
-        href="https://wa.me/201091430618"
+        href="https://wa.me/201013707879"
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-web"
