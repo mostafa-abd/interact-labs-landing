@@ -520,9 +520,10 @@ width: 100%;
     flex-direction:row;
     width:100%;
     height: 50px;
+            align-items: flex-end;
   }
   .product-details div p{
-        width: 60%;
+        
 }
 .Quantity,.size-select,.model-select{
   max-width: 100%;
