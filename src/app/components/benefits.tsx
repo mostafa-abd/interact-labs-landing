@@ -138,7 +138,7 @@ export default function Benefits() {
         {benefitsToShow.map((item, index) => (
           <div key={index} style={{ minHeight: 100 }}>
             {item.img && (
-              <div style={{ width: 40, height: 40, position: "relative" }}>
+              <div style={{ width: 30, height: 30, position: "relative" }}>
                 <Image
                   src={item.img}
                   alt={item.title[language]}
