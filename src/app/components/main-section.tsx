@@ -32,7 +32,6 @@ interface PriceInfo {
 type ImageSource = string | StaticImageData;
 
 export default function MainSection({ product }: { product: Product }) {
-  const [showVideo, setShowVideo] = useState(false);
 
     useEffect(() => {
     const applyPadding = () => {
@@ -367,79 +366,7 @@ const FloatingBox = () => (
     <>
       <section ref={sectionRef} className="main-section" dir={dir}>
         <div className="product-images">
-          <div className="main-product-image" style={{ position: "relative" }}>
-  {typeof mainImage === "object" && mainImage.type === "video" ? (
-    showVideo ? (
-      <iframe
-        width="100%"
-        height="450"
-        src={mainImage.url + "?autoplay=1"}
-        title="Product Video"
-        frameBorder="0"
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        style={{
-          borderRadius: 12,
-          width: "100%",
-          height: "100%",
-        }}
-      ></iframe>
-    ) : (
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "450px",
-          cursor: "pointer",
-          borderRadius: 12,
-          overflow: "hidden",
-        }}
-        onClick={() => setShowVideo(true)}
-      >
-        <Image
-          src="https://img.youtube.com/vi/4oytDp2Sdsw/hqdefault.jpg"
-          alt="Video Thumbnail"
-          fill
-          style={{ objectFit: "cover" }}
-        />
-        {/* أيقونة YouTube */}
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            borderRadius: "50%",
-            width: 80,
-            height: 80,
-          }}
-        >
-          <Image
-            src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_play_button_icon_%282013-2017%29.svg"
-            alt="YouTube Icon"
-            width={50}
-            height={50}
-          />
-        </div>
-      </div>
-    )
-  ) : (
-    <Image
-      src={mainImage as string}
-      alt="Main Product"
-      fill
-      priority
-      style={{ objectFit: "contain" }}
-      sizes="100%"
-      fetchPriority="high"
-    />
-  )}
-</div>
+        <div className="main-product-image" style={{ position: "relative" }}> {typeof mainImage === "object" && mainImage.type === "video" ? ( <iframe width="100%" height="450" src={mainImage.url} title="Product Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ borderRadius: 12, width: "100%", height: "100%" }} ></iframe> ) : ( <Image src={mainImage as string} alt="Main Product" fill priority style={{ objectFit: "contain" }} sizes="100%" fetchPriority="high" /> )} </div>
 
 
           <Swiper
