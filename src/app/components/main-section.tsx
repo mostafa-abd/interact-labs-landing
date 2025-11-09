@@ -155,15 +155,12 @@ export default function MainSection({ product }: { product: Product }) {
     (img) => `${imageBasePath}/${img}`
   );
 
- if (isTACTPanel) {
+if (isTACTPanel) {
   productImages = [
-    productImages[0],
     { type: "video", url: "https://www.youtube.com/embed/4oytDp2Sdsw" },
-    ...productImages.slice(1),
+    ...productImages,
   ];
 }
-
-
   const [mainImage, setMainImage] = useState<SlideItem>(productImages[0]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
