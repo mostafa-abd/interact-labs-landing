@@ -276,7 +276,7 @@
   color: #8d8da5;
 }
 .how-to-use ol {
-  padding-left: 25px;
+padding: 0 25px;
   font-size: 16px;
   font-weight: 500;
   color: #8d8da5;
