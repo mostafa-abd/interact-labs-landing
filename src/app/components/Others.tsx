@@ -31,7 +31,7 @@ export default function Others() {
       style={{ textAlign: isAr ? "right" : "left" }}
     >
       <h1>
-        {isAr ? "مواصفات أخرى" : "Others "}
+        {isAr ? "مميزات أخرى" : "More benefits "}
       </h1>
 
       <div className="benefits-boxes">

@@ -12,7 +12,7 @@ export default function Statics() {
   const staticsData = [
     { number: 300, title: { en: "Educational institution", ar: "مؤسسة تعليمية" } },
     { number: 30, title: { en: "University", ar: "جامعة" } },
-    { number: 1264, title: { en: "Teacher", ar: "معلم" } },
+    { number: 1264, title: { en: "Teacher", ar: "مدرس" } },
   ];
 
   const [counts, setCounts] = useState(staticsData.map(() => 0));
