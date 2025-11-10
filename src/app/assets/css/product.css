@@ -349,7 +349,7 @@
 .feed-profile span{
       width: 100%;
     text-align: center;
-    transform: translateY(-20px);
+    transform: translateY(-10px);
 }
 .feed-image{
   width:50px;
