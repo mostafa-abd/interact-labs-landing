@@ -68,7 +68,7 @@ export default function Statics() {
       ref={sectionRef}
       className="statics"
       dir={isAr ? "rtl" : "ltr"}
-      style={{ textAlign: "center", padding: "60px 0" }}
+      style={{ textAlign: "center"}}
     >
       <h1>{isAr ? "عملائنا" : "Our clients"}</h1>
       {staticsData.map((item, index) => (

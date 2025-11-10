@@ -15,7 +15,7 @@ import { useLanguage } from "../context/LanguageContext";
 export default function Clients() {
   const { isAr } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
 
   const clients = [BMW, Mercedessvg, Coca, Guc, Auc, Ain, Mansoura, Capital];
   const repeatedClients = [...clients, ...clients];
@@ -31,7 +31,7 @@ export default function Clients() {
       scrollPos += speed;
       if (scrollPos >= container.scrollWidth / 2) scrollPos = 0;
 
-      // Force LTR for container scroll
+      // التحريك بناءً على اللغة
       container.scrollLeft = isAr
         ? container.scrollWidth / 2 - scrollPos
         : scrollPos;
@@ -39,7 +39,7 @@ export default function Clients() {
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    // أوقف أي animation موجود
+    // إيقاف أي animation سابق
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
     animate();
 
@@ -65,7 +65,7 @@ export default function Clients() {
           flexWrap: "nowrap",
           width: "100%",
           overflowX: "hidden",
-          direction: "ltr", // <--- مهم جداً
+          direction: "ltr", // مهم عشان scrollLeft يشتغل صح
         }}
       >
         {repeatedClients.map((client, index) => (
