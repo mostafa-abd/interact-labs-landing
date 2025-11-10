@@ -39,7 +39,7 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
       text: "حابب أنصح أي HR عايز يزود من الإنتاجية فعلاً يستخدم شاشة تاكت التفاعلية. كان عندنا شوية تحديات الفترة اللي فاتت في مكنش في حاجة بتساعدنا في طريقة العرض والتفاعل في الاجتماعات بدأنا نعمل بحث لحد ما وصلنا أفضل ترشيح في السوق المصري شاشة تاكت بانل، بنصح أي حد يستخدمها.",
       name: "أ. محمد خالد",
       jobTitle: { ar: "رئيس قسم الموارد البشرية – شركة عطاره شوب", en: "Head of HR – Etara Shop" },
-      image: "/images/feedback/Mohamed Khaled.jpeg",
+      image: "/images/feedback/MohamedKhaled.jpeg",
     },
     {
       title: "شاشة تاكت بانل سهلت الشرح والمعلومة للطلاب",
@@ -53,7 +53,7 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
       text: "الشاشه ممتاذه ماشاء الله والتعامل فوق الممتاز بالاضافه أن المهندس راجل محترم جدا جدا وقمه فى الأدب ورقى التعامل ومتشكر لكم جدا جدا وان شاء الله موش اخر تعامل.",
       name: "محمد سالم",
       jobTitle: { ar: "مدرس", en: "Teacher" },
-      image: "/images/feedback/Mohamed Salem.jpeg",
+      image: "/images/feedback/MohamedSalem.jpeg",
     },
     {
       title: "تعاون واحترافية عالية",
@@ -67,14 +67,14 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
       text: "الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والمهنية شكرا.",
       name: "حسام الدين",
       jobTitle: { ar: "مدرس", en: "Teacher" },
-      image: "/images/feedback/Hossam Eldin.jpeg",
+      image: "/images/feedback/HossamEldin.jpeg",
     },
     {
       title: "منتج موصى به بشدة",
       text: "منتج ممتاز لأي شخص يريد استخدام شاشة تفاعلية في التعليم أو الاجتماعات أو أي عرض، يجعل العمل أكثر إنتاجية.",
       name: "شادي مناع",
       jobTitle: { ar: "مدرس", en: "Teacher" },
-      image: "/images/feedback/Sandy manaa.jpeg",
+      image: "/images/feedback/Sandymanaa.jpeg",
     },
     {
       title: "شغل محترم وخدمة عملاء مميزة",
@@ -97,7 +97,7 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
       text: "I would like to recommend any HR looking to increase productivity to use the TACT interactive screen. We had some challenges previously, and after research, we found the best option in the Egyptian market: TACT Panel. Highly recommended.",
       name: "Mohamed Khaled",
       jobTitle: { ar: "رئيس قسم الموارد البشرية – شركة عطاره شوب", en: "Head of HR – Etara Shop" },
-      image: "/images/feedback/Mohamed Khaled.jpeg",
+      image: "/images/feedback/MohamedKhaled.jpeg",
     },
     {
       title: "TACT Panel made teaching easier and faster",
@@ -111,7 +111,7 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
       text: "The screen is amazing, Mashallah. Excellent service, and the engineer was very respectful and professional. Thank you so much, and hopefully, it won’t be the last deal.",
       name: "Mohamed Salem",
       jobTitle: { ar: "مدرس", en: "Teacher" },
-      image: "/images/feedback/Mohamed Salem.jpeg",
+      image: "/images/feedback/MohamedSalem.jpeg",
     },
     {
       title: "Very professional and helpful team",
@@ -125,14 +125,14 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
       text: "The screen is excellent, smooth to use, and made from strong materials. The engineers were very professional and polite. Thank you.",
       name: "Hosam El Deen Gaber",
       jobTitle: { ar: "مدرس", en: "Teacher" },
-      image: "/images/feedback/Hossam Eldin.jpeg",
+      image: "/images/feedback/HossamEldin.jpeg",
     },
     {
       title: "Highly recommended product",
       text: "A great product for those who really want an interactive screen to work with, this makes your courses, explainers, meetings, etc. way more productive, definitely recommending it!",
       name: "Shady Manaa",
       jobTitle: { ar: "مدرس", en: "Teacher" },
-      image: "/images/feedback/Sandy manaa.jpeg",
+      image: "/images/feedback/Sandymanaa.jpeg",
     },
     {
       title: "Professional work and excellent customer service",
@@ -154,7 +154,7 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
         text: "جهاز تاكت عمره الافتراضي طويل جدًا، الجهاز متحرك نقدر بسهولة ننقله من مكان للتاني، نقدر نستخدم السبورة البيضاء الكبيرة مع البروجيكتور ونحولها ل تاتش في وجود تاكت، السعر تنافسي جدًا وكمان خدمة العملاء والدعم الفني على مستوى عالي، لو قارنا بين أجهزة تفاعلية أخرى وتاكت هتلاقي تاكت أفضل بكتير جدًا كجودة أداء وسعر، كل الشكر ليكم وبتمنى لكم التوفيق.",
         name: "على أبو الدهب",
         jobTitle: { ar: "مدير مدرسة صن الخاصة للغات", en: "Sun Language Schools - Principle" },
-        image: "/images/feedback/Ali Abu eldahab.jpeg",
+        image: "/images/feedback/AliAbueldahab.jpeg",
       },
       {
         title: "جهاز تاكت يجعل التعلم أكثر تفاعلية",
@@ -203,14 +203,14 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
         text: "الجهاز ممتاز جدا وفاق كل توقعاتي وساعدني جدا أخرج بالجودة اللي كنت حاببها. شكرا للأستاذة رضوى والتيم كله على المجهود الرائع في التعامل فترة ما بعد البيع.",
         name: "محمد عبد",
         jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/feedback/Mohamed AbdelSalam.jpeg",
+        image: "/images/feedback/MohamedAbdelSalam.jpeg",
       },
       {
         title: "خدمة ما بعد البيع محترمة جدًا",
         text: "السلام عليكم، بامانه جهاز محترم. خدمة ما بعد البيع قمة الاحترام والرد على أي مشكلة وحلها بسرعة جدًا. والله شركة محترمة، وفرحان جدًا لأنها مصرية وشباب مصريين فعلاً مقدرين مكانة العميل ووقته. كل الشكر والتقدير لخدمة العملاء.",
         name: "ياسر عاشور",
         jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/feedback/Yaser ashor.jpeg",
+        image: "/images/feedback/Yaserashor.jpeg",
       },
       {
         title: "جهاز محترم وقيمة مقابل سعر",
@@ -227,7 +227,7 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
         text: "The TACT device has a long lifespan, it's portable and easy to move from one place to another. We can use the large whiteboard with the projector and turn it into touch interaction with TACT. The price is very competitive, and the customer support is excellent. Compared to other interactive devices, TACT is far superior in performance and value. Many thanks and best wishes!",
         name: "Ali Abu Eldahab",
         jobTitle: { ar: "مدير مدرسة صن الخاصة للغات", en: "Sun Language Schools - Principle" },
-        image: "/images/feedback/Ali Abu eldahab.jpeg",
+        image: "/images/feedback/AliAbueldahab.jpeg",
       },
       {
         title: "TACT makes learning more interactive",
@@ -276,14 +276,14 @@ const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
         text: "The device exceeded all my expectations and helped me achieve great results. Many thanks to Ms. Radwa and the whole team for their great after-sales support.",
         name: "Mohamed Abd",
         jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/feedback/Mohamed AbdelSalam.jpeg",
+        image: "/images/feedback/MohamedAbdelSalam.jpeg",
       },
       {
         title: "Excellent after-sales service",
         text: "Honestly, this device is great! The after-sales support is excellent — quick responses and respectful communication. I'm proud it's an Egyptian company run by professionals who truly care about their customers.",
         name: "Yasser Ashour",
         jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/feedback/Yaser ashor.jpeg",
+        image: "/images/feedback/Yaserashor.jpeg",
       },
       {
         title: "Professional and valuable device",
