@@ -209,9 +209,7 @@
   width: 100%;
   max-width: 180px;
 }
-.product-info-Quantity span {
-  margin: 0 10px 0 0;
-}
+
 .Quantity > div,
 .product-info-Quantity select {
   border: 2px solid #6064bf;

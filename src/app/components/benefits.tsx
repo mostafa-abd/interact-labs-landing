@@ -65,7 +65,7 @@ export default function Benefits() {
     },
     {
       img: Sizes,
-      title: { en: "Up to 98 inch", ar: "مقاسات وإصدارات متعددة" },
+      title: { en: "Up to 98 inch", ar: "مقاسات متعددة" },
       desc: {
         en: "Available in multiple sizes and models to fit all environments and use cases.",
         ar: "مقاسات تصل حتى ٩٨ بوصة وإصدارات متعددة بإمكانيات مختلفة.",
