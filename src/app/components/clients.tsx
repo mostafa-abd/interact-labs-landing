@@ -25,13 +25,12 @@ export default function Clients() {
     if (!container) return;
 
     let scrollPos = 0;
-    const speed = 1.5;
+    const speed = 1;
 
     const animate = () => {
       scrollPos += speed;
       if (scrollPos >= container.scrollWidth / 2) scrollPos = 0;
 
-      // التحريك بناءً على اللغة
       container.scrollLeft = isAr
         ? container.scrollWidth / 2 - scrollPos
         : scrollPos;
@@ -39,7 +38,6 @@ export default function Clients() {
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    // إيقاف أي animation سابق
     if (animationRef.current) cancelAnimationFrame(animationRef.current);
     animate();
 
