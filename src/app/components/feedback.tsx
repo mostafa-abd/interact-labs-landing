@@ -25,75 +25,126 @@ export default function Feedback() {
   const isTACTPanel = pathname.includes("tact-panel");
 
  
- const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
-    ar: [
-      {
-        title: "الشاشة ممتاذه والتعامل راقي جدًا",
-        text: "الشاشه ممتاذه ماشاء الله والتعامل فوق الممتاز بالاضافه أن المهندس راجل محترم جدا جدا وقمه فى الأدب ورقى التعامل ومتشكر لكم جدا جدا وان شاء الله موش اخر تعامل.",
-        name: "Mohamed Salem",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/Mohamed Salem.png",
-      },
-      {
-        title: "تعاون واحترافية عالية",
-        text: "احب اشكر كلا من المهندس باسم والمهندس محمد سامح على تعاونهم من اول البدء على معرفه وامكانيات الشاشه حتى استلامها وتوصلها والتدريب عليها. الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والاحترام والتعاون شكرا لكم جميعا.",
-        name: "Eng. Ibrahim Ali - Almohands",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/avatars/avatar2.png",
-      },
-      {
-        title: "جودة ممتازة وسهولة في الاستخدام",
-        text: "الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والمهنية شكرا.",
-        name: "Hosam El Deen Gaber",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/avatars/avatar3.png",
-      },
-      {
-        title: "شغل محترم وخدمة عملاء مميزة",
-        text: "شغل محترم وخدمة عملاء مميزه.",
-        name: "مستر محمد شفيق",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/avatars/avatar4.png",
-      },
-    ],
-    en: [
-      {
-        title: "Excellent screen and great service",
-        text: "The screen is amazing, Mashallah. Excellent service, and the engineer was very respectful and professional. Thank you so much, and hopefully, it won’t be the last deal.",
-        name: "Mohamed Salem",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/avatars/avatar1.png",
-      },
-      {
-        title: "Very professional and helpful team",
-        text: "I would like to thank Eng. Basem and Eng. Mohamed Sameh for their support from start to delivery and training. The screen is great, easy to use, and made of durable materials. The engineers are very polite and cooperative. Thanks to you all.",
-        name: "Eng. Ibrahim Ali - Almohands",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/avatars/avatar2.png",
-      },
-      {
-        title: "High quality and smooth usage",
-        text: "The screen is excellent, smooth to use, and made from strong materials. The engineers were very professional and polite. Thank you.",
-        name: "Hosam El Deen Gaber",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/avatars/avatar3.png",
-      },
-      {
-        title: "Highly recommended product",
-        text: "A great product for those who really want an interactive screen to work with, this makes your courses, explainers, meetings, etc. way more productive, definitely recommending it!",
-        name: "Shady Manaa",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/avatars/avatar5.png",
-      },
-      {
-        title: "Professional work and excellent customer service",
-        text: "Professional work and excellent customer service",
-        name: "Mr. Mohamed Shafik",
-        jobTitle: { ar: "مدرس", en: "Teacher" },
-        image: "/images/avatars/avatar6.png",
-      },
-    ],
-  };
+const tactPanelFeedbacks: Record<string, FeedbackItem[]> = {
+  ar: [
+    {
+      title: "سعداء بوجود تاكت بانل في المدرسة",
+      text: "سألنا على الشاشة والشركة وكان ليهم تعاملات كتير مع مدارس أخرى فحبينا إنها تكون موجودة عندنا، والحمد لله استلمنا المنتج وسعيدة جدًا بالتعامل معاهم، شركة راقية جدًا وكان فيه تدريب قبل الاستلام وبعد الاستلام، المدرسين لما اخدوا التدريب فرق معاهم جدًا شركة محترمة جدًا ومتمرسين.",
+      name: "أ. دينا عبدالله",
+      jobTitle: { ar: "مديرة مدرسة كابيتال الخاصة للغات", en: "Capital Language Schools - Principle" },
+      image: "/images/feedback/Dina.jpeg",
+    },
+    {
+      title: "نصيحة لأي HR يزيد الإنتاجية",
+      text: "حابب أنصح أي HR عايز يزود من الإنتاجية فعلاً يستخدم شاشة تاكت التفاعلية. كان عندنا شوية تحديات الفترة اللي فاتت في مكنش في حاجة بتساعدنا في طريقة العرض والتفاعل في الاجتماعات بدأنا نعمل بحث لحد ما وصلنا أفضل ترشيح في السوق المصري شاشة تاكت بانل، بنصح أي حد يستخدمها.",
+      name: "أ. محمد خالد",
+      jobTitle: { ar: "رئيس قسم الموارد البشرية – شركة عطاره شوب", en: "Head of HR – Etara Shop" },
+      image: "/images/feedback/Mohamed Khaled.jpeg",
+    },
+    {
+      title: "شاشة تاكت بانل سهلت الشرح والمعلومة للطلاب",
+      text: "شاشة تاكت بانل سهلت عليينا الشرح والمعلومة توصل أسرع للطالب وفي أنشطة كتيرة وتطبيقات خاصة بالرياضيات بتساعد في توصيل المعلومة بسهولة معنديش مشكلة اشغل أكتر من برنامج في نفس الدقيقة وبييخدموا معايا في الفصل وكمان بقدر أعمل مسابقات والطلاب ييطلعوا يتفاعلوا ويشتلغوا في نفس الوقت على الشاشة بدون أي مشاكل",
+      name: "أ. صوفي يحيى",
+      jobTitle: { ar: "مدرسة رياضيات – مدرسة كابيتال الخاصة للغات", en: "Capital Language Schools - Mathematics Teacher" },
+      image: "/images/feedback/Sofi.jpeg",
+    },
+    {
+      title: "الشاشة ممتاذه والتعامل راقي جدًا",
+      text: "الشاشه ممتاذه ماشاء الله والتعامل فوق الممتاز بالاضافه أن المهندس راجل محترم جدا جدا وقمه فى الأدب ورقى التعامل ومتشكر لكم جدا جدا وان شاء الله موش اخر تعامل.",
+      name: "محمد سالم",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "/images/feedback/Mohamed Salem.jpeg",
+    },
+    {
+      title: "تعاون واحترافية عالية",
+      text: "احب اشكر كلا من المهندس باسم والمهندس محمد سامح على تعاونهم من اول البدء على معرفه وامكانيات الشاشه حتى استلامها وتوصلها والتدريب عليها. الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والاحترام والتعاون شكرا لكم جميعا.",
+      name: "إبراهيم علي",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "",
+    },
+    {
+      title: "جودة ممتازة وسهولة في الاستخدام",
+      text: "الشاشة رائعة واستخدامها سلس وسهل والخامات قوية تستحمل الشغل بسم الله ما شاء الله والمهندسين قمة فى الذوق والمهنية شكرا.",
+      name: "حسام الدين",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "/images/feedback/Hossam Eldin.jpeg",
+    },
+    {
+      title: "منتج موصى به بشدة",
+      text: "منتج ممتاز لأي شخص يريد استخدام شاشة تفاعلية في التعليم أو الاجتماعات أو أي عرض، يجعل العمل أكثر إنتاجية.",
+      name: "شادي مناع",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "/images/feedback/Sandy manaa.jpeg",
+    },
+    {
+      title: "شغل محترم وخدمة عملاء مميزة",
+      text: "شغل محترم وخدمة عملاء مميزه.",
+      name: "محمد شفيق",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "/images/feedback/Shafik.jpeg",
+    },
+  ],
+  en: [
+    {
+      title: "Happy to have TACT Panel in school",
+      text: "We asked about the screen and the company had a lot of experience with other schools, so we wanted it in ours. We received the product and are very happy with the interaction. The company is very professional, and training was provided before and after delivery. Teachers noticed a big difference after the training.",
+      name: "Dina Abdallah",
+      jobTitle: { ar: "مديرة مدرسة كابيتال الخاصة للغات", en: "Capital Language Schools - Principle" },
+      image: "/images/feedback/Dina.jpeg",
+    },
+    {
+      title: "Recommendation for any HR to boost productivity",
+      text: "I would like to recommend any HR looking to increase productivity to use the TACT interactive screen. We had some challenges previously, and after research, we found the best option in the Egyptian market: TACT Panel. Highly recommended.",
+      name: "Mohamed Khaled",
+      jobTitle: { ar: "رئيس قسم الموارد البشرية – شركة عطاره شوب", en: "Head of HR – Etara Shop" },
+      image: "/images/feedback/Mohamed Khaled.jpeg",
+    },
+    {
+      title: "TACT Panel made teaching easier and faster",
+      text: "TACT Panel made explanation easier and faster for students. Many math-related activities and apps help deliver content smoothly. I can run multiple programs simultaneously and conduct competitions, and students interact without any issues.",
+      name: "Sofi Yahia",
+      jobTitle: { ar: "مدرسة رياضيات – مدرسة كابيتال الخاصة للغات", en: "Capital Language Schools -  Teacher" },
+      image: "/images/feedback/Sofi.jpeg",
+    },
+    {
+      title: "Excellent screen and great service",
+      text: "The screen is amazing, Mashallah. Excellent service, and the engineer was very respectful and professional. Thank you so much, and hopefully, it won’t be the last deal.",
+      name: "Mohamed Salem",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "/images/feedback/Mohamed Salem.jpeg",
+    },
+    {
+      title: "Very professional and helpful team",
+      text: "I would like to thank Eng. Basem and Eng. Mohamed Sameh for their support from start to delivery and training. The screen is great, easy to use, and made of durable materials. The engineers are very polite and cooperative. Thanks to you all.",
+      name: "Eng. Ibrahim Ali - Almohands",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "",
+    },
+    {
+      title: "High quality and smooth usage",
+      text: "The screen is excellent, smooth to use, and made from strong materials. The engineers were very professional and polite. Thank you.",
+      name: "Hosam El Deen Gaber",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "/images/feedback/Hossam Eldin.jpeg",
+    },
+    {
+      title: "Highly recommended product",
+      text: "A great product for those who really want an interactive screen to work with, this makes your courses, explainers, meetings, etc. way more productive, definitely recommending it!",
+      name: "Shady Manaa",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "/images/feedback/Sandy manaa.jpeg",
+    },
+    {
+      title: "Professional work and excellent customer service",
+      text: "Professional work and excellent customer service",
+      name: "Mr. Mohamed Shafik",
+      jobTitle: { ar: "مدرس", en: "Teacher" },
+      image: "/images/feedback/Shafik.jpeg",
+    },
+  ],
+};
+
+
 
   //  TACT Feedback 
  const tactFeedbacks: Record<string, FeedbackItem[]> = {
@@ -290,15 +341,17 @@ export default function Feedback() {
               {fb.text}
             </p>
             <div className="feed-profile">
-              <div className="feed-image">
-              <Image
-                src={fb.image}
-                alt={fb.name}
-                width={50}
-                height={50}
-                style={{ borderRadius: "50%", objectFit: "cover" }}
-              />
-              </div>
+  {fb.image && (
+    <div className="feed-image">
+      <Image
+        src={fb.image}
+        alt={fb.name}
+        width={50}
+        height={50}
+        style={{ borderRadius: "50%", objectFit: "cover" }}
+      />
+    </div>
+  )}
         <div>
                 <h4 style={{ fontWeight: "bold" }}>{fb.name}</h4>
               <span style={{ color: "#777", fontSize: "0.85rem" }}>{fb.jobTitle[language]}</span>
