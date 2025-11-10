@@ -1,5 +1,4 @@
 import React from "react";
-
 import products from "@/data/products.json";
 import MainSection from "../components/main-section";
 import Benefits from "../components/benefits";
@@ -9,7 +8,8 @@ import HowToUse from "../components/how-to-use";
 import "../assets/css/product.css";
 import Join from './../components/join';
 import Others from '../components/Others';
-
+import Statics from "../components/statics";
+import Clients from "../components/clients";
 interface Props {
   params: Promise<{ slug?: string }>;
 }
@@ -30,6 +30,8 @@ export default async function ProductPage({ params }: Props) {
       <MainSection product={product} />
       {normalizedSlug === "tact" && <HowToUse />}
       <Benefits />
+      <Statics />
+      <Clients />
       <Feedback />
       <Others />
       <ProductDetails product={product} />
