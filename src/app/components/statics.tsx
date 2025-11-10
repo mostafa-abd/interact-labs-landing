@@ -10,9 +10,10 @@ export default function Statics() {
   const [startCount, setStartCount] = useState(false);
 
   const staticsData = [
+        { number: 1264, title: { en: "Teacher", ar: "مدرس" } },
+
     { number: 300, title: { en: "Educational institution", ar: "مؤسسة تعليمية" } },
     { number: 30, title: { en: "University", ar: "جامعة" } },
-    { number: 1264, title: { en: "Teacher", ar: "مدرس" } },
   ];
 
   const [counts, setCounts] = useState(staticsData.map(() => 0));
@@ -69,7 +70,7 @@ export default function Statics() {
       dir={isAr ? "rtl" : "ltr"}
       style={{ textAlign: "center", padding: "60px 0" }}
     >
-      <h1>{isAr ? "إنجازاتنا" : "Our Achievements"}</h1>
+      <h1>{isAr ? "عملائنا" : "Our clients"}</h1>
       {staticsData.map((item, index) => (
         <div key={index} style={{ margin: "20px 0" }}>
           <span style={{ fontSize: "2rem", fontWeight: "bold", display: "block" }}>

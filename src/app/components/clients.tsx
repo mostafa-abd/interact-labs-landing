@@ -16,7 +16,6 @@ export default function Clients(){
       const isAr = language === "ar";
     return(
         <section className="clients">
-<h1>{isAr ? "شركاؤنا" : "Our Partners"}</h1>
             <div>
                 <Image src={BMW} alt=" logo" fill/>
             </div>
