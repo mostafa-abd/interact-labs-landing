@@ -54,18 +54,17 @@ export default function Clients() {
         overflow: "hidden",
         width: "100%",
         padding: "20px 0",
-        background: "#f9f9f9",
       }}
     >
       <div
         ref={containerRef}
         style={{
           display: "flex",
-          gap: "20px",
+          gap: "8%",
           flexWrap: "nowrap",
           width: "100%",
           overflowX: "hidden",
-          direction: "ltr", // مهم عشان scrollLeft يشتغل صح
+          direction: "ltr",
         }}
       >
         {repeatedClients.map((client, index) => (
