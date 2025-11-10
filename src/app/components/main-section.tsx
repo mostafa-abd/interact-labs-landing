@@ -161,6 +161,12 @@ if (isTACTPanel) {
     ...productImages,
   ];
 }
+if (isTACT) {
+  productImages = [
+    { type: "video", url: "https://www.youtube.com/embed/Ne1A3bCe0zc" },
+    ...productImages,
+  ];
+}
   const [mainImage, setMainImage] = useState<SlideItem>(productImages[0]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
@@ -380,61 +386,66 @@ const FloatingBox = () => (
             }}
           >
             {productImages.map((item, i) => (
-              <SwiperSlide key={i}>
-                <div
-                  className={`sub-image cursor-pointer ${i === activeIndex ? "active" : ""}`}
-                  onClick={() => {
-                    setMainImage(item);
-                    setActiveIndex(i);
-                  }}
-                  style={{ position: "relative" }}
-                >
-                  {typeof item === "object" && item.type === "video" ? (
-                    <>
-                      <Image
-                        src="https://img.youtube.com/vi/4oytDp2Sdsw/hqdefault.jpg"
-                        alt="Video Thumbnail"
-                        fill
-                        style={{ objectFit: "cover", borderRadius: 8 }}
-                        loading="lazy"
-                      />
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                          background: "rgba(0,0,0,0.6)",
-                          borderRadius: "50%",
-                          width: 50,
-                          height: 50,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <span
-                          style={{
-                            width: 0,
-                            height: 0,
-                            borderTop: "10px solid transparent",
-                            borderBottom: "10px solid transparent",
-                            borderLeft: "15px solid white",
-                          }}
-                        ></span>
-                      </div>
-                    </>
-                  ) : (
-                    <Image
-                      src={item as string}
-                      alt={`Sub ${i + 1}`}
-                      fill
-                      style={{ objectFit: "cover", borderRadius: 8 }}
-                      loading="lazy"
-                    />
-                  )}
-                </div>
-              </SwiperSlide>
+             <SwiperSlide key={i}>
+  <div
+    className={`sub-image cursor-pointer ${i === activeIndex ? "active" : ""}`}
+    onClick={() => {
+      setMainImage(item);
+      setActiveIndex(i);
+    }}
+    style={{ position: "relative" }}
+  >
+    {typeof item === "object" && item.type === "video" ? (
+      <>
+        <Image
+          src={
+            item.url.includes("4oytDp2Sdsw")
+              ? "https://img.youtube.com/vi/4oytDp2Sdsw/hqdefault.jpg"
+              : "https://img.youtube.com/vi/Ne1A3bCe0zc/hqdefault.jpg"
+          }
+          alt="Video Thumbnail"
+          fill
+          style={{ objectFit: "cover", borderRadius: 8 }}
+          loading="lazy"
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            background: "rgba(0,0,0,0.6)",
+            borderRadius: "50%",
+            width: 50,
+            height: 50,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span
+            style={{
+              width: 0,
+              height: 0,
+              borderTop: "10px solid transparent",
+              borderBottom: "10px solid transparent",
+              borderLeft: "15px solid white",
+            }}
+          ></span>
+        </div>
+      </>
+    ) : (
+      <Image
+        src={item as string}
+        alt={`Sub ${i + 1}`}
+        fill
+        style={{ objectFit: "cover", borderRadius: 8 }}
+        loading="lazy"
+      />
+    )}
+  </div>
+</SwiperSlide>
+
             ))}
           </Swiper>
         </div>

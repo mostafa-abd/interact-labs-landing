@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image"
 import BMW from '../assets/images/BMW.svg'
 import Mercedessvg from '../assets/images/Mercedessvg.svg'
@@ -7,11 +9,14 @@ import Auc from '../assets/images/auc.png'
 import Ain from '../assets/images/ain.png'
 import Mansoura from '../assets/images/mansoura.png'
 import Capital from '../assets/images/capital.png'
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Clients(){
+      const language = useLanguage()?.language ?? "en";
+      const isAr = language === "ar";
     return(
         <section className="clients">
-            <h1>Our Partners</h1>
+<h1>{isAr ? "شركاؤنا" : "Our Partners"}</h1>
             <div>
                 <Image src={BMW} alt=" logo" fill/>
             </div>
