@@ -51,7 +51,7 @@ export default function CheckoutPage() {
     "65-H": { current: 44688, before: 49020 },
     "75-H": { current: 61255, before: 66120 },
     "85-H": { current: 100339, before: 105320 },
-    "TACT": { current: 7200, before: 10000 },
+    "TACT": { current: 7182, before: 10000 },
   };
 
   const productImages: Record<string, string> = {
