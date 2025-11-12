@@ -3,16 +3,6 @@ import { useEffect, useState } from "react";
 import "../assets/css/thanks.css";
 import Image from "next/image";
 import ThanksImg from "../assets/images/thanks.svg";
-
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Thanks",
-  description: "thanks",
-};
-
-
-
 export const runtime = "edge";
 
 export default function Thanks() {
