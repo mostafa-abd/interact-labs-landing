@@ -3,6 +3,13 @@ import { useEffect, useState } from "react";
 import "../assets/css/thanks.css";
 import Image from "next/image";
 import FailureImg from "../assets/images/Failure.svg";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Failure",
+  description: "Failure",
+};
 export const runtime = "edge";
 
 export default function Failure() {
