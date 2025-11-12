@@ -1,12 +1,14 @@
-export const runtime = "nodejs";
-
-import type { Metadata } from "next";
 import CheckoutPage from "./CheckoutPage";
+import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Checkout | Interact Shop",
-  description: "Complete your order safely and easily.",
-};
+
+
+export function generateMetadata(): Metadata {
+  return {
+    title: `Checkout `,
+    description: `Complete your order safely and easily.`,
+  };
+}
 
 export default function Page() {
   return <CheckoutPage />;
