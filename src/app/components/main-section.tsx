@@ -98,7 +98,7 @@ export default function MainSection({ product }: { product: Product }) {
   }, []);
 
   const priceMap: Record<string, PriceInfo> = {
-    "TACT-EG": { current: 7200, before: 10000, currency: "EGP" },
+    "TACT-EG": { current: 7182, before: 10000, currency: "EGP" },
     "TACT-SA": { current: 565, before: 975, currency: "SAR" },
     "55-B": { current: 32335, before: 37620, currency: "EGP" },
     "65-B": { current: 38988, before: 43320, currency: "EGP" },
@@ -178,7 +178,7 @@ if (isTACT) {
   const texts = {
     warranty: isAr ? "ضمان" : "Warranty",
     saleSupport: isAr ? "خدمة عملاء" : "After sale support",
-    installment: isAr ? "أنظمة تقسيط مختلفة" : "Installment",
+    installment: isAr ? "أنظمة تقسيط " : "Installment",
     freeShipping: isAr ? "الدفع اونلاين" : "Online payment",
     cashOnDelivery: isAr ? "الدفع عند الاستلام" : "Cash On Delivery",
     priceVAT: isAr ? "السعر شامل الضريبة" : "Price include VAT",

@@ -82,7 +82,6 @@
   width: 48%;
   min-width: 450px;
   min-height: 500px;
-  padding: 0 1%;
   display: flex;
   height: fit-content;
 }
@@ -120,6 +119,8 @@
 .product-info-description {
   font-size: 18px;
   font-weight: 400;
+  
+    line-height: 35px;
   color: #69698c;
 }
 .product-info-warranty {
@@ -424,6 +425,8 @@ padding: 0 25px;
   font-size: clamp(16px, 3vw, 20px);
   font-weight: 400;
   color: #69698c;
+      line-height: 30px;
+          padding: 0 1%;
 }
 @media (max-width: 1000px) {
   .join > div:last-child {
@@ -462,7 +465,7 @@ padding: 0 25px;
   width: 100%;
   min-height: 215px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -473,7 +476,7 @@ padding: 0 25px;
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  margin: 10px;
+  margin: 10px 0;
   align-items: center;
 }
 .benefits-boxes span {
