@@ -190,12 +190,21 @@ if (isTACT) {
     reviews: isAr ? "تقييم" : "reviews"
   };
 
-  const handleBuyNow = () => {
-    const slug = isTACTPanel
-      ? `${product.product_name.replace(/\s+/g, "-")}-${size}-Inches-${model}-${quantity}`
-      : `${product.product_name.replace(/\s+/g, "-")}-${quantity}`;
-    router.push(`/checkout/${slug}`);
-  };
+const handleBuyNow = () => {
+  const slug = isTACTPanel
+    ? `${product.product_name.replace(/\s+/g, "-")}-${size}-Inches-${model}-${quantity}`
+    : `${product.product_name.replace(/\s+/g, "-")}-${quantity}`;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'virtualPageView',
+    pagePath: `/checkout/${slug}`,
+    pageTitle: 'Checkout Page',
+  });
+
+  router.push(`/checkout/${slug}`);
+};
+
 
 const FloatingBox = () => (
   <div

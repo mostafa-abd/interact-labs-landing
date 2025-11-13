@@ -111,97 +111,120 @@ export default function CheckoutPage() {
     );
   };
 
-  const handleCOD = async () => {
-    if (!firstName || !lastName || !email || !phone || !city || !state) {
-      alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
-      return;
-    }
-    if (!validatePhone()) {
-      alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
-      return;
-    }
+const handleCOD = async () => {
+  // إرسال حدث Page View/Conversion للGTM
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "checkoutInitiated",
+    paymentMethod: "COD",
+    productName: product.name,
+    quantity: product.qty,
+    totalPrice,
+    currency,
+  });
 
-    if (emailSent) return;
-    setLoadingCOD(true);
-    try {
-      saveSessionData("COD");
+  if (!firstName || !lastName || !email || !phone || !city || !state) {
+    alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
+    return;
+  }
+  if (!validatePhone()) {
+    alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
+    return;
+  }
+
+  if (emailSent) return;
+  setLoadingCOD(true);
+  try {
+    saveSessionData("COD");
+    await fetch("/api/sendEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
+    });
+    setEmailSent(true);
+    router.push("/thanks");
+  } catch (err) {
+    console.error(err);
+    alert(isAr ? "حدث خطأ أثناء تسجيل الطلب" : "Error processing order");
+  } finally {
+    setLoadingCOD(false);
+  }
+};
+
+const handlePayment = async () => {
+  // إرسال حدث Page View/Conversion للGTM
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "checkoutInitiated",
+    paymentMethod: "Online Payment",
+    productName: product.name,
+    quantity: product.qty,
+    totalPrice,
+    currency,
+  });
+
+  if (!firstName || !lastName || !email || !phone || !city || !state) {
+    alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
+    return;
+  }
+  if (!validatePhone()) {
+    alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
+    return;
+  }
+
+  if (emailSent) return;
+  setLoadingPayment(true);
+  try {
+    saveSessionData("PENDING");
+    const res = await fetch("/api/paymob", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: totalPrice,
+        currency,
+        product_name: product.name,
+        quantity: qty,
+        billing_data: {
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone_number: phone,
+          city,
+          state,
+          country,
+        },
+      }),
+    });
+    const data = await res.json();
+    if (data.success && data.iframeUrl) {
+      window.location.href = data.iframeUrl;
+    } else {
+      saveSessionData("Unpaid");
       await fetch("/api/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
       });
       setEmailSent(true);
-      router.push("/thanks");
-    } catch (err) {
-      console.error(err);
-      alert(isAr ? "حدث خطأ أثناء تسجيل الطلب" : "Error processing order");
-    } finally {
-      setLoadingCOD(false);
+      router.push("/Failure");
     }
-  };
-
-  const handlePayment = async () => {
-    if (!firstName || !lastName || !email || !phone || !city || !state) {
-      alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
-      return;
-    }
-    if (!validatePhone()) {
-      alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
-      return;
-    }
-
-    if (emailSent) return;
-    setLoadingPayment(true);
-    try {
-      saveSessionData("PENDING");
-      const res = await fetch("/api/paymob", {
+  } catch (err) {
+    console.error(err);
+    saveSessionData("Unpaid");
+    if (!emailSent) {
+      await fetch("/api/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: totalPrice,
-          currency,
-          product_name: product.name,
-          quantity: qty,
-          billing_data: {
-            first_name: firstName,
-            last_name: lastName,
-            email,
-            phone_number: phone,
-            city,
-            state,
-            country,
-          },
-        }),
+        body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
       });
-      const data = await res.json();
-      if (data.success && data.iframeUrl) {
-        window.location.href = data.iframeUrl;
-      } else {
-        saveSessionData("Unpaid");
-        await fetch("/api/sendEmail", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
-        });
-        setEmailSent(true);
-        router.push("/Failure");
-      }
-    } catch (err) {
-      console.error(err);
-      saveSessionData("Unpaid");
-      if (!emailSent) {
-        await fetch("/api/sendEmail", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
-        });
-        setEmailSent(true);
-      }
-      router.push("/Failure");
-    } finally {
-      setLoadingPayment(false);
+      setEmailSent(true);
     }
-  };
+    router.push("/Failure");
+  } finally {
+    setLoadingPayment(false);
+  }
+};
+
 
   const texts = {
     deliveryInfo: isAr ? "معلومات التوصيل" : "Delivery Information",
