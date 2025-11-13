@@ -8,7 +8,6 @@ import { LanguageProvider } from "./context/LanguageContext";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-
 export default function RootLayout({
   children,
 }: {
@@ -28,6 +27,25 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head>
+        {/* Google Tag (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-314666289"
+        />
+        <Script
+          id="google-gtag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-314666289');
+            `,
+          }}
+        />
+
+        {/* Google Tag Manager */}
         <Script
           id="google-tag-manager"
           strategy="afterInteractive"
