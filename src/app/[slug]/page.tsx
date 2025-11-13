@@ -10,6 +10,7 @@ import Join from './../components/join';
 import Others from '../components/Others';
 import Statics from "../components/statics";
 import Clients from "../components/clients";
+import ProductMeta from "../components/ProductMeta";
 interface Props {
   params: Promise<{ slug?: string }>;
 }
@@ -27,6 +28,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <main>
+      <ProductMeta product={product} />
       <MainSection product={product} />
       {normalizedSlug === "tact" && <HowToUse />}
       <Benefits />
