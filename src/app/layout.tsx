@@ -1,9 +1,13 @@
+"use client";
+
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import Header from "./includes/header";
 import Footer from "./includes/footer";
 import { LanguageProvider } from "./context/LanguageContext";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export const metadata: Metadata = {
   title: "Interact Shop",
@@ -14,13 +18,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "virtualPageView",
+      pagePath: pathname,
+      pageTitle: document.title,
+    });
+  }, [pathname]);
+
   return (
     <html suppressHydrationWarning lang="en">
       <head>
-        {/* Google Tag Manager */}
         <Script
           id="google-tag-manager"
           strategy="afterInteractive"
@@ -41,7 +55,6 @@ export default function RootLayout({
       </head>
 
       <body className="antialiased">
-        {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PGCFKWZJ"

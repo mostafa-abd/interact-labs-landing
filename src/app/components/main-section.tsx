@@ -189,21 +189,40 @@ if (isTACT) {
     model: isAr ? "الموديل" : "Model",
     reviews: isAr ? "تقييم" : "reviews"
   };
-
 const handleBuyNow = () => {
   const slug = isTACTPanel
     ? `${product.product_name.replace(/\s+/g, "-")}-${size}-Inches-${model}-${quantity}`
     : `${product.product_name.replace(/\s+/g, "-")}-${quantity}`;
 
   window.dataLayer = window.dataLayer || [];
+
+  // سجل virtual pageview
   window.dataLayer.push({
     event: 'virtualPageView',
     pagePath: `/checkout/${slug}`,
     pageTitle: 'Checkout Page',
   });
 
+  // سجل beginCheckout مع تفاصيل المنتج
+  window.dataLayer.push({
+    event: 'beginCheckout',
+    ecommerce: {
+      items: [
+        {
+          item_name: displayName,
+          item_id: slug,
+          price: currentPrice.current,
+          quantity: quantity,
+          currency: currentPrice.currency,
+        }
+      ]
+    }
+  });
+
+  // توجيه المستخدم للصفحة الجديدة
   router.push(`/checkout/${slug}`);
 };
+
 
 
 const FloatingBox = () => (
