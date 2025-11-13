@@ -196,14 +196,12 @@ const handleBuyNow = () => {
 
   window.dataLayer = window.dataLayer || [];
 
-  // سجل virtual pageview
   window.dataLayer.push({
     event: 'virtualPageView',
     pagePath: `/checkout/${slug}`,
     pageTitle: 'Checkout Page',
   });
 
-  // سجل beginCheckout مع تفاصيل المنتج
   window.dataLayer.push({
     event: 'beginCheckout',
     ecommerce: {
@@ -219,7 +217,6 @@ const handleBuyNow = () => {
     }
   });
 
-  // توجيه المستخدم للصفحة الجديدة
   router.push(`/checkout/${slug}`);
 };
 

@@ -14,14 +14,10 @@ export default function ProductMeta({ product }: ProductMetaProps) {
   useEffect(() => {
     if (!product) return;
 
-    // ====================
-    // تحديث الـ Title
-    // ====================
+
     document.title = product.product_name ;
 
-    // ====================
-    // Meta Description
-    // ====================
+ 
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
       metaDesc = document.createElement("meta");
@@ -30,9 +26,7 @@ export default function ProductMeta({ product }: ProductMetaProps) {
     }
     metaDesc.setAttribute("content", product.description_en);
 
-    // ====================
-    // Open Graph Tags
-    // ====================
+
     let ogTitleTag = document.querySelector('meta[property="og:title"]');
     if (!ogTitleTag) {
       ogTitleTag = document.createElement("meta");
@@ -49,9 +43,7 @@ export default function ProductMeta({ product }: ProductMetaProps) {
     }
     ogDescTag.setAttribute("content", product.description_en);
 
-    // ====================
-    // GTM Tracking
-    // ====================
+
     if (typeof window !== "undefined") {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({

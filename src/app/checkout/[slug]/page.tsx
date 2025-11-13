@@ -112,7 +112,6 @@ export default function CheckoutPage() {
   };
 
 const handleCOD = async () => {
-  // إرسال حدث Page View/Conversion للGTM
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: "checkoutInitiated",
@@ -152,7 +151,6 @@ const handleCOD = async () => {
 };
 
 const handlePayment = async () => {
-  // إرسال حدث Page View/Conversion للGTM
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: "checkoutInitiated",
