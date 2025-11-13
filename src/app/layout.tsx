@@ -1,6 +1,5 @@
 "use client";
 
-import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import Header from "./includes/header";
@@ -9,12 +8,6 @@ import { LanguageProvider } from "./context/LanguageContext";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-export const metadata: Metadata = {
-  title: "Interact Shop",
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
 
 export default function RootLayout({
   children,

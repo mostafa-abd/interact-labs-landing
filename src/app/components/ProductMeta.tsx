@@ -17,7 +17,7 @@ export default function ProductMeta({ product }: ProductMetaProps) {
     // ====================
     // تحديث الـ Title
     // ====================
-    document.title = `${product.product_name} - Interact Shop`;
+    document.title = product.product_name ;
 
     // ====================
     // Meta Description
