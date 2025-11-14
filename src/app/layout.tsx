@@ -1,9 +1,21 @@
+<<<<<<< HEAD
 import Script from 'next/script';
 import './globals.css';
 import Header from './includes/header';
 import Footer from './includes/footer';
 import { LanguageProvider } from './context/LanguageContext';
 import VirtualPageViewTracker from './components/VirtualPageViewTracker';
+=======
+"use client";
+
+import Script from "next/script";
+import "./globals.css";
+import Header from "./includes/header";
+import Footer from "./includes/footer";
+import { LanguageProvider } from "./context/LanguageContext";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+>>>>>>> f18545686acc6521b31040b98d5706c0afdb07d5
 
 export default function RootLayout({
   children,
@@ -13,12 +25,33 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head>
+<<<<<<< HEAD
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+=======
+        {/* Google Tag (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-314666289"
+        />
+        <Script
+          id="google-gtag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-314666289');
+            `,
+          }}
+        />
+
+>>>>>>> f18545686acc6521b31040b98d5706c0afdb07d5
         {/* Google Tag Manager */}
         <Script
           id="google-tag-manager"
