@@ -53,18 +53,7 @@ export default function MainSection({ product }: { product: Product }) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [showFloatingBox, setShowFloatingBox] = useState(false);
 
-  useEffect(() => {
-    async function detectCountry() {
-      try {
-        const res = await fetch("https://ipapi.co/json/");
-        const data = await res.json();
-        setCountry(data.country_name || "Egypt");
-      } catch {
-        setCountry("Egypt");
-      }
-    }
-    detectCountry();
-  }, []);
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(

@@ -5,14 +5,27 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const success = url.searchParams.get("success");
+    const id = url.searchParams.get("id"); // Transaction ID from Paymob
+    
+    const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
+    
+    if (!NEXT_PUBLIC_URL) {
+      console.error("❌ NEXT_PUBLIC_URL not configured");
+      return NextResponse.json({ error: "Configuration error" }, { status: 500 });
+    }
+
+    console.log(`Payment response: success=${success}, id=${id}`);
 
     if (success === "true") {
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/thanks`);
+      // Payment successful - redirect to thanks page
+      return NextResponse.redirect(`${NEXT_PUBLIC_URL}/thanks`);
     } else {
-      return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/Failure`);
+      // Payment failed - redirect to failure page
+      return NextResponse.redirect(`${NEXT_PUBLIC_URL}/Failure`);
     }
   } catch (error) {
     console.error("❌ Error in payment response:", error);
-    return NextResponse.json({ error: "Error processing response" }, { status: 500 });
+    const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL || "";
+    return NextResponse.redirect(`${NEXT_PUBLIC_URL}/Failure`);
   }
 }

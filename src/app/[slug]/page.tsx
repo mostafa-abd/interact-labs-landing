@@ -1,16 +1,35 @@
-import React from "react";
+import React, { Suspense } from "react";
+import dynamic from "next/dynamic";
 import products from "@/data/products.json";
 import MainSection from "../components/main-section";
-import Benefits from "../components/benefits";
-import Feedback from "../components/feedback";
-import ProductDetails from "../components/product-details";
-import HowToUse from "../components/how-to-use";
-import "../assets/css/product.css";
-import Join from './../components/join';
-import Others from '../components/Others';
-import Statics from "../components/statics";
-import Clients from "../components/clients";
 import ProductMeta from "../components/ProductMeta";
+import "../assets/css/product.css";
+
+// Dynamic imports for below-the-fold components
+const Benefits = dynamic(() => import("../components/benefits"), {
+  loading: () => <div style={{ minHeight: 200 }} />,
+});
+const Feedback = dynamic(() => import("../components/feedback"), {
+  loading: () => <div style={{ minHeight: 200 }} />,
+});
+const ProductDetails = dynamic(() => import("../components/product-details"), {
+  loading: () => <div style={{ minHeight: 200 }} />,
+});
+const HowToUse = dynamic(() => import("../components/how-to-use"), {
+  loading: () => <div style={{ minHeight: 200 }} />,
+});
+const Join = dynamic(() => import('./../components/join'), {
+  loading: () => <div style={{ minHeight: 100 }} />,
+});
+const Others = dynamic(() => import('../components/Others'), {
+  loading: () => <div style={{ minHeight: 200 }} />,
+});
+const Statics = dynamic(() => import("../components/statics"), {
+  loading: () => <div style={{ minHeight: 200 }} />,
+});
+const Clients = dynamic(() => import("../components/clients"), {
+  loading: () => <div style={{ minHeight: 100 }} />,
+});
 interface Props {
   params: Promise<{ slug?: string }>;
 }

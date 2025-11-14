@@ -1,11 +1,11 @@
 :root {
-  --font-inter: "Inter", sans-serif;
-  --font-almarai: "Almarai", sans-serif;
+  --font-inter: var(--font-inter);
+  --font-tajawal: var(--font-tajawal);
 }
 
 body {
   background: var(--background);
-  font-family: var(--font-almarai, var(--font-inter));
+  font-family: var(--font-tajawal, var(--font-inter), sans-serif);
   margin: 0;
   padding: 0;
 }
@@ -162,5 +162,17 @@ footer .social a {
 button:not(.product-info-Quantity button) {
     margin: 10px 0;
 cursor: pointer;
+}
+
+.youtube-play-button {
+  cursor: pointer;
+}
+
+.youtube-play-button:hover {
+  transform: translate(-50%, -50%) scale(1.1) !important;
+}
+
+.youtube-play-button:active {
+  transform: translate(-50%, -50%) scale(1.05) !important;
 }
 
