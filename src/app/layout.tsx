@@ -1,33 +1,25 @@
-"use client";
-
-import Script from "next/script";
-import "./globals.css";
-import Header from "./includes/header";
-import Footer from "./includes/footer";
-import { LanguageProvider } from "./context/LanguageContext";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
-
+import Script from 'next/script';
+import './globals.css';
+import Header from './includes/header';
+import Footer from './includes/footer';
+import { LanguageProvider } from './context/LanguageContext';
+import VirtualPageViewTracker from './components/VirtualPageViewTracker';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "virtualPageView",
-      pagePath: pathname,
-      pageTitle: document.title,
-    });
-  }, [pathname]);
-
   return (
     <html suppressHydrationWarning lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        {/* Google Tag Manager */}
         <Script
           id="google-tag-manager"
           strategy="afterInteractive"
@@ -53,11 +45,12 @@ export default function RootLayout({
             src="https://www.googletagmanager.com/ns.html?id=GTM-PGCFKWZJ"
             height="0"
             width="0"
-            style={{ display: "none", visibility: "hidden" }}
+            style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
 
         <LanguageProvider>
+          <VirtualPageViewTracker />
           <Header />
           {children}
           <Footer />

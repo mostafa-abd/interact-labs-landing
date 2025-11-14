@@ -79,7 +79,7 @@ main {
 
 footer {
   width: 100%;
-  min-height: 100px;
+  min-height: 250px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -97,6 +97,9 @@ footer .social {
   display: flex;
   justify-content: space-between;
   width: 150px;
+}
+footer * {
+  min-height: 28px;
 }
 footer .social a {
   display: flex;
@@ -141,6 +144,15 @@ footer .social a {
   30%  { transform: translateY(-8px); opacity: 1;    }
   60%  { transform: translateY(0);   opacity: 0.6;  }
   100% { transform: translateY(0);   opacity: 0.25; }
+}
+
+@keyframes clients-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @media (max-width: 480px) {

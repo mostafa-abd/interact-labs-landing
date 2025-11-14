@@ -6,12 +6,16 @@ const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   weight: ['400', '500', '700'],
+    display: "swap",
+
 });
 
 const almarai = Almarai({
   variable: '--font-almarai',
   subsets: ['arabic'],
   weight: ['300', '400', '700', '800'],
+    display: "swap",
+
 });
 
 interface LanguageContextType {

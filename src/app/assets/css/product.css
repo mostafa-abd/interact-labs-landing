@@ -34,7 +34,7 @@
 .sub-image {
   width: 180px;
   height: 100%;
-  background: gray;
+  background: #2b2b2b;
   position: relative;
 }
 .sub-product-images::-webkit-scrollbar {
@@ -114,14 +114,14 @@
   height: 16px;
 }
 .product-info-review span:last-child {
-  color: #8d8da5;
+  color: #333343;
 }
 .product-info-description {
   font-size: 18px;
   font-weight: 400;
   
     line-height: 35px;
-  color: #69698c;
+  color: #333343;
 }
 .product-info-warranty {
   width: 100%;
@@ -180,7 +180,7 @@
   flex-direction: column;
   font-size: 12px;
   font-weight: 400;
-  color: #8d8da5;
+  color: #333343;
   justify-content: space-evenly;
 }
 .product-info-vat span:first-child {
@@ -274,13 +274,13 @@
 .how-to-use p {
   font-size: 16px;
   font-weight: 500;
-  color: #8d8da5;
+  color: #333343;
 }
 .how-to-use ol {
 padding: 0 25px;
   font-size: 16px;
   font-weight: 500;
-  color: #8d8da5;
+  color: #333343;
   line-height: 30px;
 }
 .feedback {
@@ -385,12 +385,12 @@ padding: 0 25px;
 .product-details div h3 {
   font-size: clamp(16px, 2vw, 24px);
   font-weight: 700;
-  color: #69698c;
+  color: #333343;
 }
 .product-details div p {
   font-size: clamp(16px, 2vw, 24px);
   font-weight: 400;
-  color: #8d8da5;
+  color: #333343;
 }
 .join {
   width: 100%;
@@ -424,7 +424,7 @@ padding: 0 25px;
 .join p {
   font-size: clamp(16px, 3vw, 20px);
   font-weight: 400;
-  color: #69698c;
+  color: #333343;
       line-height: 30px;
           padding: 0 1%;
 }
@@ -492,7 +492,7 @@ padding: 0 25px;
 .benefits-boxes p {
   font-size: 16px;
   font-weight: 400;
-  color: #69698c;
+  color: #333343;
   text-align: center;
 }
 
@@ -521,7 +521,7 @@ padding: 0 25px;
     align-items: center;
     flex-direction: column;
       background-color: #fff;
-  box-shadow: 0 0 10px gray;
+  box-shadow: 0 0 10px #2b2b2b;
   margin:10px;
 }
 .statics span{
@@ -531,7 +531,7 @@ padding: 0 25px;
 }
 .statics span:last-of-type{
   font-size:18px;
-  color: gray;
+  color: #2b2b2b;
 }
 .clients>div{
   width:100px;

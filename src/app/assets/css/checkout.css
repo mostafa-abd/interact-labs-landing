@@ -84,7 +84,7 @@
   justify-content: space-between;
 }
 .order-summary > div > span:first-child {
-  color: #69698c;
+  color: #333343;
 }
 .order-summary > div > span:last-child {
   color: #363654;
@@ -109,7 +109,7 @@
 .product-info span {
   font-size: 16px;
   font-weight: 500;
-  color: #69698c;
+  color: #333343;
 }
 .product-info b {
   color: #363654;

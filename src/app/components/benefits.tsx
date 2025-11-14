@@ -6,11 +6,11 @@ import Monitors from '../assets/images/Monitors.svg';
 import Effective from '../assets/images/Effective.svg';
 import users from '../assets/images/users.svg';
 
-import Resistant from '../assets/images/Resistant.png';
-import DualScreen from '../assets/images/DualScreen.png';
-import Partnership from '../assets/images/Partnership.png';
-import FastResponse from '../assets/images/FastResponse.png';
-import Sizes from '../assets/images/Sizes.png';
+import Resistant from '../assets/images/Resistant.webp';
+import DualScreen from '../assets/images/DualScreen.webp';
+import Partnership from '../assets/images/Partnership.webp';
+import FastResponse from '../assets/images/FastResponse.webp';
+import Sizes from '../assets/images/Sizes.webp';
 
 import { useLanguage } from "../context/LanguageContext";
 import { usePathname } from "next/navigation";

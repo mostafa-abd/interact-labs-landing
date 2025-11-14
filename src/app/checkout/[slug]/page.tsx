@@ -65,7 +65,7 @@ export default function CheckoutPage() {
   let currentPrice = 0;
   let beforePrice = 0;
   let currency = "EGP";
-  let image = "/images/default.jpg";
+  let image = "";
 
   if (typeof slug === "string" && slug.match(/(\d+)-Inches-(H|B)-\d+/)) {
     const match = slug.match(/(\d+)-Inches-(H|B)-(\d+)/);
@@ -86,7 +86,7 @@ export default function CheckoutPage() {
       name = baseName;
       const key = baseName;
       ({ current: currentPrice, before: beforePrice } = priceMapEGP[key] || {});
-      image = productImages["TACT"] || "/images/default.jpg";
+      image = productImages["TACT"] || "";
     }
   }
 
