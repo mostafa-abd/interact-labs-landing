@@ -27,7 +27,6 @@ const nextConfig: NextConfig = {
   // No need for custom webpack config - Turbopack is faster
   output: 'standalone',
   compress: true,
-  swcMinify: true,
   poweredByHeader: false,
   reactStrictMode: true,
   compiler: {
