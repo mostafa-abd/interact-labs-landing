@@ -1,6 +1,6 @@
 "use client";
 export const runtime = "edge";
-import CheckoutMeta from "./CheckoutMeta";
+
 import "../../assets/css/checkout.css";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -21,44 +21,18 @@ export default function CheckoutPage() {
   const [phoneError, setPhoneError] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
+
   const [loadingCOD, setLoadingCOD] = useState(false);
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
+  const [startedForm, setStartedForm] = useState(false); // new
+
   const country = "EG";
 
-  // Begin Checkout Flag
-  const [beganCheckout, setBeganCheckout] = useState(false);
-
-  const fireBeginCheckout = () => {
-    if (!beganCheckout) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "begin_checkout",
-        productName: product.name,
-        quantity: product.qty,
-        totalPrice,
-        currency,
-      });
-      setBeganCheckout(true);
-    }
-  };
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, 11);
-    setPhone(onlyDigits);
-
-    if (onlyDigits && !/^01\d{0,9}$/.test(onlyDigits)) {
-      setPhoneError(isAr ? "الرقم لازم يبدأ بـ 01" : "Phone must start with 01");
-    } else if (onlyDigits.length === 11 && !/^01\d{9}$/.test(onlyDigits)) {
-      setPhoneError(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
-    } else {
-      setPhoneError("");
-    }
-  };
-
-  const validatePhone = () => /^01\d{9}$/.test(phone);
-
+  // ================================
+  //          PRODUCT LOGIC
+  // ================================
   const priceMapEGP: Record<string, { current: number; before: number }> = {
     "55-B": { current: 32335, before: 43320 },
     "65-B": { current: 38988, before: 43320 },
@@ -110,12 +84,13 @@ export default function CheckoutPage() {
   const totalPrice = Math.round(Number(currentPrice) * Number(qty));
   const product = { name, qty, price: currentPrice, beforePrice, image };
 
-  // Page View Event (fires once)
+  // ================================
+  //   BEGIN CHECKOUT (fires once)
+  // ================================
   useEffect(() => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "page_view",
-      pageType: "checkout",
+      event: "begin_checkout",
       productName: product.name,
       quantity: product.qty,
       totalPrice,
@@ -123,6 +98,44 @@ export default function CheckoutPage() {
     });
   }, []);
 
+  // ================================
+  //   USER STARTED FILLING FORM — once
+  // ================================
+  const fireUserStartForm = () => {
+    if (!startedForm) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "user_started_filling_form",
+        productName: product.name,
+        quantity: product.qty,
+        totalPrice,
+        currency,
+      });
+      setStartedForm(true);
+    }
+  };
+
+  // ================================
+  //          PHONE LOGIC
+  // ================================
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, 11);
+    setPhone(onlyDigits);
+
+    if (onlyDigits && !/^01\d{0,9}$/.test(onlyDigits)) {
+      setPhoneError(isAr ? "الرقم لازم يبدأ بـ 01" : "Phone must start with 01");
+    } else if (onlyDigits.length === 11 && !/^01\d{9}$/.test(onlyDigits)) {
+      setPhoneError(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
+    } else {
+      setPhoneError("");
+    }
+  };
+
+  const validatePhone = () => /^01\d{9}$/.test(phone);
+
+  // ================================
+  //     SAVE SESSION
+  // ================================
   const saveSessionData = (paymentStatus: string) => {
     sessionStorage.setItem(
       "checkoutData",
@@ -141,6 +154,9 @@ export default function CheckoutPage() {
     );
   };
 
+  // ================================
+  //             COD
+  // ================================
   const handleCOD = async () => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
@@ -179,6 +195,9 @@ export default function CheckoutPage() {
     }
   };
 
+  // ================================
+  //       ONLINE PAYMENT
+  // ================================
   const handlePayment = async () => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
@@ -271,13 +290,6 @@ export default function CheckoutPage() {
 
   return (
     <section className="checkout" dir={dir}>
-      <CheckoutMeta product={{
-        name: product.name,
-        qty: product.qty,
-        price: product.price,
-        currency: "EGP"
-      }} />
-
       <form>
         <h2>{texts.deliveryInfo}</h2>
 
@@ -286,7 +298,7 @@ export default function CheckoutPage() {
           <input
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            onFocus={fireBeginCheckout}
+            onFocus={fireUserStartForm}
             required
           />
         </div>
@@ -296,7 +308,7 @@ export default function CheckoutPage() {
           <input
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            onFocus={fireBeginCheckout}
+            onFocus={fireUserStartForm}
             required
           />
         </div>
@@ -307,7 +319,7 @@ export default function CheckoutPage() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            onFocus={fireBeginCheckout}
+            onFocus={fireUserStartForm}
             required
           />
         </div>
@@ -318,7 +330,7 @@ export default function CheckoutPage() {
             type="tel"
             value={phone}
             onChange={handlePhoneChange}
-            onFocus={fireBeginCheckout}
+            onFocus={fireUserStartForm}
             required
             pattern="^01\d{9}$"
             inputMode="numeric"
@@ -333,7 +345,7 @@ export default function CheckoutPage() {
           <input
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            onFocus={fireBeginCheckout}
+            onFocus={fireUserStartForm}
             required
           />
         </div>
@@ -343,7 +355,7 @@ export default function CheckoutPage() {
           <input
             value={state}
             onChange={(e) => setState(e.target.value)}
-            onFocus={fireBeginCheckout}
+            onFocus={fireUserStartForm}
             required
           />
         </div>
