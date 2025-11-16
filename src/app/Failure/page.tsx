@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import "../assets/css/thanks.css";
-import Image from "../assets/images/Failure.svg";
+import FailureImg from "../assets/images/Failure.svg";
+import Image from "next/image";
 
 export const runtime = "edge";
 
@@ -21,7 +22,6 @@ export default function Failure() {
     const parsedData = JSON.parse(data);
     setOrderData(parsedData);
 
-    // Push event GTM مع كل البيانات من السيشن + transaction_id
     if (typeof window !== "undefined") {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
