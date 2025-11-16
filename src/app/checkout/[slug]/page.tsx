@@ -2,7 +2,7 @@
 export const runtime = "edge";
 
 import "../../assets/css/checkout.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useLanguage } from "../../context/LanguageContext";
@@ -26,7 +26,10 @@ export default function CheckoutPage() {
   const [loadingPayment, setLoadingPayment] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
-  const [startedForm, setStartedForm] = useState(false); // new
+  const beginCheckoutFired = useRef(false);
+  const userStartedFormFired = useRef(false);
+  const checkoutInitiatedFired = useRef(false);
+  const purchaseFired = useRef(false);
 
   const country = "EG";
 
@@ -85,33 +88,35 @@ export default function CheckoutPage() {
   const product = { name, qty, price: currentPrice, beforePrice, image };
 
   // ================================
-  //   BEGIN CHECKOUT (fires once)
+  //      BEGIN CHECKOUT — once
   // ================================
   useEffect(() => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "begin_checkout",
-      productName: product.name,
-      quantity: product.qty,
-      totalPrice,
-      currency,
-    });
+    if (!beginCheckoutFired.current) {
+      beginCheckoutFired.current = true;
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "begin_checkout",
+        product,
+        currency,
+        totalPrice,
+      });
+    }
   }, []);
 
   // ================================
-  //   USER STARTED FILLING FORM — once
+  //    USER STARTED FILLING FORM — once
   // ================================
   const fireUserStartForm = () => {
-    if (!startedForm) {
-      window.dataLayer = window.dataLayer || [];
+    if (!userStartedFormFired.current) {
+      userStartedFormFired.current = true;
+
       window.dataLayer.push({
         event: "user_started_filling_form",
-        productName: product.name,
-        quantity: product.qty,
-        totalPrice,
+        product,
         currency,
+        totalPrice,
       });
-      setStartedForm(true);
     }
   };
 
@@ -146,27 +151,37 @@ export default function CheckoutPage() {
         phone,
         city,
         state,
-        productName: product.name,
-        quantity: product.qty,
-        price: product.price,
+        product,
+        totalPrice,
+        currency,
         paymentStatus,
       })
     );
   };
 
   // ================================
+  //     FIRE CHECKOUT INITIATED — once
+  // ================================
+  const fireCheckoutInitiated = (paymentMethod: string) => {
+    if (!checkoutInitiatedFired.current) {
+      checkoutInitiatedFired.current = true;
+
+      window.dataLayer.push({
+        event: "checkoutInitiated",
+        paymentMethod,
+        product,
+        customer: { firstName, lastName, email, phone, city, state },
+        totalPrice,
+        currency,
+      });
+    }
+  };
+
+  // ================================
   //             COD
   // ================================
   const handleCOD = async () => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "checkoutInitiated",
-      paymentMethod: "COD",
-      productName: product.name,
-      quantity: product.qty,
-      totalPrice,
-      currency,
-    });
+    fireCheckoutInitiated("COD");
 
     if (!firstName || !lastName || !email || !phone || !city || !state) {
       alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
@@ -179,13 +194,29 @@ export default function CheckoutPage() {
 
     if (emailSent) return;
     setLoadingCOD(true);
+
     try {
       saveSessionData("COD");
+
+      // PURCHASE (for COD)
+      if (!purchaseFired.current) {
+        purchaseFired.current = true;
+        window.dataLayer.push({
+          event: "purchase",
+          product,
+          customer: { firstName, lastName, email, phone, city, state },
+          payment: { method: "COD", status: "PAID" },
+          totalPrice,
+          currency,
+        });
+      }
+
       await fetch("/api/sendEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
       });
+
       setEmailSent(true);
       router.push("/thanks");
     } catch {
@@ -199,15 +230,7 @@ export default function CheckoutPage() {
   //       ONLINE PAYMENT
   // ================================
   const handlePayment = async () => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "checkoutInitiated",
-      paymentMethod: "Online Payment",
-      productName: product.name,
-      quantity: product.qty,
-      totalPrice,
-      currency,
-    });
+    fireCheckoutInitiated("Online Payment");
 
     if (!firstName || !lastName || !email || !phone || !city || !state) {
       alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
@@ -220,6 +243,7 @@ export default function CheckoutPage() {
 
     if (emailSent) return;
     setLoadingPayment(true);
+
     try {
       saveSessionData("PENDING");
 
@@ -244,20 +268,48 @@ export default function CheckoutPage() {
       });
 
       const data = await res.json();
+
       if (data.success && data.iframeUrl) {
         window.location.href = data.iframeUrl;
       } else {
+        // PURCHASE (failed payment)
+        if (!purchaseFired.current) {
+          purchaseFired.current = true;
+          window.dataLayer.push({
+            event: "purchase",
+            product,
+            customer: { firstName, lastName, email, phone, city, state },
+            payment: { method: "Online", status: "FAILED" },
+            totalPrice,
+            currency,
+          });
+        }
+
         saveSessionData("Unpaid");
         await fetch("/api/sendEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
         });
+
         setEmailSent(true);
         router.push("/Failure");
       }
     } catch {
+      if (!purchaseFired.current) {
+        purchaseFired.current = true;
+        window.dataLayer.push({
+          event: "purchase",
+          product,
+          customer: { firstName, lastName, email, phone, city, state },
+          payment: { method: "Online", status: "FAILED" },
+          totalPrice,
+          currency,
+        });
+      }
+
       saveSessionData("Unpaid");
+
       if (!emailSent) {
         await fetch("/api/sendEmail", {
           method: "POST",
@@ -266,12 +318,16 @@ export default function CheckoutPage() {
         });
         setEmailSent(true);
       }
+
       router.push("/Failure");
     } finally {
       setLoadingPayment(false);
     }
   };
 
+  // ================================
+  //            UI
+  // ================================
   const texts = {
     deliveryInfo: isAr ? "معلومات التوصيل" : "Delivery Information",
     firstName: isAr ? "الاسم الأول" : "First name",
@@ -379,21 +435,29 @@ export default function CheckoutPage() {
 
           <div className="product-info">
             <h4>{product.name}</h4>
-            <span>{texts.qty}: <b>{product.qty}</b></span>
-            <p>{product.price.toLocaleString()} {currency}</p>
+            <span>
+              {texts.qty}: <b>{product.qty}</b>
+            </span>
+            <p>
+              {product.price.toLocaleString()} {currency}
+            </p>
           </div>
         </div>
 
         <hr />
         <div>
           <span>{texts.subtotal}</span>
-          <span>{totalPrice.toLocaleString()} {currency}</span>
+          <span>
+            {totalPrice.toLocaleString()} {currency}
+          </span>
         </div>
 
         <hr />
         <div>
           <span>{texts.total}</span>
-          <span>{totalPrice.toLocaleString()} {currency}</span>
+          <span>
+            {totalPrice.toLocaleString()} {currency}
+          </span>
         </div>
       </div>
     </section>
