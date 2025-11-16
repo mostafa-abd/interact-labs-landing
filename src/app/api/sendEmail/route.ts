@@ -13,7 +13,8 @@ export async function POST(req: Request): Promise<Response> {
       productName,
       quantity,
       price,
-      paymentStatus = "Payment upon receipt",
+      paymentStatus,
+      transactionId,
     } = body;
 
     const html = `
@@ -30,12 +31,13 @@ export async function POST(req: Request): Promise<Response> {
 
         <h2 style="color: #0056b3;">Order Details</h2>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr style="background-color: #f2f2f2;"><td style="padding: 10px; font-weight: bold;">Product</td><td style="padding: 10px;">${productName}</td></tr>
-          <tr><td style="padding: 10px; font-weight: bold;">Quantity</td><td style="padding: 10px;">${quantity}</td></tr>
-          <tr style="background-color: #f2f2f2;"><td style="padding: 10px; font-weight: bold;">Price per Unit</td><td style="padding: 10px;">${price.toLocaleString()} EGP</td></tr>
-          <tr><td style="padding: 10px; font-weight: bold;">Total</td><td style="padding: 10px;">${(price * quantity).toLocaleString()} EGP</td></tr>
+          <tr style="background-color: #f2f2f2;"><td style="padding: 10px; font-weight: bold;">Product</td><td style="padding: 10px;">${productName || "Unknown Product"}</td></tr>
+          <tr><td style="padding: 10px; font-weight: bold;">Quantity</td><td style="padding: 10px;">${quantity || 1}</td></tr>
+          <tr style="background-color: #f2f2f2;"><td style="padding: 10px; font-weight: bold;">Price per Unit</td><td style="padding: 10px;">${price?.toLocaleString() || 0} EGP</td></tr>
+          <tr><td style="padding: 10px; font-weight: bold;">Total</td><td style="padding: 10px;">${(price && quantity ? price * quantity : 0).toLocaleString()} EGP</td></tr>
           <tr style="background-color: #f2f2f2;"><td style="padding: 10px; font-weight: bold;">Payment Status</td><td style="padding: 10px;">${paymentStatus}</td></tr>
         </table>
+
       </div>
     `;
 
@@ -48,21 +50,19 @@ export async function POST(req: Request): Promise<Response> {
       body: JSON.stringify({
         from: "Interact Labs <d.marketing@interact-labs.com>",
         to: ["d.marketing@interact-labs.com"],
-        subject: `New Order (${paymentStatus}): ${productName}`,
+        subject: `New Order (${paymentStatus}): ${productName || "Unknown Product"}`,
         html,
       }),
     });
 
-    const text = await res.text();
-    console.log("Resend status:", res.status, text);
-
-    if (res.ok) {
-      return new Response(JSON.stringify({ success: true }), { status: 200 });
-    } else {
-      return new Response(JSON.stringify({ success: false, error: text }), { status: 500 });
+    if (!res.ok) {
+      const result = await res.json().catch(() => ({}));
+      return new Response(JSON.stringify({ success: false, error: result }), { status: 500 });
     }
+
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
+
   } catch (error) {
-    console.error("Email sending error:", error);
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return new Response(JSON.stringify({ success: false, error: errorMessage }), { status: 500 });
   }
