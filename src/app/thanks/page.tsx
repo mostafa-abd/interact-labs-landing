@@ -42,7 +42,7 @@ export default function Thanks() {
         phone: parsed.phone,
         city: parsed.city,
         state: parsed.state,
-        productName: parsed.product?.name || "Unknown Product",
+        productName: parsed.product?.item || "Unknown Product",
         quantity: parsed.product?.qty || 1,
         price: parsed.product?.price || 0,
         paymentStatus: finalPaymentStatus,
