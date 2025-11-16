@@ -85,37 +85,59 @@ export default function CheckoutPage() {
   }
 
   const totalPrice = Math.round(Number(currentPrice) * Number(qty));
+  // product object kept as full internal object, but we'll send cleaned product data to GTM (no image)
   const product = { name, qty, price: currentPrice, beforePrice, image };
 
+  // Helper: create clean product payload (no image, consistent keys)
+  const getProductPayload = () => {
+    const itemName = product.name || "";
+    const itemId = itemName ? itemName.replace(/\s+/g, "_") : ""; // fallback id from name
+    return {
+      item: itemName,
+      item_id: itemId,
+      price: Number(product.price) || 0,
+      quantity: Number(product.qty) || 1,
+      totalPrice: Number(totalPrice) || 0,
+      currency,
+    };
+  };
+
+  // Helper: unique transaction id generator (no backend)
+  const generateTransactionId = () =>
+    `${Date.now().toString()}-${Math.floor(100000 + Math.random() * 900000).toString()}`;
+
   // ================================
-  //      BEGIN CHECKOUT — once
+  //      BEGIN CHECKOUT — once (no image)
   // ================================
   useEffect(() => {
-    if (!beginCheckoutFired.current) {
+    // Fire only when product name exists (avoid firing with empty/partial product)
+    if (!beginCheckoutFired.current && product.name) {
       beginCheckoutFired.current = true;
 
+      const payload = getProductPayload();
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: "begin_checkout",
-        product,
-        currency,
-        totalPrice,
+        product: payload, // cleaned product (no image)
       });
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.name]); // re-run only if product.name changes (but ref prevents duplicates)
 
   // ================================
   //    USER STARTED FILLING FORM — once
   // ================================
   const fireUserStartForm = () => {
     if (!userStartedFormFired.current) {
+      // mark early to avoid race conditions
       userStartedFormFired.current = true;
 
+      const payload = getProductPayload();
+      window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: "user_started_filling_form",
-        product,
-        currency,
-        totalPrice,
+        product: payload,
+        timestamp: Date.now(),
       });
     }
   };
@@ -139,38 +161,47 @@ export default function CheckoutPage() {
   const validatePhone = () => /^01\d{9}$/.test(phone);
 
   // ================================
-  //     SAVE SESSION
+  //     SAVE SESSION (includes transaction_id)
   // ================================
-  const saveSessionData = (paymentStatus: string) => {
-    sessionStorage.setItem(
-      "checkoutData",
-      JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        phone,
-        city,
-        state,
-        product,
-        totalPrice,
-        currency,
-        paymentStatus,
-      })
-    );
+  const saveSessionData = (paymentStatus: string, transaction_id?: string) => {
+    const payload = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      city,
+      state,
+      product: getProductPayload(),
+      totalPrice,
+      currency,
+      paymentStatus,
+      transaction_id: transaction_id || null,
+    };
+    sessionStorage.setItem("checkoutData", JSON.stringify(payload));
   };
 
   // ================================
-  //     FIRE CHECKOUT INITIATED — once
+  //     FIRE CHECKOUT INITIATED — once (includes transaction_id)
   // ================================
-  const fireCheckoutInitiated = (paymentMethod: string) => {
+  const fireCheckoutInitiated = (paymentMethod: string, transaction_id?: string) => {
     if (!checkoutInitiatedFired.current) {
       checkoutInitiatedFired.current = true;
 
+      const payload = getProductPayload();
+      window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: "checkoutInitiated",
         paymentMethod,
-        product,
-        customer: { firstName, lastName, email, phone, city, state },
+        transaction_id: transaction_id || null,
+        product: payload,
+        customer: {
+          firstName,
+          lastName,
+          email,
+          phone,
+          city,
+          state,
+        },
         totalPrice,
         currency,
       });
@@ -181,7 +212,10 @@ export default function CheckoutPage() {
   //             COD
   // ================================
   const handleCOD = async () => {
-    fireCheckoutInitiated("COD");
+    // generate transaction id for this order (even for COD)
+    const transaction_id = generateTransactionId();
+
+    fireCheckoutInitiated("COD", transaction_id);
 
     if (!firstName || !lastName || !email || !phone || !city || !state) {
       alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
@@ -196,15 +230,25 @@ export default function CheckoutPage() {
     setLoadingCOD(true);
 
     try {
-      saveSessionData("COD");
+      saveSessionData("COD", transaction_id);
 
-      // PURCHASE (for COD)
+      // PURCHASE (for COD) — include transaction id and ensure product data valid
       if (!purchaseFired.current) {
         purchaseFired.current = true;
+
+        const payload = getProductPayload();
         window.dataLayer.push({
           event: "purchase",
-          product,
-          customer: { firstName, lastName, email, phone, city, state },
+          transaction_id,
+          product: payload,
+          customer: {
+            firstName,
+            lastName,
+            email,
+            phone,
+            city,
+            state,
+          },
           payment: { method: "COD", status: "PAID" },
           totalPrice,
           currency,
@@ -230,7 +274,10 @@ export default function CheckoutPage() {
   //       ONLINE PAYMENT
   // ================================
   const handlePayment = async () => {
-    fireCheckoutInitiated("Online Payment");
+    // generate transaction id for this attempt
+    const transaction_id = generateTransactionId();
+
+    fireCheckoutInitiated("Online Payment", transaction_id);
 
     if (!firstName || !lastName || !email || !phone || !city || !state) {
       alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
@@ -245,7 +292,8 @@ export default function CheckoutPage() {
     setLoadingPayment(true);
 
     try {
-      saveSessionData("PENDING");
+      // save pending session with transaction_id
+      saveSessionData("PENDING", transaction_id);
 
       const res = await fetch("/api/paymob", {
         method: "POST",
@@ -255,6 +303,7 @@ export default function CheckoutPage() {
           currency,
           product_name: product.name,
           quantity: qty,
+          transaction_id, // include so you can reconcile later
           billing_data: {
             first_name: firstName,
             last_name: lastName,
@@ -270,22 +319,33 @@ export default function CheckoutPage() {
       const data = await res.json();
 
       if (data.success && data.iframeUrl) {
+        // redirect to payment iframe/provider — purchase should be fired on return/confirmation page
+        // we stored transaction_id in sessionStorage so the return page can fire the final purchase once.
         window.location.href = data.iframeUrl;
       } else {
-        // PURCHASE (failed payment)
+        // Payment initiation failed — mark purchase as FAILED and push event once
         if (!purchaseFired.current) {
           purchaseFired.current = true;
+          const payload = getProductPayload();
           window.dataLayer.push({
             event: "purchase",
-            product,
-            customer: { firstName, lastName, email, phone, city, state },
+            transaction_id,
+            product: payload,
+            customer: {
+              firstName,
+              lastName,
+              email,
+              phone,
+              city,
+              state,
+            },
             payment: { method: "Online", status: "FAILED" },
             totalPrice,
             currency,
           });
         }
 
-        saveSessionData("Unpaid");
+        saveSessionData("Unpaid", transaction_id);
         await fetch("/api/sendEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -296,19 +356,29 @@ export default function CheckoutPage() {
         router.push("/Failure");
       }
     } catch {
+      // network or server error — fire purchase FAILED once
       if (!purchaseFired.current) {
         purchaseFired.current = true;
+        const payload = getProductPayload();
         window.dataLayer.push({
           event: "purchase",
-          product,
-          customer: { firstName, lastName, email, phone, city, state },
+          transaction_id,
+          product: payload,
+          customer: {
+            firstName,
+            lastName,
+            email,
+            phone,
+            city,
+            state,
+          },
           payment: { method: "Online", status: "FAILED" },
           totalPrice,
           currency,
         });
       }
 
-      saveSessionData("Unpaid");
+      saveSessionData("Unpaid", transaction_id);
 
       if (!emailSent) {
         await fetch("/api/sendEmail", {
