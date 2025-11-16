@@ -2,7 +2,7 @@
 export const runtime = "edge";
 import CheckoutMeta from "./CheckoutMeta";
 import "../../assets/css/checkout.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useLanguage } from "../../context/LanguageContext";
@@ -26,6 +26,23 @@ export default function CheckoutPage() {
   const [emailSent, setEmailSent] = useState(false);
 
   const country = "EG";
+
+  // Begin Checkout Flag
+  const [beganCheckout, setBeganCheckout] = useState(false);
+
+  const fireBeginCheckout = () => {
+    if (!beganCheckout) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "begin_checkout",
+        productName: product.name,
+        quantity: product.qty,
+        totalPrice,
+        currency,
+      });
+      setBeganCheckout(true);
+    }
+  };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const onlyDigits = e.target.value.replace(/\D/g, "").slice(0, 11);
@@ -51,7 +68,7 @@ export default function CheckoutPage() {
     "65-H": { current: 44688, before: 49020 },
     "75-H": { current: 61255, before: 66120 },
     "85-H": { current: 100339, before: 105320 },
-    "TACT": { current: 7182, before: 10000 },
+    TACT: { current: 7182, before: 10000 },
   };
 
   const productImages: Record<string, string> = {
@@ -93,6 +110,19 @@ export default function CheckoutPage() {
   const totalPrice = Math.round(Number(currentPrice) * Number(qty));
   const product = { name, qty, price: currentPrice, beforePrice, image };
 
+  // Page View Event (fires once)
+  useEffect(() => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "page_view",
+      pageType: "checkout",
+      productName: product.name,
+      quantity: product.qty,
+      totalPrice,
+      currency,
+    });
+  }, []);
+
   const saveSessionData = (paymentStatus: string) => {
     sessionStorage.setItem(
       "checkoutData",
@@ -111,118 +141,117 @@ export default function CheckoutPage() {
     );
   };
 
-const handleCOD = async () => {
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: "checkoutInitiated",
-    paymentMethod: "COD",
-    productName: product.name,
-    quantity: product.qty,
-    totalPrice,
-    currency,
-  });
-
-  if (!firstName || !lastName || !email || !phone || !city || !state) {
-    alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
-    return;
-  }
-  if (!validatePhone()) {
-    alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
-    return;
-  }
-
-  if (emailSent) return;
-  setLoadingCOD(true);
-  try {
-    saveSessionData("COD");
-    await fetch("/api/sendEmail", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
+  const handleCOD = async () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "checkoutInitiated",
+      paymentMethod: "COD",
+      productName: product.name,
+      quantity: product.qty,
+      totalPrice,
+      currency,
     });
-    setEmailSent(true);
-    router.push("/thanks");
-  } catch (err) {
-    console.error(err);
-    alert(isAr ? "حدث خطأ أثناء تسجيل الطلب" : "Error processing order");
-  } finally {
-    setLoadingCOD(false);
-  }
-};
 
-const handlePayment = async () => {
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: "checkoutInitiated",
-    paymentMethod: "Online Payment",
-    productName: product.name,
-    quantity: product.qty,
-    totalPrice,
-    currency,
-  });
+    if (!firstName || !lastName || !email || !phone || !city || !state) {
+      alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
+      return;
+    }
+    if (!validatePhone()) {
+      alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
+      return;
+    }
 
-  if (!firstName || !lastName || !email || !phone || !city || !state) {
-    alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
-    return;
-  }
-  if (!validatePhone()) {
-    alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
-    return;
-  }
+    if (emailSent) return;
+    setLoadingCOD(true);
+    try {
+      saveSessionData("COD");
+      await fetch("/api/sendEmail", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
+      });
+      setEmailSent(true);
+      router.push("/thanks");
+    } catch {
+      alert(isAr ? "حدث خطأ أثناء تسجيل الطلب" : "Error processing order");
+    } finally {
+      setLoadingCOD(false);
+    }
+  };
 
-  if (emailSent) return;
-  setLoadingPayment(true);
-  try {
-    saveSessionData("PENDING");
-    const res = await fetch("/api/paymob", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: totalPrice,
-        currency,
-        product_name: product.name,
-        quantity: qty,
-        billing_data: {
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          phone_number: phone,
-          city,
-          state,
-          country,
-        },
-      }),
+  const handlePayment = async () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "checkoutInitiated",
+      paymentMethod: "Online Payment",
+      productName: product.name,
+      quantity: product.qty,
+      totalPrice,
+      currency,
     });
-    const data = await res.json();
-    if (data.success && data.iframeUrl) {
-      window.location.href = data.iframeUrl;
-    } else {
+
+    if (!firstName || !lastName || !email || !phone || !city || !state) {
+      alert(isAr ? "من فضلك املأ كل الحقول المطلوبة" : "Please fill all required fields");
+      return;
+    }
+    if (!validatePhone()) {
+      alert(isAr ? "رقم الهاتف غير صالح" : "Invalid phone number");
+      return;
+    }
+
+    if (emailSent) return;
+    setLoadingPayment(true);
+    try {
+      saveSessionData("PENDING");
+
+      const res = await fetch("/api/paymob", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: totalPrice,
+          currency,
+          product_name: product.name,
+          quantity: qty,
+          billing_data: {
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            phone_number: phone,
+            city,
+            state,
+            country,
+          },
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success && data.iframeUrl) {
+        window.location.href = data.iframeUrl;
+      } else {
+        saveSessionData("Unpaid");
+        await fetch("/api/sendEmail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
+        });
+        setEmailSent(true);
+        router.push("/Failure");
+      }
+    } catch {
       saveSessionData("Unpaid");
-      await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
-      });
-      setEmailSent(true);
+      if (!emailSent) {
+        await fetch("/api/sendEmail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
+        });
+        setEmailSent(true);
+      }
       router.push("/Failure");
+    } finally {
+      setLoadingPayment(false);
     }
-  } catch (err) {
-    console.error(err);
-    saveSessionData("Unpaid");
-    if (!emailSent) {
-      await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(JSON.parse(sessionStorage.getItem("checkoutData")!)),
-      });
-      setEmailSent(true);
-    }
-    router.push("/Failure");
-  } finally {
-    setLoadingPayment(false);
-  }
-};
-
+  };
 
   const texts = {
     deliveryInfo: isAr ? "معلومات التوصيل" : "Delivery Information",
@@ -237,24 +266,51 @@ const handlePayment = async () => {
     orderSummary: isAr ? "ملخص الطلب" : "Order Summary",
     qty: isAr ? "الكمية" : "Qty",
     subtotal: isAr ? "المجموع الفرعي" : "Subtotal",
-    shipping: isAr ? "الشحن" : "Shipping",
-    freeShipping: isAr ? "شحن مجاني" : "Free Shipping",
     total: isAr ? "الإجمالي" : "Total",
   };
 
   return (
     <section className="checkout" dir={dir}>
-        <CheckoutMeta product={{ 
-    name: product.name, 
-    qty: product.qty, 
-    price: product.price, 
-    currency: "EGP" 
-  }} />
+      <CheckoutMeta product={{
+        name: product.name,
+        qty: product.qty,
+        price: product.price,
+        currency: "EGP"
+      }} />
+
       <form>
         <h2>{texts.deliveryInfo}</h2>
-        <div><label>{texts.firstName}</label><input value={firstName} onChange={(e) => setFirstName(e.target.value)} required /></div>
-        <div><label>{texts.lastName}</label><input value={lastName} onChange={(e) => setLastName(e.target.value)} required /></div>
-        <div><label>{texts.email}</label><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
+
+        <div>
+          <label>{texts.firstName}</label>
+          <input
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            onFocus={fireBeginCheckout}
+            required
+          />
+        </div>
+
+        <div>
+          <label>{texts.lastName}</label>
+          <input
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            onFocus={fireBeginCheckout}
+            required
+          />
+        </div>
+
+        <div>
+          <label>{texts.email}</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onFocus={fireBeginCheckout}
+            required
+          />
+        </div>
 
         <div>
           <label>{texts.phone}</label>
@@ -262,6 +318,7 @@ const handlePayment = async () => {
             type="tel"
             value={phone}
             onChange={handlePhoneChange}
+            onFocus={fireBeginCheckout}
             required
             pattern="^01\d{9}$"
             inputMode="numeric"
@@ -271,12 +328,30 @@ const handlePayment = async () => {
           {phoneError && <p className="error-text">{phoneError}</p>}
         </div>
 
-        <div><label>{texts.city}</label><input value={city} onChange={(e) => setCity(e.target.value)} required /></div>
-        <div><label>{texts.state}</label><input value={state} onChange={(e) => setState(e.target.value)} required /></div>
+        <div>
+          <label>{texts.city}</label>
+          <input
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            onFocus={fireBeginCheckout}
+            required
+          />
+        </div>
+
+        <div>
+          <label>{texts.state}</label>
+          <input
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            onFocus={fireBeginCheckout}
+            required
+          />
+        </div>
 
         <button type="button" onClick={handlePayment} disabled={loadingPayment}>
           {loadingPayment ? "Processing.." : texts.continue}
         </button>
+
         <button type="button" onClick={handleCOD} disabled={loadingCOD}>
           {loadingCOD ? "Processing.." : texts.cod}
         </button>
@@ -284,20 +359,30 @@ const handlePayment = async () => {
 
       <div className="order-summary">
         <h2>{texts.orderSummary}</h2>
+
         <div>
           <div className="product-Image">
             <Image src={product.image} alt={product.name} width={200} height={200} priority />
           </div>
+
           <div className="product-info">
             <h4>{product.name}</h4>
             <span>{texts.qty}: <b>{product.qty}</b></span>
             <p>{product.price.toLocaleString()} {currency}</p>
           </div>
         </div>
+
         <hr />
-        <div><span>{texts.subtotal}</span><span>{totalPrice.toLocaleString()} {currency}</span></div>
+        <div>
+          <span>{texts.subtotal}</span>
+          <span>{totalPrice.toLocaleString()} {currency}</span>
+        </div>
+
         <hr />
-        <div><span>{texts.total}</span><span>{totalPrice.toLocaleString()} {currency}</span></div>
+        <div>
+          <span>{texts.total}</span>
+          <span>{totalPrice.toLocaleString()} {currency}</span>
+        </div>
       </div>
     </section>
   );
