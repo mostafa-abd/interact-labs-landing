@@ -1,5 +1,6 @@
 "use client";
 export const runtime = "edge";
+import CheckoutMeta from "./CheckoutMeta";
 
 import "../../assets/css/checkout.css";
 import { useState, useEffect, useRef } from "react";
@@ -416,6 +417,8 @@ export default function CheckoutPage() {
 
   return (
     <section className="checkout" dir={dir}>
+            <CheckoutMeta />
+
       <form>
         <h2>{texts.deliveryInfo}</h2>
 
