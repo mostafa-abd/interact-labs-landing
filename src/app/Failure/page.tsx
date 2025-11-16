@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import "../assets/css/thanks.css";
-import Image from "next/image";
-import FailureImg from "../assets/images/Failure.svg";
+import Image from "../assets/images/Failure.svg";
 
 export const runtime = "edge";
 
@@ -22,26 +21,33 @@ export default function Failure() {
     const parsedData = JSON.parse(data);
     setOrderData(parsedData);
 
+    // Push event GTM مع كل البيانات من السيشن + transaction_id
+    if (typeof window !== "undefined") {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "purchase_failed",
+        transaction_id: parsedData.transaction_id || null,
+        product: parsedData.product || {},
+        customer: {
+          firstName: parsedData.firstName,
+          lastName: parsedData.lastName,
+          email: parsedData.email,
+          phone: parsedData.phone,
+          city: parsedData.city,
+          state: parsedData.state,
+        },
+        payment_status: "Unpaid",
+        totalPrice: parsedData.totalPrice,
+        currency: parsedData.currency || "EGP",
+      });
+    }
+
     // إرسال الإيميل
     fetch("/api/sendEmail", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...parsedData, paymentStatus: "Unpaid" }),
     });
-
-    // Push لحدث GTM
-    if (typeof window !== "undefined") {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "purchase_failed",
-        item: parsedData.productName || "",
-        item_id: parsedData.productName || "",
-        quantity: parsedData.quantity || 1,
-        price: parsedData.price || 0,
-        currency: "EGP",
-        payment_status: "Unpaid",
-      });
-    }
   }, []);
 
   return (
@@ -49,7 +55,7 @@ export default function Failure() {
       <div>
         <Image src={FailureImg} alt="Interact Labs Failure" priority />
       </div>
-      <h1>حدث خطأ في الدفع</h1>
+      <h1>حدث خطأ في الدفع ولكن تم استلام طلبك</h1>
       <p>عذرًا، لم يتم الدفع بنجاح لطلبك </p>
       <p>ولكن تم استلام طلبك وسيتم التواصل معك قريباً</p>
       <p>
