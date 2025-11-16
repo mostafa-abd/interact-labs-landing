@@ -47,11 +47,7 @@ export async function POST(req: Request): Promise<Response> {
       },
       body: JSON.stringify({
         from: "Interact Labs <d.marketing@interact-labs.com>",
-        to: [
-          "d.marketing@interact-labs.com",
-          "m.samir@interact-labs.com",
-          "B.Sameh@interact-labs.com",
-        ],
+        to: ["d.marketing@interact-labs.com"],
         subject: `New Order (${paymentStatus}): ${productName}`,
         html,
       }),
