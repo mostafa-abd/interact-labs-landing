@@ -16,19 +16,6 @@ export async function POST(req: Request): Promise<Response> {
       paymentStatus = "Payment upon receipt",
     } = body;
 
-    const currentData = JSON.stringify({
-      firstName,
-      lastName,
-      email,
-      phone,
-      city,
-      state,
-      productName,
-      quantity,
-      price,
-      paymentStatus,
-    });
-
     const html = `
       <div style="font-family: Arial, sans-serif; color: #333;">
         <h2 style="color: #0056b3;">Customer Details</h2>
@@ -51,6 +38,7 @@ export async function POST(req: Request): Promise<Response> {
         </table>
       </div>
     `;
+
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -59,25 +47,24 @@ export async function POST(req: Request): Promise<Response> {
       },
       body: JSON.stringify({
         from: "Interact Labs <d.marketing@interact-labs.com>",
-  to: [
+        to: [
           "d.marketing@interact-labs.com",
           "m.samir@interact-labs.com",
-          "B.Sameh@interact-labs.com"
-        ],        subject: `New Order (${paymentStatus}): ${productName}`,
+          "B.Sameh@interact-labs.com",
+        ],
+        subject: `New Order (${paymentStatus}): ${productName}`,
         html,
       }),
     });
 
-    const result = await res.json();
+    const text = await res.text();
+    console.log("Resend status:", res.status, text);
 
     if (res.ok) {
-      (globalThis as any).lastSentData = currentData;
       return new Response(JSON.stringify({ success: true }), { status: 200 });
     } else {
-      console.error("Resend error:", result);
-      return new Response(JSON.stringify({ success: false, error: result }), { status: 500 });
+      return new Response(JSON.stringify({ success: false, error: text }), { status: 500 });
     }
-
   } catch (error) {
     console.error("Email sending error:", error);
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
