@@ -15,63 +15,31 @@ declare global {
 export default function Thanks() {
   const [orderData, setOrderData] = useState<any>(null);
 
-  const generateTransactionId = () => {
-    return "TX-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
-  };
-
   useEffect(() => {
     const data = sessionStorage.getItem("checkoutData");
     if (!data) return;
 
-    const parsed = JSON.parse(data);
-    setOrderData(parsed);
+    const parsedData = JSON.parse(data);
+    setOrderData(parsedData);
 
-    const transactionId = generateTransactionId();
-
-    const finalPaymentStatus =
-      parsed.paymentStatus === "COD" ? "COD" : "SUCCESS";
-
-    // إرسال الإيميل
     fetch("/api/sendEmail", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        firstName: parsed.firstName,
-        lastName: parsed.lastName,
-        email: parsed.email,
-        phone: parsed.phone,
-        city: parsed.city,
-        state: parsed.state,
-        productName: parsed.product?.item || "Unknown Product",
-        quantity: parsed.product?.qty || 1,
-        price: parsed.product?.price || 0,
-        paymentStatus: finalPaymentStatus,
-        transactionId,
+        ...parsedData,
+        paymentStatus: parsedData.paymentStatus === "COD" ? "COD" : "SUCCESS",
       }),
     });
 
-    // تسجيل حدث في dataLayer
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: "payment_success",
-      transaction_id: transactionId,
-      currency: parsed.currency || "EGP",
-      totalPrice: parsed.totalPrice || 0,
-      payment_method:
-        parsed.paymentStatus === "COD" ? "Cash on Delivery" : "Online",
-      customer: {
-        firstName: parsed.firstName,
-        lastName: parsed.lastName,
-        email: parsed.email,
-        phone: parsed.phone,
-        city: parsed.city,
-        state: parsed.state,
-      },
-      product: {
-        name: parsed.product?.name || "Unknown Product",
-        qty: parsed.product?.qty || 1,
-        price: parsed.product?.price || 0,
-      },
+      event: "purchase",
+      item: parsedData.product?.item || parsedData.productName || "",
+      item_id: parsedData.product?.item || parsedData.productName || "",
+      quantity: parsedData.product?.quantity || parsedData.quantity || 1,
+      price: parsedData.product?.price || parsedData.price || 0,
+      currency: parsedData.currency || "EGP",
+      payment_status: parsedData.paymentStatus || "SUCCESS",
     });
   }, []);
 
@@ -82,7 +50,6 @@ export default function Thanks() {
       <div>
         <Image src={ThanksImg} alt="Interact Labs Thanks" />
       </div>
-
       <h1>تم تأكيد طلبك</h1>
       <p>
         شكراً لطلبك، {orderData.firstName} {orderData.lastName}!
