@@ -17,12 +17,18 @@ export async function POST(req: Request): Promise<Response> {
       price,
       paymentStatus,
     } = body;
+
+    // نحول البيانات لسلسلة نصية للمقارنة
+    const currentData = JSON.stringify(body);
+
+    // لو البيانات نفس اللي اتبعتت قبل كده
     if ((globalThis as any).lastSentData === currentData) {
       return new Response(JSON.stringify({ success: false, message: "Email already sent" }), { status: 200 });
     }
+
     const html = `
       <div style="font-family: Arial, sans-serif; color: #333;">
-        <h2 style="color: #0056b3;">Customer Details : </h2>
+        <h2 style="color: #0056b3;">Customer Details:</h2>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
           <tr style="background-color: #f2f2f2;"><td style="padding: 10px; font-weight: bold;">First Name</td><td style="padding: 10px;">${firstName}</td></tr>
           <tr><td style="padding: 10px; font-weight: bold;">Last Name</td><td style="padding: 10px;">${lastName}</td></tr>
@@ -32,7 +38,7 @@ export async function POST(req: Request): Promise<Response> {
           <tr><td style="padding: 10px; font-weight: bold;">State</td><td style="padding: 10px;">${state}</td></tr>
         </table>
 
-        <h2 style="color: #0056b3;">Order Details</h2>
+        <h2 style="color: #0056b3;">Order Details:</h2>
         <table style="width: 100%; border-collapse: collapse;">
           <tr style="background-color: #f2f2f2;"><td style="padding: 10px; font-weight: bold;">Product</td><td style="padding: 10px;">${productName || "Unknown Product"}</td></tr>
           <tr><td style="padding: 10px; font-weight: bold;">Quantity</td><td style="padding: 10px;">${quantity || 1}</td></tr>
@@ -40,7 +46,6 @@ export async function POST(req: Request): Promise<Response> {
           <tr><td style="padding: 10px; font-weight: bold;">Total</td><td style="padding: 10px;">${(price && quantity ? price * quantity : 0).toLocaleString()} EGP</td></tr>
           <tr style="background-color: #f2f2f2;"><td style="padding: 10px; font-weight: bold;">Payment Status</td><td style="padding: 10px;">${paymentStatus}</td></tr>
         </table>
-
       </div>
     `;
 
@@ -52,7 +57,7 @@ export async function POST(req: Request): Promise<Response> {
       },
       body: JSON.stringify({
         from: "Interact Labs <d.marketing@interact-labs.com>",
-        to: ["d.marketing@interact-labs.com"],
+        to: ["d.marketing@interact-labs.com","m.samir@interact-labs.com","B.Sameh@interact-labs.com"],
         subject: `New Order (${paymentStatus}): ${productName || "Unknown Product"}`,
         html,
       }),
@@ -62,6 +67,9 @@ export async function POST(req: Request): Promise<Response> {
       const result = await res.json().catch(() => ({}));
       return new Response(JSON.stringify({ success: false, error: result }), { status: 500 });
     }
+
+    // بعد نجاح الإرسال، نحفظ البيانات كآخر إرسال
+    (globalThis as any).lastSentData = currentData;
 
     return new Response(JSON.stringify({ success: true }), { status: 200 });
 
