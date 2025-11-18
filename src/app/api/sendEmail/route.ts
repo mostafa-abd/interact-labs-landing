@@ -1,4 +1,4 @@
-// (globalThis as any).lastSentData ||= null;
+(globalThis as any).lastSentData ||= null;
 
 export const runtime = "edge";
 
@@ -17,9 +17,9 @@ export async function POST(req: Request): Promise<Response> {
       price,
       paymentStatus,
     } = body;
-    // if ((globalThis as any).lastSentData === currentData) {
-    //   return new Response(JSON.stringify({ success: false, message: "Email already sent" }), { status: 200 });
-    // }
+    if ((globalThis as any).lastSentData === currentData) {
+      return new Response(JSON.stringify({ success: false, message: "Email already sent" }), { status: 200 });
+    }
     const html = `
       <div style="font-family: Arial, sans-serif; color: #333;">
         <h2 style="color: #0056b3;">Customer Details : </h2>
